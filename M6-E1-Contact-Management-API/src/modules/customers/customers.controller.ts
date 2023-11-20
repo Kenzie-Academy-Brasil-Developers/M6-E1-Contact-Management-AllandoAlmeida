@@ -7,6 +7,7 @@ import {
   Delete,
   UseGuards,
   HttpCode,
+  Post,
 } from '@nestjs/common'
 import { CustomersService } from './customers.service'
 import { UpdateCustomerDto } from './dto/update-customer.dto'
@@ -20,6 +21,7 @@ import {
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger'
+import { CreateCustomerDto } from './dto/create-customer.dto'
 
 @ApiBearerAuth()
 @Controller('api/customers')
@@ -30,6 +32,11 @@ import {
 })
 export class CustomersController {
   constructor(private readonly customersService: CustomersService) {}
+
+  @Post('Register')
+  async registerUser(@Body() createCustomerDto: CreateCustomerDto) {
+    return await this.customersService.create(createCustomerDto)
+  }
 
   @ApiResponse({
     status: 200,

@@ -1,6 +1,5 @@
 import { Body, Controller, Post, Request, UseGuards } from '@nestjs/common'
 import { CustomersService } from '../customers/customers.service'
-import { CreateCustomerDto } from '../customers/dto/create-customer.dto'
 import { AuthLocalGuard } from './authGuards/auth-local.guard'
 import { AuthService } from './auth.service'
 import { AuthRefreshJwtGuard } from './authGuards/auth-refresh-jwt.guard'
@@ -35,6 +34,7 @@ export class AuthController {
   })
   @Post('login')
   @UseGuards(AuthLocalGuard)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async login(@Request() request, @Body() loginDto: LoginDto) {
     return this.authService.login(request.user)
   }
@@ -47,11 +47,6 @@ export class AuthController {
     status: 409,
     description: 'This " < key, value > " already exists',
   })
-  @Post('Register')
-  async registerUser(@Body() createCustomerDto: CreateCustomerDto) {
-    return await this.customersService.create(createCustomerDto)
-  }
-
   @ApiResponse({
     status: 201,
     description: 'The request was made successfully.',
