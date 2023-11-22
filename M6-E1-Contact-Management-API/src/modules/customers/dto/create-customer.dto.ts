@@ -26,7 +26,7 @@ export class CreateCustomerDto {
   @IsString()
   @IsNotEmpty()
   @MinLength(8)
-  @Transform(({ value }: { value: string }) => hashSync(value), {
+  @Transform(({ value }: { value: string }) => hashSync(value, 10), {
     groups: ['hashingPassword'],
   })
   password: string

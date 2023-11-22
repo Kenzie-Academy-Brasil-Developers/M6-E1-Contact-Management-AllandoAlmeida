@@ -13,14 +13,18 @@ export class AuthService {
 
   async validateUser(username: string, pass: string): Promise<any> {
     const user = await this.customersService.findOneWithUserName(username)
-    if (user && (await compare(pass, user.password))) {
+
+    if (user && user.isActive && (await compare(pass, user.password))) {
       const { ...result } = user
       return result
     }
+
     return null
   }
 
   async login(user: LoginDto) {
+    const isValidUser = await this.validateUser(user.username, user.password)
+    console.log('isValidUser', isValidUser)
     const payload = {
       username: user.username,
       sub: user.id,
@@ -29,8 +33,7 @@ export class AuthService {
     return {
       ...user,
       accessToken: this.jwtService.sign(payload, {
-        //expiresIn: process.env.EXPIRES_IN,
-        expiresIn: '6d',
+        expiresIn: process.env.EXPIRES_IN,
       }),
       refreshToken: this.jwtService.sign(payload, { expiresIn: '7d' }),
     }

@@ -119,13 +119,19 @@ export class CustomersService {
   }
 
   async update(id: string, data: UpdateCustomerDto): Promise<CustomerModel> {
-    const checkId = await this.prisma.customer.findUnique({
+    const { name, username, password, telephone, email } = data
+
+    const checkCustomer = await this.prisma.customer.findUnique({
       where: {
         id,
       },
+      include: {
+        phones: true,
+        emails: true,
+      },
     })
 
-    if (!checkId) {
+    if (!checkCustomer) {
       throw new NotFoundException("The ID doesn't exist")
     }
 
@@ -147,7 +153,33 @@ export class CustomersService {
       )
     }
 
-    const customer = await this.prisma.customer.update({ where: { id }, data })
+    const customer = await this.prisma.customer.update({
+      where: { id },
+      data: {
+        name,
+        username,
+        password,
+        phones: {
+          upsert: telephone
+            ? {
+                where: { id: checkCustomer.phones[0]?.id },
+                update: { telephone },
+                create: { telephone },
+              }
+            : undefined,
+        },
+        emails: {
+          upsert: email
+            ? {
+                where: { id: checkCustomer.emails[0]?.id },
+                update: { email },
+                create: { email },
+              }
+            : undefined,
+        },
+      },
+    })
+
     return excludedFields(customer, this.excludedFields)
   }
 
@@ -160,9 +192,15 @@ export class CustomersService {
       throw new NotFoundException('Customer not found')
     }
 
+    if (!existingCustomer || !existingCustomer.isActive) {
+      throw new NotFoundException(`Contact ${id} is not active`)
+
+      return
+    }
+
     await this.prisma.customer.update({
       where: { id },
-      data: { deletedAt: true },
+      data: { isActive: false },
     })
   }
 }
