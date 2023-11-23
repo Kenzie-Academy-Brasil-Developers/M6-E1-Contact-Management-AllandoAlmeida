@@ -21,20 +21,17 @@ export class ContactsService {
   ): Promise<ContactModel> {
     const { name, telephone, email } = data
 
-    // Tente encontrar um contato existente
     const existingContact = await this.prisma.contact.findFirst({
       where: { name },
       include: { customers: true },
     })
 
     if (existingContact) {
-      // Verifique se o cliente já está associado a este contato
       const isAssociated = existingContact.customers.some(
         (customer) => customer.id === user.id,
       )
 
       if (!isAssociated) {
-        // Se o cliente não está associado, faça a associação
         await this.prisma.contactToCustomer.create({
           data: {
             customerId: user.id,
@@ -44,13 +41,11 @@ export class ContactsService {
 
         return { ...existingContact }
       } else {
-        // Se o cliente já está associado, emita uma mensagem de erro
         throw new ConflictException(
           'Customer is already associated with this contact',
         )
       }
     } else {
-      // Se o contato não existe, crie-o
       const newContact = await this.prisma.contact.create({
         data: {
           name,
@@ -61,6 +56,7 @@ export class ContactsService {
         include: { phones: true, emails: true, customers: true },
       })
 
+      console.log('newContact', newContact)
       return { ...newContact }
     }
   }

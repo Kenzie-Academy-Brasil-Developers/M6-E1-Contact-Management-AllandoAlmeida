@@ -13,10 +13,17 @@ export class AuthService {
 
   async validateUser(username: string, pass: string): Promise<any> {
     const user = await this.customersService.findOneWithUserName(username)
+    console.log('user', user)
+    console.log('user', user ? true : false)
+    console.log('isActive1', user.isActive ? true : false)
+    console.log('pass', await compare(pass, user.password))
 
-    if (user && user.isActive && (await compare(pass, user.password))) {
-      const { ...result } = user
-      return result
+    const isPassword = await compare(pass, user.password)
+
+    if (user && user.isActive && isPassword) {
+      //const { ...result } = user
+      //console.log('result', result)
+      return user
     }
 
     return null
@@ -24,7 +31,7 @@ export class AuthService {
 
   async login(user: LoginDto) {
     const isValidUser = await this.validateUser(user.username, user.password)
-    console.log('isValidUser', isValidUser)
+    console.log('isValidUser2', isValidUser)
     const payload = {
       username: user.username,
       sub: user.id,
