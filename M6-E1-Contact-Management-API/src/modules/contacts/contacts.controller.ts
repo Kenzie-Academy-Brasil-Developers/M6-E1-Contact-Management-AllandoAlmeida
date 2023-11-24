@@ -16,6 +16,7 @@ import { CreateContactDto } from './dto/create-contact.dto'
 import { AuthJwtGuard } from '../auth/authGuards/auth-jwt.guard'
 import {
   ApiBadRequestResponse,
+  ApiBearerAuth,
   ApiConflictResponse,
   ApiNotFoundResponse,
   ApiResponse,
@@ -24,6 +25,7 @@ import {
 import { UpdateContactDto } from './dto/update-contact.dto'
 import { PrismaService } from 'src/database/prisma.service'
 
+@ApiBearerAuth()
 @Controller('api/contacts')
 @ApiTags('Contacts')
 export class ContactsController {
