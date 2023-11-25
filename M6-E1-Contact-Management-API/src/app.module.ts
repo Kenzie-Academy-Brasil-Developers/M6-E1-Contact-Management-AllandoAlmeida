@@ -6,6 +6,7 @@ import { EmailsModule } from './modules/emails/emails.module'
 import { PhonesModule } from './modules/phones/phones.module'
 import { PrismaService } from './database/prisma.service'
 import { ContactsService } from './modules/contacts/contacts.service'
+
 @Module({
   imports: [
     AuthModule,

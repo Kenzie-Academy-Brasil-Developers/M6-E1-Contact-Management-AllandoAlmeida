@@ -33,7 +33,7 @@ async function bootstrap() {
       docExpansion: 'list',
     },
   })
-
+  app.enableCors()
   await app.listen(3000)
 }
 bootstrap()

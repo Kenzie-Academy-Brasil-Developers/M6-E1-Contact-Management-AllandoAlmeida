@@ -21,7 +21,7 @@ import { LoginDto } from './dto/login.dto'
   status: 401,
   description: 'User not authorized to make this request.',
 })
-@Controller('api/auth')
+@Controller('api/')
 export class AuthController {
   constructor(
     private authService: AuthService,
