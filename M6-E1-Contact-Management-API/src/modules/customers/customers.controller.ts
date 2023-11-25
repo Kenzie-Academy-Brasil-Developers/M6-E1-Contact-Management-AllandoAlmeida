@@ -43,7 +43,7 @@ export class CustomersController {
     description: 'The request was made successfully.',
   })
   @Get()
-  @UseGuards(AuthJwtGuard)
+  /* @UseGuards(AuthJwtGuard) */
   findAll() {
     return this.customersService.findAll()
   }
