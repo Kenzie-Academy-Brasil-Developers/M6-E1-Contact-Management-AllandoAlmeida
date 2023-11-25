@@ -1,5 +1,4 @@
-import { FormLogin } from "./components/Form/FormLogin";
-import { api } from "./services/api";
+import { api } from "../services/api";
 
 interface ICustomers {
   id: string;
