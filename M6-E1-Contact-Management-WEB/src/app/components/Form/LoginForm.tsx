@@ -1,48 +1,17 @@
-
+"use client";
+import { ILoginForm, login } from "@/app/services/request/login.Request";
 import Inputs from "../fragments/inputs/Inputs";
 import { useForm, SubmitHandler, UseFormReturn } from "react-hook-form";
-import { api } from "@/app/services/api";
 
-interface IFormLogin {
-  username: string;
-  password: string;
-}
-
-interface ILoginResponse {
-  token: string;
-  username: string;
-}
-
-async function login(data: IFormLogin) {
-  try {
-    const body = {
-      username: data.username,
-      password: data.password,
-    };
-    const response = await api.post<ILoginResponse>("/login", body);
-    const { token, username } = response.data;
-
-    // Armazenar o token no localStorage
-    localStorage.setItem("@ContactManagement:token", token);
-
-    // Outras lógicas, se necessário
-
-    console.log(token);
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-export const FormLogin: React.FC = () => {
+export const LoginForm: React.FC = () => {
   const {
     handleSubmit,
     register,
     reset,
     formState: { errors },
-  }: UseFormReturn<IFormLogin> = useForm<IFormLogin>();
+  }: UseFormReturn<ILoginForm> = useForm<ILoginForm>();
 
-  const onSubmit: SubmitHandler<IFormLogin> = (data) => {
-    // Lógica para lidar com os dados do formulário após o envio
+  const onSubmit: SubmitHandler<ILoginForm> = (data) => {
     login(data);
     reset();
   };
