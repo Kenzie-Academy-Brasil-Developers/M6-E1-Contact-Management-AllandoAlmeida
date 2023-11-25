@@ -13,16 +13,9 @@ export class AuthService {
 
   async validateUser(username: string, pass: string): Promise<any> {
     const user = await this.customersService.findOneWithUserName(username)
-    console.log('user', user)
-    console.log('user', user ? true : false)
-    console.log('isActive1', user.isActive ? true : false)
-    console.log('pass', await compare(pass, user.password))
-
     const isPassword = await compare(pass, user.password)
 
     if (user && user.isActive && isPassword) {
-      //const { ...result } = user
-      //console.log('result', result)
       return user
     }
 
@@ -38,7 +31,8 @@ export class AuthService {
     }
 
     return {
-      ...user,
+      name: user.name,
+      id: user.id,
       accessToken: this.jwtService.sign(payload, {
         expiresIn: process.env.EXPIRES_IN,
       }),

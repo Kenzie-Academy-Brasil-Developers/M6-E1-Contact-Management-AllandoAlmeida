@@ -4,6 +4,7 @@ import { ExtractJwt, Strategy } from 'passport-jwt'
 interface IPayload {
   sub: string
   username: string
+  isActive: boolean
 }
 
 export class AuthRefreshTokenStrategy extends PassportStrategy(
