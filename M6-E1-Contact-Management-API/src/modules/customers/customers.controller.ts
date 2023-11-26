@@ -33,7 +33,7 @@ import { CreateCustomerDto } from './dto/create-customer.dto'
 export class CustomersController {
   constructor(private readonly customersService: CustomersService) {}
 
-  @Post('Register')
+  @Post('register')
   async registerUser(@Body() createCustomerDto: CreateCustomerDto) {
     return await this.customersService.create(createCustomerDto)
   }

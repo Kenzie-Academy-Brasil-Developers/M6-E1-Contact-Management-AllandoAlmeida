@@ -12,7 +12,6 @@ import {
   Delete,
 } from '@nestjs/common'
 import { ContactsService } from './contacts.service'
-import { CreateContactDto } from './dto/create-contact.dto'
 import { AuthJwtGuard } from '../auth/authGuards/auth-jwt.guard'
 import {
   ApiBadRequestResponse,
@@ -24,6 +23,7 @@ import {
 } from '@nestjs/swagger'
 import { UpdateContactDto } from './dto/update-contact.dto'
 import { PrismaService } from 'src/database/prisma.service'
+import { CreateContactDto } from './dto/create-contact.dto'
 
 @ApiBearerAuth()
 @Controller('api/contacts')
@@ -36,13 +36,16 @@ export class ContactsController {
 
   @Post()
   @UseGuards(AuthJwtGuard)
-  create(@Body() createContactDto: CreateContactDto, @Request() request) {
-    const authenticatedUser = request.user
-    console.log('authenticatedUser', authenticatedUser)
-
-    const userId = authenticatedUser.id
-
-    return this.contactsService.create(createContactDto, { id: userId })
+  async createContact(
+    @Request() req,
+    @Body() createContactDto: CreateContactDto,
+  ) {
+    const userId = req.user.id // Supondo que o ID do usuário esteja disponível no objeto de usuário
+    const newContact = await this.contactsService.createContact(
+      userId,
+      createContactDto,
+    )
+    return newContact
   }
 
   @ApiResponse({
