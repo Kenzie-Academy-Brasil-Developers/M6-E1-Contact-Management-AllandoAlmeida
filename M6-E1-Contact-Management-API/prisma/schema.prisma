@@ -8,56 +8,71 @@ datasource db {
 }
 
 model Customer {
-  id                String              @id @default(uuid())
-  name              String
-  username          String
-  password          String
-  createdAt         DateTime            @default(now())
-  updatedAt         DateTime?           @updatedAt
-  isActive          Boolean             @default(true)
-  phones            Phone[]
-  emails            Email[]
-  contacts          Contact[]
-  ContactToCustomer ContactToCustomer[]
+  id        String             @id @default(uuid())
+  name      String
+  username  String
+  password  String
+  createdAt DateTime           @default(now())
+  updatedAt DateTime?          @updatedAt
+  isActive  Boolean            @default(true)
+  phones    Phone[]
+  emails    Email[]
+  contacts  ContactToCustomer[]
+
+  @@map(name: "customers")
 }
 
 model Contact {
-  id                String              @id @default(uuid())
-  name              String
-  createdAt         DateTime            @default(now())
-  updated           DateTime?           @updatedAt
-  isActive          Boolean             @default(true)
-  phones            Phone[]
-  emails            Email[]
-  customers         Customer[]
-  ContactToCustomer ContactToCustomer[]
+  id           String             @id @default(uuid())
+  name         String
+  cep          String
+  address      String
+  complement   String
+  neighborhood String
+  locality     String
+  uf           String
+  gia          Int
+  ddd          Int
+  createdAt    DateTime           @default(now()) @map(name: "createdAt")
+  updated      DateTime?          @updatedAt @map(name: "updated")
+  isActive     Boolean            @default(true)
+  phones       Phone[]
+  emails       Email[]
+  customers    ContactToCustomer[]
+
+  @@map(name: "contacts")
 }
 
 model ContactToCustomer {
-  customer   Customer @relation(fields: [customerId], references: [id])
+  id        String    @id @default(uuid())
   customerId String
-  contact    Contact  @relation(fields: [contactId], references: [id])
   contactId  String
-  assignedAt DateTime @default(now())
+  assignedAt DateTime  @default(now())
 
-  @@id([customerId, contactId])
+  customer   Customer @relation(fields: [customerId], references: [id])
+  contact    Contact  @relation(fields: [contactId], references: [id])
+
   @@map(name: "contactToCustomer")
 }
 
 model Phone {
-  id         String    @id @default(uuid())
+  id         String   @id @default(uuid())
   telephone  String
   customerId String?
-  customer   Customer? @relation(fields: [customerId], references: [id])
   contactId  String?
+  customer   Customer? @relation(fields: [customerId], references: [id])
   contact    Contact?  @relation(fields: [contactId], references: [id])
+
+  @@map(name: "phones")
 }
 
 model Email {
-  id         String    @id @default(uuid())
+  id         String   @id @default(uuid())
   email      String
   customerId String?
-  customer   Customer? @relation(fields: [customerId], references: [id])
   contactId  String?
+  customer   Customer? @relation(fields: [customerId], references: [id])
   contact    Contact?  @relation(fields: [contactId], references: [id])
+
+  @@map(name: "emails")
 }
