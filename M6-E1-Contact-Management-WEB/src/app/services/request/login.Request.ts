@@ -1,7 +1,7 @@
+import { Slide, toast } from "react-toastify";
 import { API_BASE_URL } from "../api";
 
-
-export interface ILoginForm {
+export interface ILogin {
   username: string;
   password: string;
 }
@@ -13,7 +13,7 @@ export interface ILoginResponse {
   id: string;
 }
 
-export async function login(data: ILoginForm): Promise<ILoginResponse | null> {
+export async function login(data: ILogin): Promise<ILoginResponse | null> {
   try {
     console.log("Oi, estou dando console aqui no terminal");
 
@@ -22,36 +22,40 @@ export async function login(data: ILoginForm): Promise<ILoginResponse | null> {
       password: data.password,
     };
 
-    console.log('RequestBody:', body);
+    console.log("RequestBody:", body);
 
     const response = await fetch(`${API_BASE_URL}/login`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(body),
     });
 
-    
     if (response.ok) {
       const responseData: ILoginResponse = await response.json();
-      console.log('ResponseData:', responseData);
+      console.log("ResponseData:", responseData);
 
       const { accessToken, username, id } = responseData;
-      console.log('accessToken:', accessToken);
+      console.log("accessToken:", accessToken);
 
-     
       localStorage.setItem("@ContactManagement:accessToken", accessToken);
       localStorage.setItem("@ContactManagement:id", id);
-
+      toast.success(`${username} Logado com Sucesso!`, {
+        transition: Slide,
+        autoClose: 2000,
+      });
       return responseData;
     } else {
-      console.error('Erro na solicitação:', response.statusText);
+      console.error("Erro na solicitação:", response.statusText);
+
       return null;
     }
   } catch (error) {
-    console.error("Erro ao tentar fazer login:", error);
-    return null;
+    toast.error("Ocorreu um erro ao tentar se cadastrar.", {
+      transition: Slide,
+      autoClose: 2000,
+    });
   }
+  return null;
 }
-

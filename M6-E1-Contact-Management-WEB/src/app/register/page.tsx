@@ -1,7 +1,9 @@
+import { SignUpForm } from "../components/Form/SignUpForm"
+
 const Register = async () => {
     return(
-        <main>
-            <p>Register</p>
+        <main className="flex min-h-screen flex-col items-center justify-between p-24">
+            <SignUpForm/>
         </main>
     )
 }

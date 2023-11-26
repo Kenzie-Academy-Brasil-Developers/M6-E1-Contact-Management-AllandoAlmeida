@@ -1,5 +1,5 @@
 "use client";
-import { ILoginForm, login } from "@/app/services/request/login.Request";
+import { ILogin, login } from "@/app/services/request/login.request";
 import Inputs from "../fragments/inputs/Inputs";
 import { useForm, SubmitHandler, UseFormReturn } from "react-hook-form";
 
@@ -9,9 +9,9 @@ export const LoginForm: React.FC = () => {
     register,
     reset,
     formState: { errors },
-  }: UseFormReturn<ILoginForm> = useForm<ILoginForm>();
+  }: UseFormReturn<ILogin> = useForm<ILogin>();
 
-  const onSubmit: SubmitHandler<ILoginForm> = (data) => {
+  const onSubmit: SubmitHandler<ILogin> = (data) => {
     login(data);
     reset();
   };
