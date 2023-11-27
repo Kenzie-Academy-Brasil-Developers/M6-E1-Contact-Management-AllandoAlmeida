@@ -15,14 +15,10 @@ export interface ILoginResponse {
 
 export async function login(data: ILogin): Promise<ILoginResponse | null> {
   try {
-    console.log("Oi, estou dando console aqui no terminal");
-
     const body = {
       username: data.username,
       password: data.password,
     };
-
-    console.log("RequestBody:", body);
 
     const response = await fetch(`${API_BASE_URL}/login`, {
       method: "POST",
@@ -34,10 +30,7 @@ export async function login(data: ILogin): Promise<ILoginResponse | null> {
 
     if (response.ok) {
       const responseData: ILoginResponse = await response.json();
-      console.log("ResponseData:", responseData);
-
       const { accessToken, username, id } = responseData;
-      console.log("accessToken:", accessToken);
 
       localStorage.setItem("@ContactManagement:accessToken", accessToken);
       localStorage.setItem("@ContactManagement:id", id);

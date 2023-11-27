@@ -13,7 +13,6 @@ export const SignUpForm: React.FC = () => {
   }: UseFormReturn<ISignUp> = useForm<ISignUp>();
 
   const onSubmit: SubmitHandler<ISignUp> = (data) => {
-      console.log(data);
       signUp(data);
       reset();
   };
@@ -68,15 +67,6 @@ export const SignUpForm: React.FC = () => {
             error={errors.password}
             required
           />
-         {/*  <Inputs
-            htmlFor={""}
-            label={"Confirme sua senha"}
-            type={"password"}
-            placeholder={"Digite a sua senha"}
-            {...register("confirmPassword")}
-            error={errors.confirmPassword}
-            required
-          /> */}
         </div>
         <button
           type="submit"

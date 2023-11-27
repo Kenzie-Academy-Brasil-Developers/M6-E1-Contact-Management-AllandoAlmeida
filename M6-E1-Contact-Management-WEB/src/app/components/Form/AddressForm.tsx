@@ -44,8 +44,6 @@ const AddressForm: React.FC = () => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // Aqui você pode enviar os dados do endereço para a API
-    console.log("Endereço enviado:", address);
   };
 
   return (

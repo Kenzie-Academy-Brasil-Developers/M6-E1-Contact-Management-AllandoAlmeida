@@ -76,10 +76,7 @@ export async function Contact(
       headers: headers,
       body: JSON.stringify(body),
     });
-
-    console.log("body", body);
-    console.log("customerId", customerId);
-
+    
     if (response.ok) {
       const responseData: IContactResponse = await response.json();
       toast.success("Contato Registrado com sucesso", {

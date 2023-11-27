@@ -33,17 +33,14 @@ export interface IContact {
 
 async function getCustomers() {
   try {
-    console.log("oi, estou dando console aqui no terminal");
     const { data } = await api.get<ICustomers[]>("/customers");
     return data;
   } catch (error) {
-    console.log(error);
     return null;
   }
 }
-export default async function Home() {
+export default async function Teste() {
   const newList = await getCustomers();
-  console.log(newList);
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       {/* <FormLogin /> */}

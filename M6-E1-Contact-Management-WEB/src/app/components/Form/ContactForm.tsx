@@ -68,16 +68,6 @@ export const ContactForm = () => {
       emails: data.emails.map((email) => ({ email: email.email })),
     };
 
-    console.log("contactData.name:", typeof contactData.name);
-    console.log("contactData.district:", typeof contactData.district);
-    console.log("contactData.emails:", typeof contactData.emails);
-    console.log("contactData.locality:", typeof contactData.locality);
-    console.log("contactData.phones:", typeof contactData.phones);
-    console.log("contactData.state", typeof contactData.state);
-    console.log("contactData.street:", typeof contactData.street);
-    console.log("contactData.zipCode:", typeof contactData.zipCode);
-
-
     
     Contact(contactData);
     //reset();
