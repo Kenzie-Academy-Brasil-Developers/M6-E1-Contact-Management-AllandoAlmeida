@@ -1,4 +1,4 @@
-import { SignUpForm } from "../components/Form/SignUpForm"
+import { SignUpForm } from "../components/Form/signUpForm/SignUpForm"
 
 const Register = async () => {
     return(

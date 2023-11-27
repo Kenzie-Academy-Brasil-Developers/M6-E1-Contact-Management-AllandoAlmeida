@@ -3,7 +3,7 @@ import { Prisma } from '@prisma/client'
 export class Contact implements Prisma.ContactCreateInput {
   readonly id?: string
   name: string
-  zidCode: string
+  zipCode: string
   street: string
   complement: string
   district: string

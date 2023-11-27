@@ -15,7 +15,7 @@ CREATE TABLE "customers" (
 CREATE TABLE "contacts" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
-    "zidCode" TEXT NOT NULL,
+    "zipCode" TEXT NOT NULL,
     "street" TEXT NOT NULL,
     "complement" TEXT NOT NULL,
     "district" TEXT NOT NULL,

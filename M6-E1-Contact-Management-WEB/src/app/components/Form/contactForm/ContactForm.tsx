@@ -1,21 +1,12 @@
 "use client";
 import { SubmitHandler, UseFormReturn, useForm } from "react-hook-form";
-import Inputs from "../fragments/inputs/Inputs";
+import Inputs from "../../fragments/inputs/Inputs";
 import { useViaCepService } from "@/app/services/useViaCep.service";
 import { useState } from "react";
-import { Contact, IContact } from "@/app/services/request/contact.request";
-
-export interface IContactForm {
-  name: string;
-  zipCode: string;
-  street: string;
-  complement: string;
-  district: string;
-  locality: string;
-  state: string;
-  phones: { telephone: string }[];
-  emails: { email: string }[];
-}
+import { IContactForm } from "./@type.contactForm";
+import { IContact } from "@/app/services/request/contact.request/@type.contact";
+import { Contact } from "@/app/services/request/contact.request/contact.request";
+import { api } from "@/app/services/api";
 
 export const ContactForm = () => {
   const {
@@ -26,9 +17,13 @@ export const ContactForm = () => {
     formState: { errors },
   }: UseFormReturn<IContact> = useForm<IContact>();
 
-  const [address, setAddress] = useState({
-    zipCode: "",
+  const [address, setAddress] = useState<IContactForm>({
+    name: "",
+    phones: [{ telephone: "" }],
+    emails: [{ email: "" }],
     street: "",
+    complement: "",
+    zipCode: "",
     district: "",
     locality: "",
     state: "",
@@ -61,16 +56,36 @@ export const ContactForm = () => {
     }
   };
 
-  const onSubmit: SubmitHandler<IContactForm> = (data) => {
+  const onSubmit: SubmitHandler<IContactForm> = async (data) => {
     const contactData = {
       ...data,
       phones: data.phones.map((phone) => ({ telephone: phone.telephone })),
       emails: data.emails.map((email) => ({ email: email.email })),
     };
+    const contactTest = {
+      complement: "563",
+      district: "Limoeiro",
+      emails: [{ email: "teste@teste.com" }],
+      locality: "São Paulo",
+      name: "testesteste",
+      phones: [{ telephone: "1194771111" }],
+      state: "SP",
+      street: "Rua Elza Soares de Arruda",
+      zipCode: "08051360",
+    };
 
-    
-    Contact(contactData);
+    //Contact(contactData);
     //reset();
+    const accessToken = localStorage
+      .getItem("@ContactManagement:accessToken")
+      ?.replace(/"/g, "");
+    const customerId = localStorage.getItem("@ContactManagement:id");
+
+    if (!customerId) throw new Error("Customer not found!");
+
+    api.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+    const response = await api.post("/contacts", contactData);
+    console.log("response", response);
   };
 
   return (
@@ -91,22 +106,6 @@ export const ContactForm = () => {
           placeholder={"Digite seu e-mail"}
           {...register("emails.0.email")}
           error={errors.emails?.[0]?.email}
-        />
-        <Inputs
-          htmlFor={""}
-          type={"email"}
-          label={"E-mail"}
-          placeholder={"Digite seu e-mail"}
-          {...register("emails.0.email")}
-          error={errors.emails?.[0]?.email}
-        />
-        <Inputs
-          htmlFor={""}
-          type={"text"}
-          label={"Telefone"}
-          placeholder={"Digite seu telefone"}
-          {...register("phones.0.telephone")}
-          error={errors.phones?.[0]?.telephone}
         />
         <Inputs
           htmlFor={""}
@@ -194,7 +193,7 @@ export const ContactForm = () => {
             id="state"
             {...register("state")}
             error={errors.state}
-            onChange={(e) => reset({ ...getValues(), state: e.target.value })} // Troque values por getValues()
+            onChange={(e) => reset({ ...getValues(), state: e.target.value })}
           />
         </section>
 

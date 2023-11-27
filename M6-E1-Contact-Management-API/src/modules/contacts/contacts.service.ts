@@ -18,7 +18,7 @@ export class ContactsService {
     const newContact = await this.prisma.contact.create({
       data: {
         name: createContactDto.name,
-        zidCode: createContactDto.zidCode,
+        zipCode: createContactDto.zipCode,
         street: createContactDto.street,
         complement: createContactDto.complement,
         district: createContactDto.district,

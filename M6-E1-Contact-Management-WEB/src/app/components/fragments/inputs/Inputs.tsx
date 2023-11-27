@@ -21,7 +21,7 @@ const Inputs: React.ForwardRefRenderFunction<HTMLInputElement, IInputsProps> = (
     <div className="flex flex-col gap-0.5">
       <label
         htmlFor={htmlFor}
-        className="block text-sm font-semibold leading-6 text-gray-900"
+        className="block text-sm font-semibold leading-6 text-gray-500"
       >
         {label}
       </label>

@@ -1,35 +1,8 @@
+
+import { ContactForm } from "../components/Form/contactForm/ContactForm";
 import { api } from "../services/api";
+import { ICustomers } from "./@type.teste";
 
-export interface ICustomers {
-  id: string;
-  name: string;
-  username: string;
-  createdAt: string;
-  updatedAt: string;
-  isActive: Boolean;
-  phones: IPhone[];
-  emails: IEmail[];
-  contacts: IContact[];
-}
-
-export interface IPhone {
-  id: string;
-  telephone: string;
-  
-}
-
-export interface IEmail {
-  id: string;
-  email: string;
-}
-
-export interface IContact {
-  id: string;
-  name: string;
-  createdAt: string; 
-  updatedAt?: string;
-  isActive: boolean;
-}
 
 async function getCustomers() {
   try {
@@ -43,7 +16,7 @@ export default async function Teste() {
   const newList = await getCustomers();
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      {/* <FormLogin /> */}
+      <ContactForm/>
       <div className="flex flex-col items-center justify-center">
         {newList?.map((currenteNew) => (
           <li key={currenteNew.id}>
@@ -78,6 +51,7 @@ export default async function Teste() {
           </li>
         ))}
       </div>
+      
     </main>
   );
 }

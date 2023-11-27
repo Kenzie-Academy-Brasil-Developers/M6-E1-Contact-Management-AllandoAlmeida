@@ -1,24 +1,23 @@
 import { ApiProperty } from '@nestjs/swagger'
 import {
-  IsString,
   IsNotEmpty,
-  IsEmail,
-  MinLength,
+  IsNumberString,
+  IsString,
   MaxLength,
+  MinLength,
   ValidateNested,
 } from 'class-validator'
 import { Type } from 'class-transformer'
 
 class PhoneDto {
   @ApiProperty()
-  @IsString()
+  @IsString({ message: 'phone must be a string' })
   telephone: string
 }
 
 class EmailDto {
   @ApiProperty()
-  @IsString()
-  @IsEmail()
+  @IsString({ message: 'email must be a string' })
   email: string
 }
 
@@ -42,8 +41,8 @@ export class CreateContactDto {
   emails: EmailDto[]
 
   @ApiProperty()
-  @IsString()
-  zidCode: string
+  @IsNumberString()
+  zipCode: string
 
   @ApiProperty()
   @IsString()

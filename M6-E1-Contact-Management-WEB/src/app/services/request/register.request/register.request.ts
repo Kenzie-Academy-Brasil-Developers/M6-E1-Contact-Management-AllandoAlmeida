@@ -1,18 +1,6 @@
-import { ICustomers } from "@/app/teste/page";
-import { API_BASE_URL } from "../api";
+import { API_BASE_URL } from "../../api";
+import { ISignUp, ISignUpResponse } from "./@type.register";
 
-export interface ISignUp {
-  name: string;
-  username: string;
-  password: string;
-  confirmPassword: string;
-  telephone: string;
-  email: string;
-}
-
-export interface ISignUpResponse {
-  customer: ICustomers[];
-}
 
 export async function signUp(data: ISignUp): Promise<ISignUpResponse | null> {
   try {

@@ -25,7 +25,7 @@ model Customer {
 model Contact {
   id         String              @id @default(uuid())
   name       String
-  zidCode    String
+  zipCode    String
   street     String
   complement String
   district    String

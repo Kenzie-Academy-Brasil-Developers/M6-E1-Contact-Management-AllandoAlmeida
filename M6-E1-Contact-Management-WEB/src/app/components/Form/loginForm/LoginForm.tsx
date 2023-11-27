@@ -1,7 +1,8 @@
 "use client";
-import { ILogin, login } from "@/app/services/request/login.request";
-import Inputs from "../fragments/inputs/Inputs";
+import { login } from "@/app/services/request/login.request/login.request";
+import Inputs from "../../fragments/inputs/Inputs";
 import { useForm, SubmitHandler, UseFormReturn } from "react-hook-form";
+import { ILogin } from "@/app/services/request/login.request/@type.login";
 
 export const LoginForm: React.FC = () => {
   const {

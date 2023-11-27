@@ -1,17 +1,7 @@
 import { Slide, toast } from "react-toastify";
-import { API_BASE_URL } from "../api";
+import { API_BASE_URL } from "../../api";
+import { ILogin, ILoginResponse } from "./@type.login";
 
-export interface ILogin {
-  username: string;
-  password: string;
-}
-
-export interface ILoginResponse {
-  token: string;
-  username: string;
-  accessToken: string;
-  id: string;
-}
 
 export async function login(data: ILogin): Promise<ILoginResponse | null> {
   try {
@@ -30,22 +20,18 @@ export async function login(data: ILogin): Promise<ILoginResponse | null> {
 
     if (response.ok) {
       const responseData: ILoginResponse = await response.json();
-      const { accessToken, username, id } = responseData;
+      const { accessToken, id } = responseData;
 
       localStorage.setItem("@ContactManagement:accessToken", accessToken);
       localStorage.setItem("@ContactManagement:id", id);
-      toast.success(`${username} Logado com Sucesso!`, {
+      toast.success("Logado com Sucesso!", {
         transition: Slide,
         autoClose: 2000,
       });
       return responseData;
-    } else {
-      console.error("Erro na solicitação:", response.statusText);
-
-      return null;
-    }
+    } 
   } catch (error) {
-    toast.error("Ocorreu um erro ao tentar se cadastrar.", {
+    toast.error("Ops! credenciais inválidas ou inexistentes!", {
       transition: Slide,
       autoClose: 2000,
     });

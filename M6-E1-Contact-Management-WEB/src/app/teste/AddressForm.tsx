@@ -1,20 +1,38 @@
 // 'useViaCepService'...
 "use client";
 import { useViaCepService } from "@/app/services/useViaCep.service";
-import Inputs from "../fragments/inputs/Inputs";
+import Inputs from "../components/fragments/inputs/Inputs";
 import React, { useState } from "react";
+import { Contact } from "@/app/services/request/contact.request/contact.request";
+import { IContactForm } from "../components/Form/contactForm/ContactForm";
 
-const AddressForm: React.FC = () => {
-  const getAddress = useViaCepService();
-  const [address, setAddress] = useState({
-    zipCode: "",
+interface IAddress {
+  name: string;
+  email: string;
+  phone: string;
+  street: string;
+  complement: string;
+  zipCode: string;
+  district: string;
+  locality: string;
+  state: string;
+}
+
+export const AddressForm: React.FC<{}> = () => {
+  const [address, setAddress] = useState<IContactForm>({
+    name: "",
+    phones: [{ telephone: "" }],
+    emails: [{ email: "" }],
     street: "",
+    complement: "",
+    zipCode: "",
     district: "",
     locality: "",
     state: "",
   });
   const [manualInput, setManualInput] = useState(false);
 
+  const getAddress = useViaCepService();
   const fetchAddress = async (cep: string) => {
     try {
       const response = await getAddress(cep);
@@ -28,7 +46,6 @@ const AddressForm: React.FC = () => {
       });
     } catch (error) {
       console.error("Error fetching address:", error);
-      // Trate o erro conforme necessário, como exibir uma mensagem para o usuário.
     }
   };
 
@@ -44,11 +61,49 @@ const AddressForm: React.FC = () => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    console.log("Objeto enviado pelo formulário:", address);
+    console.log('name', typeof address.name);
+    console.log('district', typeof address.district);
+    
+    Contact(address);
   };
 
   return (
-    <form method="get" action="." onSubmit={handleSubmit}>
-      <div >
+    <form onSubmit={handleSubmit}>
+      <div>
+        <Inputs
+          label="Nome:"
+          htmlFor="name"
+          type="text"
+          id="name"
+          onBlur={(e) => handleBlur(e.target.value)}
+          value={address.name}
+          onChange={(e) => setAddress({ ...address, name: e.target.value })}
+        />
+        <Inputs
+          label="Email:"
+          htmlFor="email"
+          type="text"
+          id="email"
+          onBlur={(e) => handleBlur(e.target.value)}
+          value={address.emails[0].email}
+          onChange={(e) =>
+            setAddress({ ...address, emails: [{ email: e.target.value }] })
+          }
+        />
+
+        <Inputs
+          label="Telefone:"
+          htmlFor="phone"
+          type="text"
+          id="phone"
+          onBlur={(e) => handleBlur(e.target.value)}
+          value={address.phones[0].telephone}
+          onChange={(e) =>
+            setAddress({ ...address, phones: [{ telephone: e.target.value }] })
+          }
+        />
         <Inputs
           label="Cep:"
           htmlFor="zipCode"
@@ -76,6 +131,9 @@ const AddressForm: React.FC = () => {
         htmlFor="complement"
         type="text"
         id="complement"
+        onBlur={(e) => handleBlur(e.target.value)}
+        value={address.complement}
+        onChange={(e) => setAddress({ ...address, complement: e.target.value })}
       />
       <Inputs
         label="Bairro:"
@@ -105,5 +163,3 @@ const AddressForm: React.FC = () => {
     </form>
   );
 };
-
-export default AddressForm;
