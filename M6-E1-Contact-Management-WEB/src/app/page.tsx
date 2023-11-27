@@ -1,5 +1,7 @@
 import { ToastContainer } from "react-toastify";
 import { LoginForm } from "./components/Form/LoginForm";
+import { ContactForm } from "./components/Form/ContactForm";
+import AddressForm from "./components/Form/AddressForm";
 
 export default async function Home() {
   return (
@@ -20,6 +22,9 @@ export default async function Home() {
       />
       {/* Same as */}
       <ToastContainer />
+
+      <ContactForm/>
+      <AddressForm/>
     </main>
   );
 }

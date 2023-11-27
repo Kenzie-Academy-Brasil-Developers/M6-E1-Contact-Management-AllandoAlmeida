@@ -15,6 +15,7 @@ export const SignUpForm: React.FC = () => {
   const onSubmit: SubmitHandler<ISignUp> = (data) => {
       console.log(data);
       signUp(data);
+      reset();
   };
 
   return (

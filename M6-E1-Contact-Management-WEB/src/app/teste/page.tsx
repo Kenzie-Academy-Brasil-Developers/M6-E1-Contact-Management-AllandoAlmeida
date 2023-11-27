@@ -1,6 +1,6 @@
 import { api } from "../services/api";
 
-interface ICustomers {
+export interface ICustomers {
   id: string;
   name: string;
   username: string;
@@ -12,18 +12,18 @@ interface ICustomers {
   contacts: IContact[];
 }
 
-interface IPhone {
+export interface IPhone {
   id: string;
   telephone: string;
   
 }
 
-interface IEmail {
+export interface IEmail {
   id: string;
   email: string;
 }
 
-interface IContact {
+export interface IContact {
   id: string;
   name: string;
   createdAt: string; 

@@ -14,9 +14,7 @@ export interface ISignUpResponse {
   customer: ICustomers[];
 }
 
-export async function signUp(
-  data: ISignUp
-): Promise<ISignUpResponse | null> {
+export async function signUp(data: ISignUp): Promise<ISignUpResponse | null> {
   try {
     const body = {
       name: data.name,
@@ -24,8 +22,7 @@ export async function signUp(
       password: data.password,
       telephone: data.telephone,
       email: data.email,
-
-    }
+    };
     const response = await fetch(`${API_BASE_URL}/customers/register`, {
       method: "POST",
       headers: {

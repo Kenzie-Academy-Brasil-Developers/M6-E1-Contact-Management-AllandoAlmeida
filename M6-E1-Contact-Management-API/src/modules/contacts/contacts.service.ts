@@ -153,12 +153,9 @@ export class ContactsService {
     }
   } */
 
-  async createContact(
-    customerId: string,
-    data: CreateContactDto,
-  ): Promise<ContactModel> {
+  async create(data: CreateContactDto, customerId: string) {
     try {
-      // Verifica se o contato já existe
+      console.log('dataAPI', data)
       const existingContact = await this.prisma.contact.findFirst({
         where: { name: data.name },
       })

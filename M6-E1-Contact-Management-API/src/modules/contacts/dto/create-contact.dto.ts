@@ -4,7 +4,6 @@ import {
   IsNotEmpty,
   IsEmail,
   MinLength,
-  IsNumber,
   MaxLength,
   ValidateNested,
 } from 'class-validator'
@@ -50,11 +49,11 @@ export class CreateContactDto {
 
   @ApiProperty()
   @IsString()
-  cep: string
+  zidCode: string
 
   @ApiProperty()
   @IsString()
-  address: string
+  street: string
 
   @ApiProperty()
   @IsString()
@@ -62,7 +61,7 @@ export class CreateContactDto {
 
   @ApiProperty()
   @IsString()
-  neighborhood: string
+  district: string
 
   @ApiProperty()
   @IsString()
@@ -71,17 +70,8 @@ export class CreateContactDto {
   @ApiProperty()
   @IsString()
   @MaxLength(2)
-  uf: string
+  state: string
 
-  @ApiProperty()
-  @IsNumber()
-  gia: number
-
-  @ApiProperty()
-  @IsNumber()
-  ddd: number
-
-  // Adicionando a relação contactToCustomer
   @ApiProperty({ type: [ContactToCustomerDto] })
   @ValidateNested({ each: true })
   @Type(() => ContactToCustomerDto)

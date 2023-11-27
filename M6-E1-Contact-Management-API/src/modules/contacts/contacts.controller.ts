@@ -36,16 +36,9 @@ export class ContactsController {
 
   @Post()
   @UseGuards(AuthJwtGuard)
-  async createContact(
-    @Request() req,
-    @Body() createContactDto: CreateContactDto,
-  ) {
-    const userId = req.user.id // Supondo que o ID do usuário esteja disponível no objeto de usuário
-    const newContact = await this.contactsService.createContact(
-      userId,
-      createContactDto,
-    )
-    return newContact
+  async create(@Body() createContactDto: CreateContactDto, @Request() req) {
+    console.log('createContactDto', createContactDto)
+    return await this.contactsService.create(createContactDto, req.user.id)
   }
 
   @ApiResponse({
