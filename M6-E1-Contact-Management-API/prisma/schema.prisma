@@ -9,8 +9,8 @@ datasource db {
 
 model Customer {
   id        String              @id @default(uuid())
-  name      String
-  username  String
+  name      String              @unique
+  username  String              @unique
   password  String
   createdAt DateTime            @default(now())
   updatedAt DateTime?           @updatedAt
@@ -24,11 +24,11 @@ model Customer {
 
 model Contact {
   id         String              @id @default(uuid())
-  name       String
+  name       String              @unique
   zipCode    String
   street     String
   complement String
-  district    String
+  district   String
   locality   String
   state      String
   createdAt  DateTime            @default(now()) @map(name: "createdAt")
@@ -55,7 +55,7 @@ model ContactToCustomer {
 
 model Phone {
   id         String    @id @default(uuid())
-  telephone  String 
+  telephone  String
   customerId String?
   contactId  String?
   customer   Customer? @relation(fields: [customerId], references: [id])

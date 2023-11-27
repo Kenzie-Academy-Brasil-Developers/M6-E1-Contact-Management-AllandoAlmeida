@@ -18,10 +18,10 @@ const Inputs: React.ForwardRefRenderFunction<HTMLInputElement, IInputsProps> = (
   const inputStyle: CSSProperties = { width: "100%", ...style };
 
   return (
-    <div className="flex flex-col gap-0.5">
+    <div className="flex flex-col gap-0.5 my-2">
       <label
         htmlFor={htmlFor}
-        className="block text-sm font-semibold leading-6 text-gray-500"
+        className="block text-[0.7rem] font-semibold leading-4 text-gray-500"
       >
         {label}
       </label>
@@ -30,7 +30,7 @@ const Inputs: React.ForwardRefRenderFunction<HTMLInputElement, IInputsProps> = (
         ref={ref}
         size={size ? size : undefined}
         style={inputStyle}
-        className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+        className="block rounded-md border-0 px-2 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
       />
       {error ? <span>{error.message}</span> : null}
     </div>

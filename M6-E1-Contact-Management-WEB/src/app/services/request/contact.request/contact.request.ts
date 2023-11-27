@@ -3,50 +3,40 @@ import { API_BASE_URL, api } from "../../api";
 import { IContactResponse } from "./@type.contact";
 import { IContactForm } from "@/app/components/Form/contactForm/@type.contactForm";
 
-export async function Contact(
-  data: IContactForm
-) {
-  console.log("data", data);
+export async function newContact(data: IContactForm) {
+  /*
+  const contactData = {
+    ...data,
+    phones: data.phones.map((phone) => ({ telephone: phone.telephone })),
+    emails: data.emails.map((email) => ({ email: email.email })),
+  };
+  const contactTest = {
+    complement: "563",
+    district: "Limoeiro",
+    emails: [{ email: "teste@teste.com" }],
+    locality: "São Paulo",
+    name: "testesteste",
+    phones: [{ telephone: "1194771111" }],
+    state: "SP",
+    street: "Rua Elza Soares de Arruda",
+    zipCode: "08051360",
+  };
+
+  //Contact(contactData);
+  //reset();
+
+  /*  */
+  const accessToken = localStorage
+    .getItem("@ContactManagement:accessToken")
+    ?.replace(/"/g, "");
+  const customerId = localStorage.getItem("@ContactManagement:id");
+
+  if (!customerId) throw new Error("Customer not found!");
   try {
-    const body = {
-      name: data.name,
-      zipCode: data.zipCode,
-      street: data.street,
-      complement: data.complement,
-      district: data.district,
-      locality: data.locality,
-      state: data.state,
-      phones: { ...data.phones },
-      emails: { ...data.emails },
-    };
-    console.log("body", body);
-
-    const accessToken = localStorage
-      .getItem("@ContactManagement:accessToken")
-      ?.replace(/"/g, "");
-    const customerId = localStorage.getItem("@ContactManagement:id");
-
-    if (!customerId) throw new Error("Customer not found!");
-
-    const headers = {
-      Accept: "application/json",
-      Authorization: `Bearer ${accessToken}`,
-      userId: customerId,
-    };
-    if (customerId) {
-      headers.userId = customerId;
-    }
-
-    /*  const response = await fetch(`${API_BASE_URL}/contacts`, {
-      method: "POST",
-      headers: headers,
-      body: JSON.stringify(body)
-
-    });
- */
     api.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
-    const response = await api.post("/contacts", body);
+    const response = await api.post("/contacts", data);
     console.log("response", response);
+
     if (response.status === 201) {
       toast.success("Contato Registrado com sucesso", {
         transition: Slide,
@@ -57,7 +47,7 @@ export async function Contact(
       return null;
     }
   } catch (error) {
-    toast.error("Ocorreu um erro ao tentar se cadastrar.", {
+    toast.error("Ops! Cadastro não concluido.", {
       transition: Slide,
       autoClose: 2000,
     });
