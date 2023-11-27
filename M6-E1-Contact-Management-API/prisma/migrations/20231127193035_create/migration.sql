@@ -58,6 +58,15 @@ CREATE TABLE "emails" (
     CONSTRAINT "emails_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateIndex
+CREATE UNIQUE INDEX "customers_name_key" ON "customers"("name");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "customers_username_key" ON "customers"("username");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "contacts_name_key" ON "contacts"("name");
+
 -- AddForeignKey
 ALTER TABLE "contactToCustomer" ADD CONSTRAINT "contactToCustomer_customerId_fkey" FOREIGN KEY ("customerId") REFERENCES "customers"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 

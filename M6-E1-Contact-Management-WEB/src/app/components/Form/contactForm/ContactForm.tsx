@@ -5,8 +5,7 @@ import { useViaCepService } from "@/app/services/useViaCep.service";
 import { useState } from "react";
 import { IContactForm } from "./@type.contactForm";
 import { IContact } from "@/app/services/request/contact.request/@type.contact";
-import { Contact } from "@/app/services/request/contact.request/contact.request";
-import { api } from "@/app/services/api";
+import { newContact } from "@/app/services/request/contact.request/contact.request";
 
 export const ContactForm = () => {
   const {
@@ -33,7 +32,7 @@ export const ContactForm = () => {
   const fetchAddress = async (cep: string) => {
     try {
       const response = await getAddress(cep);
-      reset({
+      setAddress({
         ...getValues(),
         zipCode: cep,
         street: response.street,
@@ -57,40 +56,16 @@ export const ContactForm = () => {
   };
 
   const onSubmit: SubmitHandler<IContactForm> = async (data) => {
-    const contactData = {
-      ...data,
-      phones: data.phones.map((phone) => ({ telephone: phone.telephone })),
-      emails: data.emails.map((email) => ({ email: email.email })),
-    };
-    const contactTest = {
-      complement: "563",
-      district: "Limoeiro",
-      emails: [{ email: "teste@teste.com" }],
-      locality: "São Paulo",
-      name: "testesteste",
-      phones: [{ telephone: "1194771111" }],
-      state: "SP",
-      street: "Rua Elza Soares de Arruda",
-      zipCode: "08051360",
-    };
-
-    //Contact(contactData);
-    //reset();
-    const accessToken = localStorage
-      .getItem("@ContactManagement:accessToken")
-      ?.replace(/"/g, "");
-    const customerId = localStorage.getItem("@ContactManagement:id");
-
-    if (!customerId) throw new Error("Customer not found!");
-
-    api.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
-    const response = await api.post("/contacts", contactData);
-    console.log("response", response);
+    try {
+      await newContact(data);
+    } catch (error) {
+      console.error("Ocorreu um erro ao enviar o formulário:", error);
+    }
   };
 
   return (
-    <div className="container">
-      <form className="flex flex-col gap-5" onSubmit={handleSubmit(onSubmit)}>
+    <div className="flex flex-col gap-3 w-[50%]">
+      <form className="flex flex-col gap-3" onSubmit={handleSubmit(onSubmit)}>
         <Inputs
           htmlFor={"name"}
           type={"text"}
@@ -99,34 +74,37 @@ export const ContactForm = () => {
           {...register("name")}
           error={errors.name}
         />
-        <Inputs
-          htmlFor={""}
-          type={"email"}
-          label={"E-mail"}
-          placeholder={"Digite seu e-mail"}
-          {...register("emails.0.email")}
-          error={errors.emails?.[0]?.email}
-        />
-        <Inputs
-          htmlFor={""}
-          type={"text"}
-          label={"Telefone"}
-          placeholder={"Digite seu telefone"}
-          {...register("phones.0.telephone")}
-          error={errors.phones?.[0]?.telephone}
-        />
+        <div className="grid grid-cols-2 gap-3">
+          <Inputs
+            htmlFor={""}
+            type={"email"}
+            label={"E-mail"}
+            placeholder={"Digite seu e-mail"}
+            {...register("emails.0.email")}
+            error={errors.emails?.[0]?.email}
+          />
+          <Inputs
+            htmlFor={""}
+            type={"text"}
+            label={"Telefone"}
+            placeholder={"Digite seu telefone"}
+            {...register("phones.0.telephone")}
+            error={errors.phones?.[0]?.telephone}
+          />
+        </div>
 
         <section>
           <h2 className="font-bold text-xl">Endereço</h2>
 
-          <div className="flex gap-2 items-end">
+          <div className="grid grid-cols-2 gap-3 items-end">
             <Inputs
               label="Cep:"
               htmlFor="zipCode"
               type="text"
               id="zipCode"
               value={address.zipCode}
-              style={{ width: "100px" }}
+              style={{ width: "30px" }}
+              placeholder={"Digite o CEP"}
               onBlur={(e) => handleBlur(e.target.value)}
               onChange={(e) =>
                 setAddress((prevAddress) => ({
@@ -137,64 +115,79 @@ export const ContactForm = () => {
             />
             <button
               type="button"
-              className="block w-[100px] h-[40px] rounded-md bg-indigo-600 px-3.5 py-2.5 text-center text-[0.7rem] font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 "
+              className="block w-[100px] h-[40px] rounded-md bg-indigo-600 px-3.5 py-2.5 my-2 text-center text-[0.7rem] font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 "
               onClick={handleBuscarCepClick}
             >
               Buscar Cep
             </button>
           </div>
-          <Inputs
-            label="Rua:"
-            htmlFor="street"
-            type="text"
-            id="street"
-            value={address.street}
-            {...register("street", { value: address.street })}
-            error={errors.street}
-            onChange={(e) => setAddress({ ...address, street: e.target.value })}
-          />
-          <Inputs
-            label="Numero:"
-            htmlFor="complement"
-            type="text"
-            id="complement"
-            {...register("complement")}
-            error={errors.complement}
-          />
-          <Inputs
-            label="Bairro:"
-            htmlFor="district"
-            type="text"
-            id="district"
-            value={address.district}
-            {...register("district", { value: address.district })}
-            error={errors.district}
-            onChange={(e) =>
-              setAddress({ ...address, district: e.target.value })
-            }
-          />
-          <Inputs
-            label="Cidade:"
-            htmlFor="locality"
-            type="text"
-            id="locality"
-            value={address.locality}
-            {...register("locality", { value: address.locality })}
-            error={errors.locality}
-            onChange={(e) =>
-              setAddress({ ...address, locality: e.target.value })
-            }
-          />
+          <div className="grid grid-cols-2 gap-2">
+            <Inputs
+              label="Rua:"
+              htmlFor="street"
+              type="text"
+              id="street"
+              value={address.street}
+              style={{ width: "50px" }}
+              placeholder={"Digite o endereço"}
+              {...register("street", { value: address.street })}
+              error={errors.street}
+              onChange={(e) =>
+                setAddress({ ...address, street: e.target.value })
+              }
+            />
+            <Inputs
+              label="Numero:"
+              htmlFor="complement"
+              type="text"
+              id="complement"
+              placeholder={"Número"}
+              {...register("complement")}
+              error={errors.complement}
+            />
+          </div>
+          <div className="grid grid-cols-3 gap-3">
+            <Inputs
+              label="Bairro:"
+              style={{ width: "40px" }}
+              htmlFor="district"
+              type="text"
+              id="district"
+              value={address.district}
+              placeholder={"Digite o Bairro"}
+              {...register("district", { value: address.district })}
+              error={errors.district}
+              onChange={(e) =>
+                setAddress({ ...address, district: e.target.value })
+              }
+            />
+            <Inputs
+              label="Cidade:"
+              style={{ width: "40px" }}
+              htmlFor="locality"
+              type="text"
+              id="locality"
+              value={address.locality}
+              placeholder={"Cidade"}
+              {...register("locality", { value: address.locality })}
+              error={errors.locality}
+              onChange={(e) =>
+                setAddress({ ...address, locality: e.target.value })
+              }
+            />
 
-          <Inputs
-            label="Estado:"
-            htmlFor="state"
-            type="text"
-            id="state"
-            {...register("state")}
-            error={errors.state}
-            onChange={(e) => reset({ ...getValues(), state: e.target.value })}
-          />
+            <Inputs
+              label="Estado:"
+              style={{ width: "40px" }}
+              htmlFor="state"
+              type="text"
+              id="state"
+              {...register("state")}
+              placeholder={"UF"}
+              error={errors.state}
+              onChange={(e) => reset({ ...getValues(), state: e.target.value })}
+            />
+          </div>
         </section>
 
         <button
