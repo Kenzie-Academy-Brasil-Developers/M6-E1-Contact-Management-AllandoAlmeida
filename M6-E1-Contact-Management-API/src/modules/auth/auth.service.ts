@@ -23,8 +23,7 @@ export class AuthService {
   }
 
   async login(user: LoginDto) {
-    const isValidUser = await this.validateUser(user.username, user.password)
-    console.log('isValidUser2', isValidUser)
+    await this.validateUser(user.username, user.password)
     const payload = {
       username: user.username,
       sub: user.id,

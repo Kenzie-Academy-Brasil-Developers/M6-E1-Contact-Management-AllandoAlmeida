@@ -35,6 +35,7 @@ export class CustomersController {
 
   @Post('register')
   async registerUser(@Body() createCustomerDto: CreateCustomerDto) {
+    console.log('client', createCustomerDto)
     return await this.customersService.create(createCustomerDto)
   }
 

@@ -9,12 +9,6 @@ import {
 } from 'class-validator'
 import { Type } from 'class-transformer'
 
-class ContactToCustomerDto {
-  customerId: string
-  contactId: string
-  assignedAt: Date
-}
-
 class PhoneDto {
   @ApiProperty()
   @IsString()
@@ -71,9 +65,4 @@ export class CreateContactDto {
   @IsString()
   @MaxLength(2)
   state: string
-
-  @ApiProperty({ type: [ContactToCustomerDto] })
-  @ValidateNested({ each: true })
-  @Type(() => ContactToCustomerDto)
-  contactToCustomers: ContactToCustomerDto[]
 }

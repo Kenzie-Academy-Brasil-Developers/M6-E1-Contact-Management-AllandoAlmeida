@@ -7,7 +7,6 @@ import {
   Get,
   Param,
   Patch,
-  Req,
   HttpCode,
   Delete,
 } from '@nestjs/common'
@@ -37,7 +36,7 @@ export class ContactsController {
   @Post()
   @UseGuards(AuthJwtGuard)
   async create(@Body() createContactDto: CreateContactDto, @Request() req) {
-    console.log('createContactDto', createContactDto)
+    console.log('contato', createContactDto)
     return await this.contactsService.create(createContactDto, req.user.id)
   }
 
@@ -49,7 +48,6 @@ export class ContactsController {
   @UseGuards(AuthJwtGuard)
   findAll(@Request() request) {
     const userId = request.user.id
-    console.log('userId', userId)
     return this.contactsService.findAll(userId)
   }
 
@@ -88,7 +86,7 @@ export class ContactsController {
   @UseGuards(AuthJwtGuard)
   update(
     @Param('id') id: string,
-    @Req() request, // Alteração aqui
+    @Request() request, // Alteração aqui
     @Body() updateContactDto: UpdateContactDto,
   ) {
     const userId = request.user.id

@@ -55,7 +55,7 @@ model ContactToCustomer {
 
 model Phone {
   id         String    @id @default(uuid())
-  telephone  String
+  telephone  String 
   customerId String?
   contactId  String?
   customer   Customer? @relation(fields: [customerId], references: [id])

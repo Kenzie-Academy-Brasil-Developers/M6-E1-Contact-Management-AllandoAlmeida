@@ -1,5 +1,4 @@
 import {
-  ConflictException,
   ForbiddenException,
   Injectable,
   NotFoundException,
@@ -15,201 +14,46 @@ import { checkFieldsExistence } from 'src/Hooks/checkFieldsExistence'
 export class ContactsService {
   constructor(private prisma: PrismaService) {}
 
-  /* async create(
-    data: CreateContactDto,
-    user: { id: string },
-  ): Promise<ContactModel> {
-    const { name } = data
-
-    const existingContact = await this.prisma.contact.findFirst({
-      where: { name },
-      include: { customers: true },
+  async create(createContactDto: CreateContactDto, customerId: string) {
+    const newContact = await this.prisma.contact.create({
+      data: {
+        name: createContactDto.name,
+        zidCode: createContactDto.zidCode,
+        street: createContactDto.street,
+        complement: createContactDto.complement,
+        district: createContactDto.district,
+        locality: createContactDto.locality,
+        state: createContactDto.state,
+        phones: { create: createContactDto.phones },
+        emails: { create: createContactDto.emails },
+        customers: {
+          createMany: {
+            data: [{ customerId: customerId }],
+          },
+        },
+      },
+      include: {
+        phones: {
+          select: {
+            id: true,
+            telephone: true,
+          },
+        },
+        emails: {
+          select: {
+            id: true,
+            email: true,
+          },
+        },
+        customers: {
+          select: {
+            id: true,
+          },
+        },
+      },
     })
 
-    if (existingContact) {
-      const isAssociated = existingContact.customers.some(
-        (customer) => customer.id === user.id,
-      )
-
-      if (!isAssociated) {
-        // Conecte o cliente ao contato
-        await this.prisma.ContactToCustomer.create({
-          data: {
-            customerId: user.id,
-            contactId: existingContact.id,
-          },
-        })
-
-        // Retorne o contato existente
-        return existingContact
-      } else {
-        // Cliente já está associado a este contato, retorne um erro 409
-        throw new ConflictException(
-          'Customer is already associated with this contact',
-        )
-      }
-    } else {
-      // Se o contato não existir, crie um novo
-      const newContact = await this.prisma.contact.create({
-        data: {
-          ...data,
-          phones: { create: data.phones },
-          emails: { create: data.emails },
-          customers: { connect: [{ id: user.id }] },
-        },
-        include: { phones: true, emails: true, customers: true },
-      })
-
-      console.log('newContact', newContact)
-      return { ...newContact }
-    }
-  } */
-
-  /*  async createContact(
-    customerId: string,
-    data: CreateContactDto,
-  ): Promise<ContactModel> {
-    try {
-      console.log('Before duplicate check')
-      // Verifica se o contato já existe
-      const existingContact = await this.prisma.contact.findFirst({
-        where: { name: data.name },
-      })
-      console.log('Existing Contact:', existingContact)
-      console.log('Data received:', data)
-
-      const duplicateCount = await this.prisma.contact.count({
-        where: { name: data.name },
-      })
-
-      if (duplicateCount > 0) {
-        throw new ConflictException('Contact already exists')
-      }
-
-      console.log('After duplicate check')
-
-      if (existingContact) {
-        throw new ConflictException('Contact already exists')
-      }
-
-      // Cria um novo contato
-      const newContact = await this.prisma.contact.create({
-        data: {
-          ...data,
-          phones: { create: data.phones },
-          emails: { create: data.emails },
-          customers: {
-            create: Array.isArray(data.contactToCustomers)
-              ? data.contactToCustomers.map((customer) => ({
-                  ...customer,
-                  assignedAt: new Date(),
-                }))
-              : [],
-          },
-        },
-        include: { phones: true, emails: true, customers: true },
-      })
-
-      console.log('Contact created:', newContact)
-      // Verifica se o contato já está associado ao cliente
-      const existingAssociation = await this.prisma.contactToCustomer.findFirst(
-        {
-          where: {
-            contactId: newContact.id,
-            customerId,
-          },
-        },
-      )
-      console.log('existingAssociation', existingAssociation)
-
-      if (existingAssociation) {
-        // Se já está associado, lança uma exceção de conflito
-        throw new ConflictException(
-          'Contact is already associated with the customer',
-        )
-      }
-
-      const existingCustomer = await this.prisma.customer.findUnique({
-        where: { id: customerId },
-      })
-
-      if (!existingCustomer) {
-        throw new NotFoundException('Customer not found')
-      }
-
-      // Se não está associado, faz a associação
-      await this.prisma.contactToCustomer.create({
-        data: {
-          customerId,
-          contactId: newContact.id,
-          assignedAt: new Date(),
-        },
-      })
-
-      return newContact
-    } catch (error) {
-      console.error('Error creating contact:', error)
-      throw new ConflictException('ConflictException Contact already exists')
-    }
-  } */
-
-  async create(data: CreateContactDto, customerId: string) {
-    try {
-      console.log('dataAPI', data)
-      const existingContact = await this.prisma.contact.findFirst({
-        where: { name: data.name },
-      })
-
-      if (existingContact) {
-        throw new ConflictException('Contact already exists')
-      }
-
-      // Cria um novo contato
-      const newContact = await this.prisma.contact.create({
-        data: {
-          ...data,
-          phones: { create: data.phones },
-          emails: { create: data.emails },
-          customers: {
-            create: Array.isArray(data.contactToCustomers)
-              ? data.contactToCustomers.map((customer) => ({
-                  ...customer,
-                  assignedAt: new Date(),
-                }))
-              : [],
-          },
-        },
-        include: { phones: true, emails: true, customers: true },
-      })
-
-      console.log('antes:')
-
-      // Verifica se o contato já está associado ao cliente
-      const existingAssociation = await this.prisma.contactToCustomer.findFirst(
-        {
-          where: {
-            contactId: newContact.id,
-            customerId,
-          },
-        },
-      )
-
-      console.log('existingAssociation', existingAssociation)
-
-      // Faz a associação
-      await this.prisma.contactToCustomer.create({
-        data: {
-          customerId,
-          contactId: newContact.id,
-          assignedAt: new Date(),
-        },
-      })
-
-      return newContact
-    } catch (error) {
-      console.error('Error creating contact:', error)
-      throw error // Rejeitar a exceção para que seja capturada pela resposta da API
-    }
+    return newContact
   }
 
   async findAll(customerId: string): Promise<ContactModel[]> {
@@ -307,8 +151,6 @@ export class ContactsService {
       },
     })
 
-    console.log('checkContact', checkContact)
-
     if (!checkContact || checkContact.customers.length === 0) {
       throw new ForbiddenException(
         'Contact not found or not associated with the requesting customer',
@@ -390,8 +232,6 @@ export class ContactsService {
         contactId: contactId,
       },
     })
-
-    console.log('customerToContact', customerToContact)
 
     if (!customerToContact) {
       throw new NotFoundException(
