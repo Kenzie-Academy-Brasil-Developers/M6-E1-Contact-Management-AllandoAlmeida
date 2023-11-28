@@ -1,9 +1,9 @@
 "use client";
 
-import { SubmitHandler, UseFormReturn, useForm } from "react-hook-form";
+import { UseFormReturn, useForm, SubmitHandler } from "react-hook-form";
+import { ISignUp } from "../../../services/request/register.request/@type.register";
+import { signUp } from "../../../services/request/register.request/register.request";
 import Inputs from "../../fragments/inputs/Inputs";
-import { ISignUp, signUp } from "@/app/services/request/register.request/register.request";
-
 export const SignUpForm: React.FC = () => {
   const {
     handleSubmit,

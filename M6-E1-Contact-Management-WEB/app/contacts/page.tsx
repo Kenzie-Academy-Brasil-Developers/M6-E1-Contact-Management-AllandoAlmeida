@@ -1,8 +1,7 @@
 'use client'
-import { CustomToastContainer } from "../components/CustomToastContainer/CustomToastContainer";
-import "react-toastify/dist/ReactToastify.css";
-import { ContactForm } from "../components/Form/contactForm/ContactForm";
 
+import { CustomToastContainer } from "../components/CustomToastContainer/CustomToastContainer";
+import { ContactForm } from "../components/Form/contactForm/ContactForm";
 
 
 export default async function Contacts() {

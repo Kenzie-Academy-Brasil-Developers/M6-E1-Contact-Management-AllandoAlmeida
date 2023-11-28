@@ -1,11 +1,15 @@
 "use client";
+"use client";
 import { SubmitHandler, UseFormReturn, useForm } from "react-hook-form";
 import Inputs from "../../fragments/inputs/Inputs";
-import { useViaCepService } from "@/app/services/useViaCep.service";
 import { useState } from "react";
 import { IContactForm } from "./@type.contactForm";
-import { IContact } from "@/app/services/request/contact.request/@type.contact";
-import { newContact } from "@/app/services/request/contact.request/contact.request";
+import { useViaCepService } from "../../../services/useViaCep.service";
+import { IContact } from "../../../services/request/contact.request/@type.contact";
+import { newContact } from "../../../services/request/contact.request/contact.request";
+import { Button } from "@/components/ui/button"
+
+
 
 export const ContactForm = () => {
   const {
@@ -39,7 +43,10 @@ export const ContactForm = () => {
         district: response.district,
         locality: response.locality,
         state: response.state,
+        name: getValues().name || "",
       });
+      
+      
     } catch (error) {
       console.error("Error fetching address:", error);
     }
@@ -64,8 +71,8 @@ export const ContactForm = () => {
   };
 
   return (
-    <div className="flex flex-col gap-3 w-[50%]">
-      <form className="flex flex-col gap-3" onSubmit={handleSubmit(onSubmit)}>
+    <div className="grid grid-cols-">
+      <form className="" onSubmit={handleSubmit(onSubmit)}>
         <Inputs
           htmlFor={"name"}
           type={"text"}
@@ -74,7 +81,7 @@ export const ContactForm = () => {
           {...register("name")}
           error={errors.name}
         />
-        <div className="grid grid-cols-2 gap-3">
+        <div className="">
           <Inputs
             htmlFor={""}
             type={"email"}
@@ -103,7 +110,6 @@ export const ContactForm = () => {
               type="text"
               id="zipCode"
               value={address.zipCode}
-              style={{ width: "30px" }}
               placeholder={"Digite o CEP"}
               onBlur={(e) => handleBlur(e.target.value)}
               onChange={(e) =>
@@ -128,7 +134,6 @@ export const ContactForm = () => {
               type="text"
               id="street"
               value={address.street}
-              style={{ width: "50px" }}
               placeholder={"Digite o endereço"}
               {...register("street", { value: address.street })}
               error={errors.street}
@@ -149,7 +154,6 @@ export const ContactForm = () => {
           <div className="grid grid-cols-3 gap-3">
             <Inputs
               label="Bairro:"
-              style={{ width: "40px" }}
               htmlFor="district"
               type="text"
               id="district"
@@ -163,7 +167,6 @@ export const ContactForm = () => {
             />
             <Inputs
               label="Cidade:"
-              style={{ width: "40px" }}
               htmlFor="locality"
               type="text"
               id="locality"
@@ -178,7 +181,6 @@ export const ContactForm = () => {
 
             <Inputs
               label="Estado:"
-              style={{ width: "40px" }}
               htmlFor="state"
               type="text"
               id="state"
@@ -190,12 +192,13 @@ export const ContactForm = () => {
           </div>
         </section>
 
-        <button
-          type="submit"
+        <Button
+          type="submit" variant="outline"
           className="block w-full rounded-md bg-indigo-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
         >
           Enviar
-        </button>
+        </Button>
+       
       </form>
     </div>
   );
