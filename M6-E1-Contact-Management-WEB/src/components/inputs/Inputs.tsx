@@ -44,9 +44,19 @@ const Inputs: React.ForwardRefRenderFunction<HTMLInputElement, IInputsProps> = (
 export default forwardRef(Inputs);
  */
 
+import { Label } from "@radix-ui/react-label";
+import React, {
+  CSSProperties,
+  DetailedHTMLProps,
+  forwardRef,
+  InputHTMLAttributes,
+} from "react";
+import { FieldError } from "react-hook-form";
+import { Input } from "../ui/input";
+
 // Inputs.tsx
 
-import { Input } from "@/components/ui/input";
+/* import { Input } from "@/components/ui/input";
 import React, {
   DetailedHTMLProps,
   forwardRef,
@@ -64,7 +74,7 @@ interface IInputsProps
   label?: string;
   error?: FieldError | undefined;
   htmlFor?: string;
-  inputWidth?: string; // Adicione a propriedade inputWidth
+  inputWidth?: string;
 }
 
 const Inputs: React.ForwardRefRenderFunction<HTMLInputElement, IInputsProps> = (
@@ -94,5 +104,53 @@ const Inputs: React.ForwardRefRenderFunction<HTMLInputElement, IInputsProps> = (
   );
 };
 
+
+export default forwardRef(Inputs);
+ */
+
+// Inputs.tsx
+
+// ... Importações e código anterior
+
+interface IInputsProps
+  extends DetailedHTMLProps<
+    InputHTMLAttributes<HTMLInputElement>,
+    HTMLInputElement
+  > {
+  label?: string;
+  error?: FieldError | undefined;
+  htmlFor?: string;
+  inputWidth?: string;
+  inputContainerClass: any;
+}
+
+const Inputs: React.ForwardRefRenderFunction<HTMLInputElement, IInputsProps> = (
+  { label, error, htmlFor, inputWidth, inputContainerClass, ...rest },
+  ref
+) => {
+  const inputStyle: CSSProperties = {
+    width: inputWidth || "100%",
+  };
+
+  return (
+    <div className={`${inputContainerClass}`}>
+      <Input
+        {...rest}
+        ref={ref}
+        style={{
+          ...inputStyle,
+          outline: 'none',
+          border: 'none',
+          boxShadow: 'none',
+        }}
+        className="rounded-md p-3 text-gray-900 shadow-sm placeholder:text-gray-400 h-[2rem] focus-visible:outline-none focus-visible:ring-0" 
+      />
+      <Label htmlFor={htmlFor} className="">
+        {label}
+      </Label>
+      {error ? <span>{error.message}</span> : null}
+    </div>
+  );
+};
 
 export default forwardRef(Inputs);
