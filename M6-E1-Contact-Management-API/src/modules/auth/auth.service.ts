@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common'
 import { CustomersService } from '../customers/customers.service'
 import { JwtService } from '@nestjs/jwt'
-import { LoginDto } from './dto/login.dto'
 import { compare } from 'bcryptjs'
+import { SeccionDto } from './dto/seccion'
 
 @Injectable()
 export class AuthService {
@@ -22,7 +22,7 @@ export class AuthService {
     return null
   }
 
-  async login(user: LoginDto) {
+  async seccion(user: SeccionDto) {
     await this.validateUser(user.username, user.password)
     const payload = {
       username: user.username,
@@ -39,7 +39,7 @@ export class AuthService {
     }
   }
 
-  async refreshToken(user: LoginDto) {
+  async refreshToken(user: SeccionDto) {
     const { id, username } = user
     const payload = {
       id: user.id,

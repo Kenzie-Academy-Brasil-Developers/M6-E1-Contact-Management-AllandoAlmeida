@@ -10,7 +10,7 @@ import {
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger'
-import { LoginDto } from './dto/login.dto'
+import { SeccionDto } from './dto/seccion'
 
 @ApiTags('Authentication and registration section')
 @ApiResponse({
@@ -32,11 +32,11 @@ export class AuthController {
     status: 201,
     description: 'The request was made successfully.',
   })
-  @Post('login')
+  @Post('seccion')
   @UseGuards(AuthLocalGuard)
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  async login(@Request() request, @Body() loginDto: LoginDto) {
-    return this.authService.login(request.user)
+  async seccion(@Request() request, @Body() seccionDto: SeccionDto) {
+    return this.authService.seccion(request.user)
   }
 
   @ApiBadRequestResponse({
