@@ -2,21 +2,31 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;800&display=swap');
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+/* styles/globals.css */
+
+
+:root {
+  --color-color-primary: #ff577f;
+  --color-color-primary-50: #ff427f;
+  --color-color-primary-disable: #59323f;
+  --color-grey-4: #121214;
+  --color-grey-3: #212529;
+  --color-grey-2: #343b41;
+  --color-grey-1: #868e96;
+  --color-grey-0: #f8f9fa;
+  --color-sucess: #3fe864;
+  --color-negative: #e83f5b;
+  --color-padrao: #ffffff;
+
+  --bg-color: #000000;
+  --font-primary: "Inter", sans-serif;
 }
 
 body {
+  background-color: var(--bg-color);
+  color: var(--color-grey-0);
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
       to bottom,
@@ -24,4 +34,167 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  font-size: 62.5%;
+}
+
+button {
+  cursor: pointer;
+  background: transparent;
+  border: none;
+}
+
+a {
+  color: unset;
+  text-decoration: none;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+input {
+  border-radius: 0;
+  border: none;
+  background: transparent;
+}
+
+img {
+  max-width: 100%;
+}
+
+body {
+  background-color: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+
+  background: url("https://images.pexels.com/photos/4050468/pexels-photo-4050468.jpeg")
+    no-repeat;
+
+  background-position: center;
+  background-size: cover;
+  width: 100vw;
+}
+
+.box {
+  @apply border-2 border-gray-600 flex justify-center items-center rounded-2xl backdrop-filter backdrop-blur-lg bg-opacity-50 bg-transparent;
+}
+
+h2 {
+  @apply text-2xl text-white text-center;
+}
+
+.inputbox {
+  @apply relative w-full border-b-[0.05rem] border-white;
+}
+
+.inputbox label {
+  @apply absolute top-1/2 left-2 transform -translate-y-1/2 text-white text-base pointer-events-none transition duration-500;
+}
+
+input:focus ~ label,
+input:not(:placeholder-shown) ~ label {
+  @apply top-0 left-0;
+}
+
+.inputbox input {
+  @apply w-full h-[4.8rem] bg-transparent border-none outline-none text-base px-0 text-gray-300;
+}
+
+.inputbox ion-icon {
+  @apply absolute right-8 text-gray-500 text-2xl top-3;
+}
+
+button {
+  @apply w-full h-16 rounded-full bg-white border-none outline-none cursor-pointer text-2xl font-bold;
+}
+
+.forget {
+  @apply flex justify-between m-4 text-base text-gray-700;
+}
+
+.forget label {
+  @apply flex items-center;
+}
+
+.forget label input[type="checkbox"] {
+  @apply mr-2;
+}
+
+.forget label a {
+  @apply text-gray-700 no-underline;
+}
+
+.forget label a:hover {
+  @apply underline;
+}
+
+.register {
+  @apply text-base text-gray-700 text-center m-8;
+}
+
+.register p a {
+  @apply no-underline text-gray-700 font-bold;
+}
+
+.register p a:hover {
+  @apply underline;
+}
+
+/* Adicione estilos específicos para o seu componente Next.js aqui */
+
+#source-link {
+  @apply top-[60px];
+}
+
+#source-link > i {
+  @apply text-custom-blue;
+}
+
+#yt-link {
+  @apply top-[10px];
+}
+
+#yt-link > i {
+  @apply text-custom-purple;
+}
+
+.meta-link {
+  @apply inline-flex items-center backdrop-filter backdrop-blur-3px bg-custom-gray border border-custom-border rounded-6px shadow-2px-2px-2px-custom-shadow cursor-pointer absolute left-10;
+  transition: color 600ms;
+  z-index: 10000;
+}
+
+.meta-link:hover {
+  @apply bg-custom-purple hover:border-2 hover:border-custom-purple;
+}
+
+.meta-link > i,
+.meta-link > span {
+  @apply h-20;
+}
+
+.meta-link > span {
+  @apply text-custom-text;
+  transition: color 600ms;
+}
+
+/* buttons */
+
+
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
 }

@@ -1,0 +1,20 @@
+
+.btnAccess {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+    height: 4.8rem;
+    font-size: 1.6rem;
+    font-weight: medium;
+    line-height: 1.6;
+    border: 1px solid var(--color-color-primary);
+    border-radius: 0.25rem;
+    background-color: var(--color-color-primary);
+    color: #fff;
+  }
+  
+  .btnAccess:hover {
+    background-color: var(--color-color-primary-50);
+  }

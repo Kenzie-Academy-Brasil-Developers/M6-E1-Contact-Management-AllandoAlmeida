@@ -7,6 +7,12 @@
     "typescript-config/consistent-casing": "off",
     "typescript-config/is-valid": "off",
     "no-inline-styles": "off",
-    "compat-api/css": "off"
+    "compat-api/css": "off",
+    "axe/forms": [
+      "default",
+      {
+        "label": "off"
+      }
+    ]
   }
 }
