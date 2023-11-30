@@ -60,12 +60,11 @@ export const LoginForm: React.FC = () => {
                 <p className="text-center">Não tem uma conta?</p>
                 <div className="bg--g">
                   <ButtonNav
-                    text={"Cadastre-se"}
+                    text={""}
                     href={"/register"}
                     width={"120"}
                     height={"20"}
-                    textcolor={"white"}
-                  />
+                    textcolor={"white"} textSize={"1rem"}/>
                 </div>
               </div>
             </div>

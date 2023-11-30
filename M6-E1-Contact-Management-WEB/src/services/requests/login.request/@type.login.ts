@@ -7,6 +7,7 @@ export interface ILogin {
     token: string;
     username: string;
     accessToken: string;
+    refreshToken: string;
     id: string;
   }
   
