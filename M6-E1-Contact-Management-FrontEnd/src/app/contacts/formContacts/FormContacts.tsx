@@ -1,17 +1,24 @@
 "use client";
 
 import { SubmitHandler, UseFormReturn, useForm } from "react-hook-form";
-import Inputs from "../../fragments/Inputs";
-import { IContactForm } from "./@type.formContacts";
+import Inputs from "../../../components/fragments/Inputs";
 import React, { useState } from "react";
-import { useViaCepService } from "@/services/apis/useViaCep.service";
+import { useViaCepService } from "@/service/useViaCep.service";
 import { ButtonNav } from "@/components/fragments/Buttons/buttonNavegate";
 import { ButtonToAccess } from "@/components/fragments/Buttons/buttonAccess";
 
-/*
-  confirmPassword: string;
-  telephone: string;
-  email: string; */
+
+export interface IContactForm {
+  name: string;
+  zipCode: string;
+  street: string;
+  complement: string;
+  district: string;
+  locality: string;
+  state: string;
+  phones: { telephone: string }[];
+  emails: { email: string }[];
+}
 
 export const ContactForm: React.FC = () => {
   const {
@@ -38,19 +45,6 @@ export const ContactForm: React.FC = () => {
   const fetchAddress = async (cep: string) => {
     try {
       const response = await getAddress(cep);
-      /* setAddress({
-        ...address,
-        zipCode: cep,
-        street: response.street,
-        district: response.district,
-        //locality: response.locality,
-        state: response.state,
-        name: address.name || "",
-      }); */
-
-      /* setValue('name',  address.name ||"")
-      setValue('phones',  address.phones ||"")
-      setValue('emails',  address.emails ||"") */
       setValue('street',  response.street ||"")
       setValue('complement',  address.complement ||"")
       setValue('zipCode',  address.zipCode ||"")
@@ -71,7 +65,7 @@ export const ContactForm: React.FC = () => {
     fetchAddress(value);
   };
 
-  const onSubmit: SubmitHandler<IContactForm> = (data) => {
+  const onSubmit: SubmitHandler<IContactForm> = async (data) => {
     console.log(data);
     reset()
   };

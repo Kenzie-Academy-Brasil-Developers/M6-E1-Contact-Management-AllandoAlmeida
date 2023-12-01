@@ -1,10 +1,17 @@
 "use client";
 
 import { SubmitHandler, UseFormReturn, useForm } from "react-hook-form";
-import Inputs from "../../fragments/Inputs";
-import { ButtonNavPage } from "../../fragments/Buttons/buttonNavPage";
-import { IFormSession } from "./@type.formSession";
+import Inputs from "../../../components/fragments/Inputs";
+import { ButtonNavPage } from "../../../components/fragments/Buttons/buttonNavPage";
 import { ButtonToAccess } from "@/components/fragments/Buttons/buttonAccess";
+import React from "react";
+import { Session } from "@/app/(login)/service/session.service";
+
+interface IFormSession {
+  username: string;
+  password: string;
+  FieldValues: any;
+}
 
 export const FormSession: React.FC = () => {
   const {
@@ -14,10 +21,11 @@ export const FormSession: React.FC = () => {
     formState: { errors },
   }: UseFormReturn<IFormSession> = useForm<IFormSession>();
 
-  const onSubmit: SubmitHandler<IFormSession> = (data) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<IFormSession> = async (data) => {
+    Session(data);
     reset();
   };
+  
   return (
     <div className="w-full h-[35rem]  flex flex-col gap-y-10">
       <div className="box flex-col w-[28rem] h-[full] gap-y-10 ">
@@ -50,7 +58,11 @@ export const FormSession: React.FC = () => {
           </div>
         </form>
         <div className="w-full p-7">
-          <ButtonNavPage text={"Ainda não possui uma conta?"} herf={"/signUp"} option={"Cadastre-se"} />
+          <ButtonNavPage
+            text={"Ainda não possui uma conta?"}
+            herf={"/signup"}
+            option={"Cadastre-se"}
+          />
         </div>
       </div>
     </div>
