@@ -105,7 +105,24 @@ export class CustomersService {
             email: true,
           },
         },
-        contacts: true,
+        contacts: {
+          select: {
+            contact: {
+              select: {
+                id: true,
+                name: true,
+                zipCode: true,
+                street: true,
+                complement: true,
+                district: true,
+                locality: true,
+                state: true,
+                phones: true,
+                emails: true,
+              },
+            },
+          },
+        },
       },
     })
     if (!customer) throw new NotFoundException("The ID doesn't exist")

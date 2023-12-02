@@ -189,7 +189,17 @@ button {
 
 /* buttons */
 
+.profile-Container {
+  @apply border-2 border-gray-600 flex justify-center items-center rounded-2xl backdrop-filter backdrop-blur-lg bg-opacity-50 bg-transparent;
+}
 
+.profile-Container-menu {
+  @apply border-2 border-gray-600 flex justify-center items-center rounded-2xl backdrop-filter backdrop-blur-lg bg-opacity-50 bg-transparent;
+}
+
+.profile-Container-contacts {
+  @apply border-2 border-gray-600 flex justify-center items-center rounded-2xl backdrop-filter backdrop-blur-lg bg-opacity-50 bg-transparent;
+}
 
 @media (prefers-color-scheme: dark) {
   :root {

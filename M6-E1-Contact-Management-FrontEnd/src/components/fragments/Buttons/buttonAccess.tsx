@@ -1,6 +1,6 @@
 import React from 'react';
-import './styles.buttonAccess.css'
-import './styles.buttonCreate.css'
+import '../Buttons/styles/styles.buttonAccess.css'
+import '../Buttons/styles/styles.buttonCreate.css'
 
 interface IButtonToAccess {
   type: string;

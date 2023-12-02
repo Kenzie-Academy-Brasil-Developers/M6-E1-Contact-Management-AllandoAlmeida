@@ -20,7 +20,7 @@ export interface IContactForm {
   emails: { email: string }[];
 }
 
-export const ContactForm: React.FC = () => {
+export const FormContacts: React.FC = () => {
   const {
     handleSubmit,
     register,

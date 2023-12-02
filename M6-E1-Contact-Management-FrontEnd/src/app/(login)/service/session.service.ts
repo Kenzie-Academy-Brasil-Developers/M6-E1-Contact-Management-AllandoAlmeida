@@ -1,5 +1,5 @@
 import { Slide, toast } from "react-toastify";
-import { API_BASE_URL, api } from "@/service/api";
+import { API_BASE_URL } from "@/service/api";
 
 export interface ISession {
   username: string;
@@ -12,6 +12,7 @@ export interface ISessionResponse {
   accessToken: string;
   refreshToken: string;
   id: string;
+  expiresIn: number;
 }
 
 export async function Session(data: ISession) {
@@ -59,33 +60,61 @@ export async function Session(data: ISession) {
   }
 }
 
-/* 
-export const SessionLogin = async (data: ISession) => {
-  console.log("SessionLogin", data);
-  try {
-    const body = {
-      username: data.username,
-      password: data.password,
-    };
+export async function isTokenExpired() {
+  const accessToken = localStorage.getItem("@Management:accessToken");
+
+  if (accessToken) {
+    try {
+      const accessTokenData: ISessionResponse = JSON.parse(
+        atob(accessToken.split(".")[1])
+      );
+
    
+      const expirationTime = accessTokenData.expiresIn * 1000; 
+      const currentTime = new Date().getTime();
 
-    const response = await api.post("/session", body);
+     
+      const timeThreshold = 5 * 60 * 1000;
 
-    const { accessToken, id } = response.data;
-    localStorage.setItem("@ContactManagement:accessToken", accessToken);
-    localStorage.setItem("@ContactManagement:id", id);
-
-    api.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
-    toast.success("Login realizado com Sucesso!", {
-      transition: Slide,
-      autoClose: 2000,
-    });
-  } catch (error) {
-    console.error("Erro durante o login:", error);
-    toast.error("Ocorreu um erro ao tentar realizar a operação solicitada.", {
-      transition: Slide,
-      autoClose: 2000,
-    });
+      return expirationTime - currentTime < timeThreshold;
+    } catch (error) {
+      console.error("Erro ao decodificar o token:", error);
+      return false;
+    }
   }
-};
- */
+
+  return false;
+}
+
+export async function updateToken() {
+  try {
+    const refreshToken = localStorage.getItem("@Management:refreshToken");
+
+    if (refreshToken) {
+      const response = await fetch(`${API_BASE_URL}/auth/refresh`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ refreshToken }),
+      });
+
+      if (response.ok) {
+        const responseData: ISessionResponse = await response.json();
+        const { accessToken, refreshToken, id } = responseData;
+
+        localStorage.setItem("@Management:accessToken", accessToken);
+        localStorage.setItem("@Management:refreshToken", refreshToken);
+        localStorage.setItem("@Management:id", id);
+
+        return true;
+      }
+    }
+
+    return false;
+  } catch (error) {
+    console.error("Erro ao atualizar o token:", error);
+    return false;
+  }
+}
+

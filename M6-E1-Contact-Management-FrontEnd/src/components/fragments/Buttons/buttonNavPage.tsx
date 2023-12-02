@@ -1,5 +1,5 @@
 import Link from "next/link";
-import "./styles.buttonNavRegister.css";
+import "../Buttons/styles/styles.buttonNavRegister.css";
 
 interface IButtonNavPage{
   text: string,

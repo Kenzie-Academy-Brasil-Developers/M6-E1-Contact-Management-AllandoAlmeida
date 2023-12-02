@@ -13,7 +13,7 @@ interface IFormSession {
   FieldValues: any;
 }
 
-export const FormSession: React.FC = () => {
+export const FormSession: React.FC<{ onLogin: (data: IFormSession) => void }> = ({ onLogin }) => {
   const {
     handleSubmit,
     register,
@@ -22,7 +22,14 @@ export const FormSession: React.FC = () => {
   }: UseFormReturn<IFormSession> = useForm<IFormSession>();
 
   const onSubmit: SubmitHandler<IFormSession> = async (data) => {
-    Session(data);
+    // Envie a requisição de login
+    const responseData = await Session(data);
+
+    // Chame a função onLogin apenas se o login for bem-sucedido
+    if (responseData) {
+      onLogin(data);
+    }
+
     reset();
   };
   
