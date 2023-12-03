@@ -4,8 +4,8 @@ import "react-toastify/dist/ReactToastify.css";
 
 export default function SignUp() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <section>
+    <main >
+      <section className="flex min-h-screen flex-col items-center justify-between p-24">
         <FormSignUp/>
         <ToastContainer/>
       </section>

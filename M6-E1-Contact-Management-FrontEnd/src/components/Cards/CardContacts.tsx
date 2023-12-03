@@ -1,63 +1,65 @@
-export interface ContactType {
-  contact: any;
-  id: string;
-  name: string;
-  zipCode: string;
-  street: string;
-  complement: string;
-  district: string;
-  locality: string;
-  state: string;
-  phones: { id: string; telephone: string }[];
-  emails: { id: string; email: string }[];
-}
+// CardContact.tsx
 
-export interface ICardContact {
+import { ContactType } from "@/app/profile/service/profile.service";
+import { Key, useEffect, useState } from "react";
+import { useWindowWidth } from "../hooks/useWindowWidth";
+import { EditeIcon } from "../icons/EditeIcon";
+import Link from "next/link";
+
+interface ICardContact {
   contact: ContactType;
 }
 
 export const CardContact: React.FC<ICardContact> = ({ contact }) => {
+  const windowWidth = useWindowWidth();
+  const showOnlyName = windowWidth <= 426;
+
   if (!contact || !contact.contact) {
     return <div>Dados de contato indisponíveis</div>;
   }
 
   return (
-    <>
-      <ul className="grid grid-cols-3 justify-around items-center mt-1 h-[5rem] gap-2 border-b-[0.02rem]  border-gray-700 text-[2rem] hover:border-b-[0.05rem] ">
-        <li>{contact.contact.name || "Nome não disponível"}</li>
+    <div className="flex mt-1 h-[5rem] gap-2 border-b-[0.02rem]  border-gray-700 text-[2rem] hover:border-b-[0.05rem] flex-wrap">
+      <ul className="w-[95%] grid grid-cols-3 items-center">
+        <li
+          className={`${
+            showOnlyName ? "col-span-3 text-lg" : "col-span-1 px-10 text-2xl"
+          }`}
+        >
+          {contact.contact.name || "Nome não disponível"}
+        </li>
+        {!showOnlyName && (
+          <>
+            <ul>
+              {contact.contact.phones?.map(
+                (phone: { id: Key | null | undefined; telephone: any }) => (
+                  <li key={phone.id} className="col-span-1 px-10  text-2xl">
+                    {phone.telephone || "Telefone não disponível"}
+                  </li>
+                )
+              )}
+            </ul>
 
-        <ul>
-          {contact.contact.phones?.map((phone) => (
-            <li key={phone.id}>
-              {phone.telephone || "Telefone não disponível"}
-            </li>
-          ))}
-        </ul>
-        <ul>
-          {contact.contact.emails?.map((email) => (
-            <li key={email.id}>{email.email || "Email não disponível"}</li>
-          ))}
-        </ul>
+            <ul>
+              {contact.contact.emails?.map(
+                (email: { id: Key | null | undefined; email: any }) => (
+                  <li className="col-span-3 px-10 text-2xl" key={email.id}>
+                    <a
+                      href={`mailto:${email.email}`}
+                      className="text-red-500 hover:underline text-2xl"
+                    >
+                      {email.email || "Email não disponível"}
+                    </a>
+                  </li>
+                )
+              )}
+            </ul>
+          </>
+        )}
       </ul>
-    </>
+      <Link key={contact.id} href={""} className="flex items-center">
+        <EditeIcon />
+      </Link>
+    </div>
   );
 };
-
-{
-  /* <ul className="flex flex-row justify-around items-center mt-1 h-[3rem] gap-2 border-b-2  border-white-700 text-[2rem] ">
-      <li>Contato: {contact.contact.name || "Nome não disponível"}</li>
-      <li>Nome do Contato: {contact.contact.name || "Nome não disponível"}</li>
-
-      <li>Telefones do Contato:</li>
-
-      {contact.contact.phones?.map((phone) => (
-        <li key={phone.id}>{phone.telephone || "Telefone não disponível"}</li>
-      ))}
-
-      <li>Emails do Contato:</li>
-
-      {contact.contact.emails?.map((email) => (
-        <li key={email.id}>{email.email || "Email não disponível"}</li>
-      ))}
-    </ul> */
-}

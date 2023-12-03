@@ -6,7 +6,9 @@ import React, { useState } from "react";
 import { useViaCepService } from "@/service/useViaCep.service";
 import { ButtonNav } from "@/components/fragments/Buttons/buttonNavegate";
 import { ButtonToAccess } from "@/components/fragments/Buttons/buttonAccess";
-
+import { ButtonNavPage } from "@/components/fragments/Buttons/buttonNavPage";
+import Link from "next/link";
+import { CloseIcon } from "@/components/icons/CloseIcon";
 
 export interface IContactForm {
   name: string;
@@ -45,13 +47,12 @@ export const FormContacts: React.FC = () => {
   const fetchAddress = async (cep: string) => {
     try {
       const response = await getAddress(cep);
-      setValue('street',  response.street ||"")
-      setValue('complement',  address.complement ||"")
-      setValue('zipCode',  address.zipCode ||"")
-      setValue('district',  response.district ||"")
-      setValue('locality',  response.locality ||"")
-      setValue('state',  response.state ||"")
-
+      setValue("street", response.street || "");
+      setValue("complement", address.complement || "");
+      setValue("zipCode", address.zipCode || "");
+      setValue("district", response.district || "");
+      setValue("locality", response.locality || "");
+      setValue("state", response.state || "");
     } catch (error) {
       console.error("Error fetching address:", error);
     }
@@ -67,24 +68,24 @@ export const FormContacts: React.FC = () => {
 
   const onSubmit: SubmitHandler<IContactForm> = async (data) => {
     console.log(data);
-    reset()
+    reset();
   };
 
   return (
-    <div className="w-full h-[50rem]  flex flex-col gap-y-10">
-      <div className="box flex-col w-[35rem] h-[] gap-y-10 ">
+    <div className="w-full h-[50rem]  flex flex-col">
+      <div className="box flex-col w-[35rem] ">
+        <div className="flex w-[100%] items-center mt-[2rem] justify-between p-7">
+          <h1 className="text-[2.5rem]">Contatos</h1>
+          <Link href={"/profile"}>
+            <CloseIcon />
+          </Link>
+        </div>
+
         <form
-          className="flex flex-col gap-y-7  w-[100%] p-7"
+          className="flex flex-col gap-y-7 mb-[2rem] w-[100%] px-7"
           onSubmit={handleSubmit(onSubmit)}
         >
-          <div className="mt-5 flex justify-between items-center">
-            <div className="">
-              <h1 className="text-[2.5rem]">Contatos</h1>
-            </div>
-            <div className="w-[2rem]">
-              <ButtonToAccess type="submit" text="+" styles={"btnCreate"} />
-            </div>
-          </div>
+          <div className="flex justify-between items-center"></div>
           <div className="flex flex-col mt-[2rem] gap-y-10">
             <div className="flex flex-col gap-y-8">
               <Inputs
@@ -129,7 +130,7 @@ export const FormContacts: React.FC = () => {
                   onChange={(e) =>
                     setAddress((prevAddress) => ({
                       ...prevAddress,
-                      zipCode: e.target.value,//setValues
+                      zipCode: e.target.value, //setValues
                     }))
                   }
                 />
@@ -191,6 +192,7 @@ export const FormContacts: React.FC = () => {
                 {...register("state")}
               />
             </div>
+            <ButtonToAccess type="submit" text="SALVAR" styles={"btnAccess"} />
           </div>
         </form>
       </div>

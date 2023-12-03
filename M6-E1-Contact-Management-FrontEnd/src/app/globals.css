@@ -201,6 +201,10 @@ button {
   @apply border-2 border-gray-600 flex justify-center items-center rounded-2xl backdrop-filter backdrop-blur-lg bg-opacity-50 bg-transparent;
 }
 
+.smaller-cell {
+  width: 2rem; /* Ou qualquer largura desejada para a última célula */
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: 255, 255, 255;

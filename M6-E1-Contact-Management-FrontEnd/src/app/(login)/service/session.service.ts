@@ -38,7 +38,6 @@ export async function Session(data: ISession) {
 
       localStorage.setItem("@Management:accessToken", accessToken);
       localStorage.setItem("@Management:refreshToken", refreshToken);
-      localStorage.setItem("@Management:id", id);
 
       toast.success("Logado com Sucesso!", {
         transition: Slide,

@@ -1,48 +1,69 @@
-// Considere ajustar os tipos conforme a estrutura real dos seus dados.
-interface CustomerType {
-  id: string;
-  username: string;
-  name: string;
-  phones: { id: string; telephone: string }[];
-  emails: { id: string; email: string }[];
-  isActive: string;
+// CardProfile.tsx
+
+import React from "react";
+import { CustomerType } from "@/app/profile/service/profile.service";
+
+interface ICardProfile {
+  customer: {
+    id: string;
+    username: string;
+    name: string;
+    phones: { id: string; telephone: string }[];
+    emails: { id: string; email: string }[];
+    isActive: string;
+  };
 }
 
-interface IFormSignUp {
-  customer: CustomerType;
-}
+export const CardProfile: React.FC<ICardProfile> = ({ customer }) => {
+  if (!customer) {
+    return <div>Dados do cliente indisponíveis</div>;
+  }
 
-export const CardProfile: React.FC<IFormSignUp> = ({ customer }) => {
+  const renderPhones = () => {
+    if (!customer.phones || customer.phones.length === 0) {
+      return <li>Nenhum telefone disponível</li>;
+    }
+
+    return customer.phones.map((phone) => (
+      <li key={phone.id}>{phone.telephone || "Telefone não disponível"}</li>
+    ));
+  };
+
+  const renderEmails = () => {
+    if (!customer.emails || customer.emails.length === 0) {
+      return <li>Nenhum email disponível</li>;
+    }
+
+    return customer.emails.map((email) => (
+      <li key={email.id}>{email.email || "Email não disponível"}</li>
+    ));
+  };
+
   return (
-    <ul className="flex flex-row justify-around items-center mt-1 h-[3rem] gap-2 border-b-2  border-white-700">
-      <li>Nome do Cliente: {customer.name}</li>
-      <li>Username: {customer.username}</li>
-      <li>Ativo: {customer.isActive ? "Sim" : "Não"}</li>
-
-      {/* Telefones do Cliente */}
-      <li>Telefones do Cliente:</li>
-      <ul>
-        {customer.phones.map((phone) => (
-          <li key={phone.id}>{phone.telephone}</li>
-        ))}
+    <div className="h-[5rem] border-b-2 border-white-700">
+      <ul className="flex flex-col text-2xl justify-around  mt-1 h-[3rem] gap-2 ">
+        <li className="text-2xl">Nome:{customer.name || "Nome não disponível"}</li>
+        <li className="text-2xl">Username: {customer.username || "Username não disponível"}</li>
       </ul>
-
-      {/* Emails do Cliente */}
-      <li>Emails do Cliente:</li>
-      <ul>
-        {customer.emails.map((email) => (
-          <li key={email.id}>{email.email}</li>
-        ))}
-      </ul>
-    </ul>
+    </div>
   );
 };
 
-{
-  /*  <div key={profileData.id}>
-      <h1>Bem-vindo ao seu perfil, {profileData.name}!</h1>
-<span className="rounded-full bg-emerald-500 w-7 h-7">{customers.username}</span>
-<span className="text-[0.75rem]  text-white font-roboto">
-  {customers.name}
-</span> */
-}
+export default CardProfile;
+
+
+/* <div>
+      <ul className="flex flex-col text-2xl justify-around  mt-1 h-[3rem] gap-2 border-b-2 border-white-700">
+        <li>Nome:{customer.name || "Nome não disponível"}</li>
+        <li>Username: {customer.username || "Username não disponível"}</li>
+        <li>Ativo: {customer.isActive ? "Sim" : "Não"}</li>
+
+        {/* Telefones do Cliente */
+       /*  <li>Telefones do Cliente:</li>
+        <li>{renderPhones()}</li> */
+
+        {/* Emails do Cliente */}
+        {/* <li>Emails do Cliente:</li>
+        <li>{renderEmails()}</li>
+      </ul>
+    </div>  */}
