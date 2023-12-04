@@ -5,6 +5,15 @@ O projeto esta composto por duas pastas
 - M6-E1-Contact-Management-API;
 - M6-E1-Contact-Management-FrontEnd;
 
+é Imprensdindivel que antes de acessar as aplicações vovê deve instalar as dependencias, caso contrario não será possivel acessar os projetos
+
+## Installation
+
+```bash
+$ npm install
+```
+
+
 Para abrir as aplicações é necesario acessar as pastas individualmente, se o comando para rodar a aplição for feito na pasta principal voce receberá mensagem de erro.
 
 
@@ -17,7 +26,7 @@ A API é responsável pela gestão de contatos, e possui as seguintes funcionali
 - Atualizar um contato existente;
 - Deletar um contato.
 Para executar a aplicação basta abrir o terminal na raiz do diretório "M6-E1-Contact-Management-API"
-e rodar o comando `npm start:dev`. A porta padrão para acessar a api é a 3009.
+e rodar o comando `npm run start:dev`. A porta padrão para acessar a api é a 3009 `http://localhost:3009`.
 
 para faciltar a atulização da API é possivel acessar a documentação localmente no endereço 
 http://localhost:3009/api/documentation
@@ -44,4 +53,9 @@ http://localhost:3009/api/documentation
 #### DELETE /api/contacts/:id
 
 
-Cadastra um novo contato.
+## M6-E1-Contact-Management-FrontEnd
+
+A Aplicação constem uma plataforma que possibilita realizar o Login, para os usuarios não cadastrado, no tela de login existe a possbilidade de acessar a tela para realizar o cadastro.
+
+Para executar a aplicação basta abrir o terminal na raiz do diretório "M6-E1-Contact-Management-API"
+e rodar o comando `npm start:dev`. A porta padrão para acessar a api é a 3009.
