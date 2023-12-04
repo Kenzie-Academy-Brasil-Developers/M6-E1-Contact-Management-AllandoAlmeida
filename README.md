@@ -35,24 +35,33 @@ http://localhost:3009/api/documentation
 
 ### Rotas da API
 
-#### Login
+## Métodos
 
-#### POST /api/session
-#### POST /api/refresh
+#### Session (login)
+Requisições para a API devem seguir os padrões:
+| Método | ROTA | Descrição |
+|---|---|
+| `POST` | `/api/session` | Retorna informações de um ou mais registros. |
+| `POST` | `/api/refresh` | Utilizado para criar um novo registro. |
 
-#### Customers
-#### POST /api/customers/register
-#### GET /api/customers
-#### GET /api/customers/:id
-#### PATCH /api/customers/:id
-#### DELETE /api/customers/:id
+#### Session (Customers)
+Requisições para a API devem seguir os padrões:
+| Método | ROTA | Descrição |
+| `POST` | `/api/customers/register` | Utilizado para criar um novo registro. |
+| `GET` | `/api/customers` | Utilizado para criar um novo registro. |
+| `GET` | `/api/customers/:id` | Utilizado para criar um novo registro. |
+| `PATCH` | `/api/customers/:id` | Utilizado para criar um novo registro. |
+| `DELETE` | `/api/customers/:id` | Utilizado para criar um novo registro. |
 
-#### CONTACTS
+#### Session (Contacts)
+Requisições para a API devem seguir os padrões:
+| Método | ROTA | Descrição |
+| `POST` | `/api/contacts` | Retorna informações de um ou mais registros. |
+| `GET` | `/api/contacts` | Retorna informações de um ou mais registros. |
+| `GET` | `/api/contacts/:id` | Retorna informações de um ou mais registros. |
+| `PATCH` |  `/api/contacts/:id` |Atualiza dados de um registro ou altera sua situação. |
+| `DELETE` | `/api/contacts/:id` | Remove um registro do sistema. |
 
-#### GET /api/contacts
-#### GET /api/contacts/:id
-#### PATCH /api/contacts/:id
-#### DELETE /api/contacts/:id
 
 
 
