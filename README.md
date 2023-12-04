@@ -5,7 +5,7 @@ O projeto esta composto por duas pastas
 - M6-E1-Contact-Management-API;
 - M6-E1-Contact-Management-FrontEnd;
 
-# É imprescindível que, antes de acessar as aplicações, você instale as dependências; caso contrário, não será possível acessar os projetos.
+## É imprescindível que, antes de acessar as aplicações, você instale as dependências; caso contrário, não será possível acessar os projetos.
 
 ## Installation
 
@@ -63,9 +63,9 @@ Para executar a aplicação basta abrir o terminal na raiz do diretório "M6-E1-
 e rodar o comando `npm run dev`. A porta padrão para acessar a api é a 3000. `http://localhost:3009`
 
 
-# É imprescindível que, antes de acessar as aplicações, você instale as dependências; caso contrário, não será possível acessar os projetos.
+### É imprescindível que, antes de acessar as aplicações, você instale as dependências; caso contrário, não será possível acessar os projetos.
 
-## Installation
+
 
 ```bash
 $ npm install
