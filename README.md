@@ -36,6 +36,7 @@ http://localhost:3009/api/documentation
 ### Rotas da API
 
 ## Métodos
+
 Session (login)
 Requisições para a API devem seguir os padrões:
 | Método | ROTA | Descrição |
