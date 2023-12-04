@@ -71,15 +71,20 @@ Requisições para a API devem seguir os padrões:
 | `grant_type`     | Informar: `personal`                            |
 | `personal_token` | Token JWT com informações da aplicação cliente. |
 
+
+
+#### Reposta Token
+
+
 + Request (application/json)
 
       + Body
 
        {
-      "name": "Snoopy da Silva Almeida Sobrinho",
-      "id": "1a7daa7f-439e-42bd-960e-30153d8ca926",
-      "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNub29weSIsInN1YiI6IjFhN2RhYTdmLTQzOWUtNDJiZC05NjBlLTMwMTUzZDhjYTkyNiIsImlhdCI6MTcwMTY5NTc4NSwiZXhwIjoxNzAxNjk5Mzg1fQ.UO5acX5yuhzhd2DiKxMrb9xQT_Vmq7JJfeXfm4EXR4o",
-      "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNub29weSIsInN1YiI6IjFhN2RhYTdmLTQzOWUtNDJiZC05NjBlLTMwMTUzZDhjYTkyNiIsImlhdCI6MTcwMTY5NTc4NSwiZXhwIjoxNzAyMzAwNTg1fQ.eS2qYFmKYDJH-2Qnu1Pk4JQmxMCg2DDuCp62gyboCJo"
+            "accessToken":
+             "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNub29weSIsInN1YiI6IjFhN2RhYTdmLTQzOWUtNDJiZC05NjBlLTMwMTUzZDhjYTkyNiIsImlhdCI6MTcwMTY5NTc4NSwiZXhwIjoxNzAxNjk5Mzg1fQ.UO5acX5yuhzhd2DiKxMrb9xQT_Vmq7JJfeXfm4EXR4o",
+            "refreshToken":
+             "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNub29weSIsInN1YiI6IjFhN2RhYTdmLTQzOWUtNDJiZC05NjBlLTMwMTUzZDhjYTkyNiIsImlhdCI6MTcwMTY5NTc4NSwiZXhwIjoxNzAyMzAwNTg1fQ.eS2qYFmKYDJH-2Qnu1Pk4JQmxMCg2DDuCp62gyboCJo"
 
   }
 
