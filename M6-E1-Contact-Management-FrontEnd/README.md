@@ -1,36 +1,44 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## M6-E1-Contact-Management-FrontEnd
 
-## Getting Started
+A Aplicação constem uma plataforma que possibilita realizar o Login, para os usuarios não cadastrado, no tela de login existe a possbilidade de acessar a tela para realizar o cadastro.
 
-First, run the development server:
+Para executar a aplicação basta abrir o terminal na raiz do diretório "M6-E1-Contact-Management-FrontEnd"
+e rodar o comando `npm run dev`. A porta padrão para acessar a api é a 3000. `http://localhost:3000`
+
+
+
+
+
+##### É imprescindível que, antes de acessar as aplicações, você instale as dependências; caso contrário, não será possível acessar os projetos.
+
+
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+$ npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+### Funcionalidades
 
-## Learn More
+#### Sessão de Login
+O usuário precisa realizar login para ter acesso às outras funcionalidades. O login é feito por meio
+de username e senha. Caso o usuario esteja logado ele pode verificar se está autenticado em todas as rotas
 
-To learn more about Next.js, take a look at the following resources:
+#### Sessão de Cadastro
+Caso o usuário não tenha uma sessão, ele poderá criar uma nova conta. Para isso será necessario
+preencher os campos obrigatorios (username, email, password). Após preenchendo todos os dados corretamente, Apos o cadastro o usuário devera retornar a sessão de login para acessar a aplicação
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+#### Atualização de Dados e Funalizar conta
+A partir da tela inicial o usuário tem a opção de editar os dados cadastrados ou deletar sua conta
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+#### Listagem de contatos
+No menu lateral estará disponível a listagem de todos os contato e ao lado direito um botão que ao ser clicado exibira uma tela com as informações como nome, email, telefone endereço e a opçao de atualizar e deletar o cliente
 
-## Deploy on Vercel
+#### Criação de Contatos
+O usuário também tem a opção de adicionar novos contatos. Os campos obrigatórios são nome, email e
+telefone entre outros dados. 
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+

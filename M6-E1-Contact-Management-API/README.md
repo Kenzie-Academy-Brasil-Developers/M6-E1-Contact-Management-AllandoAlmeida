@@ -1,30 +1,13 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# M6-E1-Contact-Management
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+O Sistema de Gestão de Clientes e Contatos (SGCC) é uma solução eficiente e intuitiva desenvolvida para simplificar o cadastro e gerenciamento de clientes e seus respectivos contatos. Com foco na praticidade e organização, o SGCC permite que empresas e profissionais mantenham um registro detalhado de suas interações com clientes.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+O projeto esta composto por duas pastas
 
-## Description
+- M6-E1-Contact-Management-API;
+- M6-E1-Contact-Management-FrontEnd;
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## É imprescindível que, antes de acessar as aplicações, você instale as dependências; caso contrário, não será possível acessar os projetos.
 
 ## Installation
 
@@ -32,42 +15,72 @@
 $ npm install
 ```
 
-## Running the app
+Para abrir as aplicações é necesario acessar as pastas individualmente, se o comando para rodar a aplição for feito na pasta principal voce receberá mensagem de erro.
 
-```bash
-# development
-$ npm run start
+## M6-E1-Contact-Management-API
 
-# watch mode
-$ npm run start:dev
+A API é responsável pela gestão de contatos, e possui as seguintes funcionalidades:
 
-# production mode
-$ npm run start:prod
-```
+- Cadastrar um novo contato;
+- Listar todos os contatos cadastrados;
+- Buscar um contato específico pelo ID;
+- Atualizar um contato existente;
+- Deletar um contato.
+  Para executar a aplicação basta abrir o terminal na raiz do diretório "M6-E1-Contact-Management-API"
+  e rodar o comando `npm run start:dev`. A porta padrão para acessar a api é a 3009 `http://localhost:3009`.
 
-## Test
+para faciltar a atulização da API é possivel acessar a documentação localmente no endereço
+http://localhost:3009/api/documentation
 
-```bash
-# unit tests
-$ npm run test
+### Rotas da API
 
-# e2e tests
-$ npm run test:e2e
+## Métodos
 
-# test coverage
-$ npm run test:cov
-```
+Requisições para a API devem seguir os padrões:
+| Método | ROTA |
+|---|---|
+| `POST` | /api/session |
+| `POST` | /api/refresh |
+| `POST` | /api/customers/register |
+| `GET` | /api/customers |
+| `GET` | /api/customers/:id |
+| `PATCH` | /api/customers/:id |
+| `DELETE` | /api/customers/:id |
+| `POST` | /api/contacts |
+| `GET` | /api/contacts |
+| `GET` | /api/contacts/:id |
+| `PATCH` | /api/contacts/:id |
+| `DELETE` | /api/contacts/:id |
 
-## Support
+## Respostas
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+| Código | Descrição                                 |
+| ------ | ----------------------------------------- |
+| `200`  | The request was made successfully.        |
+| `400`  | should not be empty.                      |
+| `401`  | User not authorized to make this request. |
+| `404`  | The ID doesn't exist.                     |
+| `409`  | This " < key, value > " already exists    |
 
-## Stay in touch
+#
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+#### Dados para envio no POST
 
-## License
+| Parâmetro        | Descrição                                       |
+| ---------------- | ----------------------------------------------- |
+| `grant_type`     | Informar: `personal`                            |
+| `personal_token` | Token JWT com informações da aplicação cliente. |
 
-Nest is [MIT licensed](LICENSE).
++ Request (application/json)
+
+      + Body
+
+              {
+      "name": "Snoopy da Silva Almeida Sobrinho",
+      "id": "1a7daa7f-439e-42bd-960e-30153d8ca926",
+      "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNub29weSIsInN1YiI6IjFhN2RhYTdmLTQzOWUtNDJiZC05NjBlLTMwMTUzZDhjYTkyNiIsImlhdCI6MTcwMTY5NTc4NSwiZXhwIjoxNzAxNjk5Mzg1fQ.UO5acX5yuhzhd2DiKxMrb9xQT_Vmq7JJfeXfm4EXR4o",
+      "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNub29weSIsInN1YiI6IjFhN2RhYTdmLTQzOWUtNDJiZC05NjBlLTMwMTUzZDhjYTkyNiIsImlhdCI6MTcwMTY5NTc4NSwiZXhwIjoxNzAyMzAwNTg1fQ.eS2qYFmKYDJH-2Qnu1Pk4JQmxMCg2DDuCp62gyboCJo"
+
+  }
+
+
