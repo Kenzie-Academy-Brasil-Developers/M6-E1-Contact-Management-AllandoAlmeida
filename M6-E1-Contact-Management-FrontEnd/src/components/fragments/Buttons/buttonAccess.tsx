@@ -1,16 +1,45 @@
-import React from 'react';
-import '../Buttons/styles/styles.buttonAccess.css'
-import '../Buttons/styles/styles.buttonCreate.css'
+import React from "react";
+import "../Buttons/styles/styles.buttonAccess.css";
+import "../Buttons/styles/styles.buttonCreate.css";
 
 interface IButtonToAccess {
-  type: string;
   text: string;
-  styles: string; // Alterado para string para aceitar a classe CSS
+  width: string | undefined
+  height?: string;
+  background?: string;
+  textcolor?: string;
+  hover?: string;
+  type?: "button" | "submit" | "reset";
+  styles?: React.CSSProperties;
+  onClick?:
+    | ((
+        e?: React.BaseSyntheticEvent<object, any, any> | undefined
+      ) => Promise<void>)
+    | (() => void);
+  disabled?: boolean;
 }
 
-export const ButtonToAccess: React.FC<IButtonToAccess> = ({ type, text, styles, ...rest }) => {
+export const ButtonToAccess: React.FC<IButtonToAccess> = ({
+  type,
+  styles,
+  text,
+  width,
+  height,
+  background,
+  textcolor,
+  hover,
+  ...rest
+}) => {
   return (
-    <button className={`btnAccess ${styles}`} {...rest}>
+    <button
+      className={`${styles}`}
+      width={width}
+      height={height}
+      background={`var(--${background})`}
+      textcolor={`var(--${textcolor})`}
+      hover={`var(--${hover})`}
+      {...rest}
+    >
       {text}
     </button>
   );

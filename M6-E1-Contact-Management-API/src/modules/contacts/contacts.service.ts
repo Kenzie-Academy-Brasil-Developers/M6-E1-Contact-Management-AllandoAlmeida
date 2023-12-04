@@ -1,9 +1,4 @@
-import {
-  ForbiddenException,
-  Injectable,
-  NotFoundException,
-  Request,
-} from '@nestjs/common'
+import { Injectable, NotFoundException, Request } from '@nestjs/common'
 import { Contact as ContactModel } from '@prisma/client'
 import { PrismaService } from 'src/database/prisma.service'
 import { CreateContactDto } from './dto/create-contact.dto'
@@ -136,10 +131,12 @@ export class ContactsService {
     customerId: string,
     id: string,
     data: UpdateContactDto,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     @Request() request,
   ) {
     const { name } = data
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const checkContact = await this.prisma.contact.findUnique({
       where: {
         id,
@@ -150,22 +147,6 @@ export class ContactsService {
         emails: true,
       },
     })
-
-    if (!checkContact || checkContact.customers.length === 0) {
-      throw new ForbiddenException(
-        'Contact not found or not associated with the requesting customer',
-      )
-    }
-
-    const associatedCustomers = checkContact.customers.map(
-      (customer) => customer.id,
-    )
-
-    if (!associatedCustomers.includes(request.user.id)) {
-      throw new ForbiddenException(
-        'Contact not associated with the requesting customer',
-      )
-    }
 
     if ('name' in data && data.name !== undefined) {
       await checkFieldsExistence(

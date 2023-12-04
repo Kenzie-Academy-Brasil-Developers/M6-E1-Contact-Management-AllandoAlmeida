@@ -1,5 +1,5 @@
 // CardContact.tsx
-
+'use client'
 import { ContactType } from "@/app/profile/service/profile.service";
 import { Key, useEffect, useState } from "react";
 import { useWindowWidth } from "../hooks/useWindowWidth";
@@ -17,6 +17,8 @@ export const CardContact: React.FC<ICardContact> = ({ contact }) => {
   if (!contact || !contact.contact) {
     return <div>Dados de contato indisponíveis</div>;
   }
+
+  console.log('CardContact', contact.id)
 
   return (
     <div className="flex mt-1 h-[5rem] gap-2 border-b-[0.02rem]  border-gray-700 text-[2rem] hover:border-b-[0.05rem] flex-wrap">
@@ -57,7 +59,7 @@ export const CardContact: React.FC<ICardContact> = ({ contact }) => {
           </>
         )}
       </ul>
-      <Link key={contact.id} href={""} className="flex items-center">
+      <Link href={`/contacts/${contact.contact.id}`} className="flex items-center">
         <EditeIcon />
       </Link>
     </div>

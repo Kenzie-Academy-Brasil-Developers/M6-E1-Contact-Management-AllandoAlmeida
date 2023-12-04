@@ -9,6 +9,7 @@ import { ButtonToAccess } from "@/components/fragments/Buttons/buttonAccess";
 import { ButtonNavPage } from "@/components/fragments/Buttons/buttonNavPage";
 import Link from "next/link";
 import { CloseIcon } from "@/components/icons/CloseIcon";
+import { newContact } from "../service/contact.request";
 
 export interface IContactForm {
   name: string;
@@ -67,10 +68,13 @@ export const FormContacts: React.FC = () => {
   };
 
   const onSubmit: SubmitHandler<IContactForm> = async (data) => {
-    console.log(data);
-    reset();
+    try {
+      console.log('contato', data)
+      await newContact(data);
+    } catch (error) {
+      console.error("Ocorreu um erro ao enviar o formulário:", error);
+    }
   };
-
   return (
     <div className="w-full h-[50rem]  flex flex-col">
       <div className="box flex-col w-[35rem] ">
@@ -149,8 +153,7 @@ export const FormContacts: React.FC = () => {
                 className="inputbox"
                 label={"Rua:"}
                 type="text"
-                id="street"
-                //value={address.street}
+                id="street"               
                 placeholder={""}
                 {...register("street")}
               />
@@ -192,7 +195,7 @@ export const FormContacts: React.FC = () => {
                 {...register("state")}
               />
             </div>
-            <ButtonToAccess type="submit" text="SALVAR" styles={"btnAccess"} />
+            <ButtonToAccess type="submit" text="SALVAR" styles={"btnAccess"}/>
           </div>
         </form>
       </div>

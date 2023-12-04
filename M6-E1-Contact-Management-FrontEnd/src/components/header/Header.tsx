@@ -26,13 +26,13 @@ export const Header = () => {
             src="/logo-white.png"
             alt=""
             className="md:w-[22rem] md:h-[5rem]"
-            width={100} // Defina a largura desejada para a imagem
-            height={100} // Defina a altura desejada para a imagem
+            width={100} 
+            height={100}
           />
         </Link>
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
           <div>
-            {/* Adicionando o ícone de saída com a chamada da função de logout */}
+           
             <ButtonNavPage text={""} herf={""} option={<SignOutIcon />} onClick={logout} />
           </div>
         </nav>
