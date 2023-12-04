@@ -75,7 +75,7 @@ Requisições para a API devem seguir os padrões:
 
       + Body
 
-  {
+       {
       "name": "Snoopy da Silva Almeida Sobrinho",
       "id": "1a7daa7f-439e-42bd-960e-30153d8ca926",
       "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNub29weSIsInN1YiI6IjFhN2RhYTdmLTQzOWUtNDJiZC05NjBlLTMwMTUzZDhjYTkyNiIsImlhdCI6MTcwMTY5NTc4NSwiZXhwIjoxNzAxNjk5Mzg1fQ.UO5acX5yuhzhd2DiKxMrb9xQT_Vmq7JJfeXfm4EXR4o",
