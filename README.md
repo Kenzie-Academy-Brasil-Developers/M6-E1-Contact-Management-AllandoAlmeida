@@ -54,6 +54,16 @@ Requisições para a API devem seguir os padrões:
 
 
 
+## Respostas
+
+| Código | Descrição |
+|---|---|
+| `200` | The request was made successfully.|
+| `400` | should not be empty.|
+| `401` | User not authorized to make this request.|
+| `404` | The ID doesn't exist.|
+| `409` | This " < key, value > " already exists|
+
 
 #
 
