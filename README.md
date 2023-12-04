@@ -36,34 +36,21 @@ http://localhost:3009/api/documentation
 ### Rotas da API
 
 ## Métodos
-
-Session (login)
-Requisições para a API devem seguir os padrões:
-| Método | ROTA | Descrição |
-|---|---|
-| `POST` | /api/session |
-| `POST` | /api/refresh |
-
-Session (Customers)
 Requisições para a API devem seguir os padrões:
 | Método | ROTA |
 |---|---|
+| `POST` | /api/session |
+| `POST` | /api/refresh |
 | `POST` | /api/customers/register |
 | `GET` | /api/customers |
 | `GET` | /api/customers/:id |
 | `PATCH` | /api/customers/:id |
 | `DELETE` | /api/customers/:id |
-
-Session (Contacts)
-Requisições para a API devem seguir os padrões:
-| Método | ROTA | Descrição |
-|---|---|
 | `POST` | /api/contacts |
 | `GET` | /api/contacts |
 | `GET` | /api/contacts/:id |
 | `PATCH` |  /api/contacts/:id |
 | `DELETE` | /api/contacts/:id |
-
 
 
 
