@@ -23,5 +23,25 @@ para faciltar a atulização da API é possivel acessar a documentação localme
 http://localhost:3009/api/documentation
 
 ### Rotas da API
-#### POST /contacts
+
+#### Login
+
+#### POST /api/session
+#### POST /api/refresh
+
+#### Customers
+#### POST /api/customers/register
+#### GET /api/customers
+#### GET /api/customers/:id
+#### PATCH /api/customers/:id
+#### DELETE /api/customers/:id
+
+#### CONTACTS
+
+#### GET /api/contacts
+#### GET /api/contacts/:id
+#### PATCH /api/contacts/:id
+#### DELETE /api/contacts/:id
+
+
 Cadastra um novo contato.
