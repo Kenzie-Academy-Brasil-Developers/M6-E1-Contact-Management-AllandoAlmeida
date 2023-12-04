@@ -42,31 +42,35 @@ export const CardProfile: React.FC<ICardProfile> = ({ customer }) => {
   };
 
   return (
-    <section className="md:flex md:flex-col ">
-    <div className="h-[5rem] border-b-2 border-white-700">
-      <ul className="flex flex-col text-2xl justify-around  mt-1 h-[3rem] gap-2 ">
-        <li className="text-2xl">Nome:{customer.name || "Nome não disponível"}</li>
-        <li className="text-2xl">Username: {customer.username || "Username não disponível"}</li>
-      </ul>
-    </div>
+    <section className="flex justify-around md:flex-col md:w-full ">
+      <div className="flex flex-col gap-y-5">
+        <ul className="flex flex-col gap-y-2 ">
+          <span className="text-[1rem] text-gray-700">Nome:</span>
+          <span className="text-[1.2rem]">
+            {customer.name || "Nome não disponível"}
+          </span>
+        </ul>
+        <ul className="flex md:flex-col gap-y-2">
+          <span className="text-[1rem] text-gray-700">Usuário:</span>
+          <span className="text-[1.2rem]">
+            {customer.username || "Nome não disponível"}
+          </span>
+        </ul>
+      </div>
 
-    <div>
-    <Link href={`/profile/${customer.id}`} className="flex items-center">
-      <span className="flex items-center gap-x-1 font-bold h-[5rem]">
-        <EditeIcon/>
-        <span className="text-lg">MEUS DADOS</span>
-
-      </span>
-      </Link>
-    </div>
-
+      <div>
+        <Link href={`/profile/${customer.id}`} className="flex items-center">
+          <span className="flex items-center gap-x-1 font-bold h-[5rem]">
+            <EditeIcon />
+            <span className="text-lg">MEUS DADOS</span>
+          </span>
+        </Link>
+      </div>
     </section>
-
   );
 };
 
 export default CardProfile;
-
 
 /* <div>
       <ul className="flex flex-col text-2xl justify-around  mt-1 h-[3rem] gap-2 border-b-2 border-white-700">
@@ -75,11 +79,15 @@ export default CardProfile;
         <li>Ativo: {customer.isActive ? "Sim" : "Não"}</li>
 
         {/* Telefones do Cliente */
-       /*  <li>Telefones do Cliente:</li>
+/*  <li>Telefones do Cliente:</li>
         <li>{renderPhones()}</li> */
 
-        {/* Emails do Cliente */}
-        {/* <li>Emails do Cliente:</li>
+{
+  /* Emails do Cliente */
+}
+{
+  /* <li>Emails do Cliente:</li>
         <li>{renderEmails()}</li>
       </ul>
-    </div>  */}
+    </div>  */
+}

@@ -12,7 +12,7 @@ interface ICardContact {
 
 export const CardContact: React.FC<ICardContact> = ({ contact }) => {
   const windowWidth = useWindowWidth();
-  const showOnlyName = windowWidth <= 800;
+  const showOnlyName = windowWidth <= 1024;
 
   if (!contact || !contact.contact) {
     return <div>Dados de contato indisponíveis</div>;
@@ -21,7 +21,7 @@ export const CardContact: React.FC<ICardContact> = ({ contact }) => {
   console.log('CardContact', contact.id)
 
   return (
-    <div className="flex mt-1 h-[5rem] gap-2 border-b-[0.02rem]  border-gray-700 text-[2rem] hover:border-b-[0.05rem] flex-wrap">
+    <div className="flex flex-row mt-1 h-[5rem] gap-2 border-b-[0.02rem]  border-gray-700 text-[2rem] hover:border-b-[0.05rem] flex-wrap">
       <ul className="w-[95%] grid grid-cols-3 items-center">
         <li
           className={`${

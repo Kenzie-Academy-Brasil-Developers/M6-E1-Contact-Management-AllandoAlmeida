@@ -30,8 +30,6 @@ export class AuthService {
     }
 
     return {
-      name: user.name,
-      id: user.id,
       accessToken: this.jwtService.sign(payload, {
         expiresIn: process.env.EXPIRES_IN,
       }),
@@ -40,7 +38,6 @@ export class AuthService {
   }
 
   async refreshToken(user: SessionDto) {
-    const { id, username } = user
     const payload = {
       id: user.id,
       username: user.username,
@@ -48,8 +45,6 @@ export class AuthService {
     }
 
     return {
-      id,
-      username,
       accessToken: this.jwtService.sign(payload),
     }
   }

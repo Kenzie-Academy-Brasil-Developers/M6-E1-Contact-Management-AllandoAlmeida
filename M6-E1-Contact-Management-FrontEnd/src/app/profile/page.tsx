@@ -35,13 +35,13 @@ const Profile: React.FC = () => {
   }, []);
   
   const windowWidth = useWindowWidth();
-  const showOnlyName = windowWidth <= 426;
+  const showOnlyName = windowWidth <= 800;
 
   return (
     <main className="flex items-center justify-center">
       <section className="container profile-Container w-[80vw] md:h-[80vh] md:gap-x-10 flex-wrap">
-        <div className="profile-Container-contacts md:w-2/12 h-[90%]">
-          <div className="w-[90%]">
+        <div className="profile-Container-contacts item md:w-2/12 md:h-[72vh]  border-2">
+          <div className="w-[90%] md:h-[50vh] ">
             {data && <CardProfile customer={data} />}
           </div>
         </div>
