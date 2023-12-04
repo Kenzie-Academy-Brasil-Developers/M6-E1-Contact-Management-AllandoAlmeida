@@ -35,6 +35,10 @@ export interface ICustomerSignUp {
   contacts: {ContactType: any}[]
 }
 
+export interface ICustomerProfile {
+  customer: CustomerType;
+}
+
 export async function fetchProfile(): Promise<ICustomerSignUp > {
   try {
     const tokenWithQuotes = localStorage.getItem("@Management:accessToken");

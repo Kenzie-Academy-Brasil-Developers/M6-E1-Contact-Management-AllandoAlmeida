@@ -5,18 +5,8 @@ import Inputs from "../../../components/fragments/Inputs";
 import { ButtonToAccess } from "@/components/fragments/Buttons/buttonAccess";
 import { ButtonNavPage } from "@/components/fragments/Buttons/buttonNavPage";
 import { SignUp } from "../service/signup.service";
+import { IFormSignUp } from "./@type.formSignUp";
 
-
-
-export interface IFormSignUp {
-  name: string;
-  username: string;
-  password: string;
-  bio?: string;
-  confirmPassword: string;
-  telephone: string;
-  email: string;
-}
 
 export const FormSignUp: React.FC = () => {
   const {

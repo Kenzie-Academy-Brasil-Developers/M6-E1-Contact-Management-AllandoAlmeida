@@ -2,6 +2,8 @@
 
 import React from "react";
 import { CustomerType } from "@/app/profile/service/profile.service";
+import { EditeIcon } from "../icons/EditeIcon";
+import Link from "next/link";
 
 interface ICardProfile {
   customer: {
@@ -40,12 +42,26 @@ export const CardProfile: React.FC<ICardProfile> = ({ customer }) => {
   };
 
   return (
+    <section className="md:flex md:flex-col ">
     <div className="h-[5rem] border-b-2 border-white-700">
       <ul className="flex flex-col text-2xl justify-around  mt-1 h-[3rem] gap-2 ">
         <li className="text-2xl">Nome:{customer.name || "Nome não disponível"}</li>
         <li className="text-2xl">Username: {customer.username || "Username não disponível"}</li>
       </ul>
     </div>
+
+    <div>
+    <Link href={`/profile/${customer.id}`} className="flex items-center">
+      <span className="flex items-center gap-x-1 font-bold h-[5rem]">
+        <EditeIcon/>
+        <span className="text-lg">MEUS DADOS</span>
+
+      </span>
+      </Link>
+    </div>
+
+    </section>
+
   );
 };
 

@@ -19,8 +19,16 @@ export class ContactsService {
         district: createContactDto.district,
         locality: createContactDto.locality,
         state: createContactDto.state,
-        phones: { create: createContactDto.phones },
-        emails: { create: createContactDto.emails },
+        phones: {
+          create: {
+            telephone: createContactDto.telephone,
+          },
+        },
+        emails: {
+          create: {
+            email: createContactDto.email,
+          },
+        },
         customers: {
           createMany: {
             data: [{ customerId: customerId }],
@@ -82,11 +90,10 @@ export class ContactsService {
     })
 
     const contacts = findContacts.map((cc) => {
-      const { phones, emails, customers, ...rest } = cc
+      const { customers, ...rest } = cc
       return {
         ...rest,
-        phones: phones.map((p) => ({ id: p.id, telephone: p.telephone })),
-        emails: emails.map((e) => ({ id: e.id, email: e.email })),
+
         customers: customers.map((c) => ({ id: c.id })),
       }
     })

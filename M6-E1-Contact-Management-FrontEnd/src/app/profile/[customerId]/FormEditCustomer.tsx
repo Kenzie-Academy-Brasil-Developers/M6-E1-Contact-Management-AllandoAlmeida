@@ -6,16 +6,14 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { CloseIcon } from "@/components/icons/CloseIcon";
 import InputsEdit from "@/components/fragments/InputsEdit";
-import { TFormCurrentContac } from "./@type.formEditContact";
-import { ButtonNav } from "./ButtonDel";
 import {
-  deleteContactById,
-  upDateContact,
-} from "../contact.service/contact.service";
+  deleteCustomerById,
+  upDateCustomerById,
+} from "./service/customer.service";
+import { ICustomerProfile } from "../service/profile.service";
+import { ButtonNav } from "@/app/contacts/[contactId]/components/ButtonDel";
 
-export const FormEditContact: React.FC<TFormCurrentContac> = ({
-  currentContact,
-}) => {
+export const FormEditCustomer: React.FC<ICustomerProfile> = ({ customer }) => {
   const {
     handleSubmit,
     register,
@@ -28,21 +26,16 @@ export const FormEditContact: React.FC<TFormCurrentContac> = ({
 
   useEffect(() => {
     fetchAddress();
-  }, [currentContact]);
+  }, [customer]);
 
   const fetchAddress = () => {
     try {
-      setValue("street", currentContact.street || "");
-      setValue("complement", currentContact.complement || "");
-      setValue("zipCode", currentContact.zipCode || "");
-      setValue("district", currentContact.district || "");
-      setValue("locality", currentContact.locality || "");
-      setValue("state", currentContact.state || "");
+      setValue("name", customer.name || "");
+      setValue("username", customer.username || "");
+      setValue("phones", customer.phones || "");
+      setValue("emails", customer.emails || "");
 
-      setValue(
-        "phones",
-        Array.isArray(currentContact.phones) ? currentContact.phones : []
-      );
+      setValue("phones", Array.isArray(customer.phones) ? customer.phones : []);
     } catch (error) {
       console.error("Error fetching address:", error);
     }
@@ -55,11 +48,11 @@ export const FormEditContact: React.FC<TFormCurrentContac> = ({
   const handleSave = async (data: any) => {
     console.log("Salvar:", data);
 
-    const contactId = String(currentContact.id);
+    const contactId = String(customer.id);
 
     if (contactId) {
       try {
-        await upDateContact(contactId, data);
+        await upDateCustomerById(contactId, data);
         reset(contactId);
         setIsEditing(false);
       } catch (error) {
@@ -70,14 +63,14 @@ export const FormEditContact: React.FC<TFormCurrentContac> = ({
     }
   };
 
-  const handleDelete = async (contactId: string) => {
-    console.log("Excluir", contactId);
+  const handleDelete = async (customerId: string) => {
+    console.log("Excluir", customerId);
 
-    if (contactId) {
+    if (customerId) {
       try {
-        await deleteContactById(contactId);
+        await deleteCustomerById(customerId);
       } catch (error) {
-        console.error("Error deleting contact:", error);
+        console.error("Error deleting customer:", error);
       }
     } else {
       console.error("ID do contato não encontrado");
@@ -105,7 +98,7 @@ export const FormEditContact: React.FC<TFormCurrentContac> = ({
         >
           <div className="flex flex-col gap-y-8">
             <InputsEdit
-              value={currentContact.name}
+              value={customer.name}
               className="inputbox"
               label={"Nome Contato:"}
               type="text"
@@ -115,95 +108,45 @@ export const FormEditContact: React.FC<TFormCurrentContac> = ({
             />
 
             <InputsEdit
-              value={currentContact.emails?.[0]?.email || ""}
+              value={customer.emails?.[0]?.email || ""}
               className="inputbox"
               label={"E-mail:"}
-              type="email"
+              type="emails"
               id="emails"
               isEditing={isEditing}
-              {...(Array.isArray(currentContact.emails) &&
-              currentContact.emails.length > 0
+              {...(Array.isArray(customer.emails) && customer.emails.length > 0
                 ? register("emails.0.emals")
                 : {})}
             />
             <div>
               <InputsEdit
-                value={currentContact.phones?.[0]?.telephone || ""}
+                value={customer.phones?.[0]?.telephone || ""}
                 className="inputbox"
                 label={"Telefone:"}
                 type="text"
                 id="phones"
                 isEditing={isEditing}
-                {...(Array.isArray(currentContact.phones) &&
-                currentContact.phones.length > 0
+                {...(Array.isArray(customer.phones) &&
+                customer.phones.length > 0
                   ? register("phones.0.telephone")
                   : register("phones.telephone"))}
               />
             </div>
           </div>
+
           <div className="flex flex-col gap-y-8">
             <InputsEdit
-              value={currentContact.zipCode}
+              value={customer.username}
               className="inputbox"
-              label={"CEP:"}
+              label={"username:"}
               type="text"
-              id="zipCode"
+              id="username"
               isEditing={isEditing}
-              placeholder={currentContact.zipCode}
-              {...register("zipCode")}
-            />
-            <div className="flex gap-y-8">
-              <InputsEdit
-                className="inputbox"
-                label={"Rua:"}
-                type="text"
-                id="street"
-                value={currentContact.street}
-                isEditing={isEditing}
-                {...register("street")}
-              />
-              <InputsEdit
-                className="inputbox"
-                label={"Numero:"}
-                type="text"
-                id="complement"
-                value={currentContact.complement}
-                isEditing={isEditing}
-                {...register("complement")}
-              />
-            </div>
-          </div>
-          <div className="flex gap-y-8">
-            <InputsEdit
-              className="inputbox"
-              label={"Bairro:"}
-              type="text"
-              id="district"
-              value={currentContact.district}
-              isEditing={isEditing}
-              {...register("district")}
-            />
-            <InputsEdit
-              className="inputbox"
-              label={"Cidade:"}
-              type="text"
-              id="locality"
-              value={currentContact.locality}
-              isEditing={isEditing}
-              {...register("locality")}
-            />
-            <InputsEdit
-              className="inputbox"
-              label={"Estado (UF):"}
-              type="text"
-              id="state"
-              value={currentContact.state}
-              isEditing={isEditing}
-              {...register("state")}
+              placeholder={customer.username}
+              {...register("username")}
             />
           </div>
-
-          <div className="flex gap-x-3">
+          <div>
             <ButtonNav
               width="70%"
               height="4.8rem"
@@ -221,7 +164,6 @@ export const FormEditContact: React.FC<TFormCurrentContac> = ({
               }}
               disabled={false}
             />
-
             <ButtonNav
               width="9.8rem"
               height="4.8rem"
@@ -230,8 +172,8 @@ export const FormEditContact: React.FC<TFormCurrentContac> = ({
               background="color-color-primary-disable"
               textcolor="white"
               hover="color-grey-2"
-              onClick={() => handleDelete(String(currentContact.id))}
-              data-contact-id={String(currentContact.id)}
+              onClick={() => handleDelete(String(customer.id))}
+              data-contact-id={String(customer.id)}
               disabled={false}
             />
           </div>

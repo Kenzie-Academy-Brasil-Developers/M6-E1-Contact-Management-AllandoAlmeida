@@ -29,8 +29,11 @@ const Profile: React.FC = () => {
   };
 
   useEffect(() => {
-    fetchData();
+    if (typeof window !== 'undefined') {
+      fetchData();
+    }
   }, []);
+  
   const windowWidth = useWindowWidth();
   const showOnlyName = windowWidth <= 426;
 

@@ -1,26 +1,25 @@
 "use client";
-
 import { SubmitHandler, UseFormReturn, useForm } from "react-hook-form";
 import Inputs from "../../../components/fragments/Inputs";
 import React, { useState } from "react";
 import { useViaCepService } from "@/service/useViaCep.service";
 import { ButtonNav } from "@/components/fragments/Buttons/buttonNavegate";
 import { ButtonToAccess } from "@/components/fragments/Buttons/buttonAccess";
-import { ButtonNavPage } from "@/components/fragments/Buttons/buttonNavPage";
 import Link from "next/link";
 import { CloseIcon } from "@/components/icons/CloseIcon";
-import { newContact } from "../service/contact.request";
+import { newContact } from "../service/contacts.service";
+import { redirect } from "next/navigation";
 
-export interface IContactForm {
+interface IContactForm {
   name: string;
-  zipCode: string;
   street: string;
   complement: string;
+  zipCode: string;
   district: string;
   locality: string;
   state: string;
-  phones: { telephone: string }[];
-  emails: { email: string }[];
+  telephone: string;
+  email: string;
 }
 
 export const FormContacts: React.FC = () => {
@@ -34,14 +33,14 @@ export const FormContacts: React.FC = () => {
 
   const [address, setAddress] = useState<IContactForm>({
     name: "",
-    phones: [{ telephone: "" }],
-    emails: [{ email: "" }],
     street: "",
     complement: "",
     zipCode: "",
     district: "",
     locality: "",
     state: "",
+    telephone: "",
+    email: "",
   });
 
   const getAddress = useViaCepService();
@@ -69,8 +68,9 @@ export const FormContacts: React.FC = () => {
 
   const onSubmit: SubmitHandler<IContactForm> = async (data) => {
     try {
-      console.log('contato', data)
+      console.log("contato", data);
       await newContact(data);
+      redirect('/profile')
     } catch (error) {
       console.error("Ocorreu um erro ao enviar o formulário:", error);
     }
@@ -104,16 +104,18 @@ export const FormContacts: React.FC = () => {
                 className="inputbox"
                 label={"E-mail:"}
                 type="email"
-                {...register("emails.0.email")}
-                errors={errors.emails?.[0]?.email}
+                placeholder=""
+                {...register("email")}
+                errors={errors.email}
               />
 
               <Inputs
                 className="inputbox"
-                label={"Telefone:"}
-                type="telefone"
-                {...register("phones.0.telephone")}
-                errors={errors.phones?.[0]?.telephone}
+                label={"Contato:"}
+                type="telephone"
+                placeholder=""
+                {...register("telephone")}
+                errors={errors.telephone}
               />
             </div>
             <div className="flex gap-y-10">
@@ -153,7 +155,7 @@ export const FormContacts: React.FC = () => {
                 className="inputbox"
                 label={"Rua:"}
                 type="text"
-                id="street"               
+                id="street"
                 placeholder={""}
                 {...register("street")}
               />
@@ -195,7 +197,12 @@ export const FormContacts: React.FC = () => {
                 {...register("state")}
               />
             </div>
-            <ButtonToAccess type="submit" text="SALVAR" styles={"btnAccess"}/>
+            <ButtonToAccess
+              type="submit"
+              text="SALVAR"
+              styles={"btnAccess"}
+              width={undefined}
+            />
           </div>
         </form>
       </div>

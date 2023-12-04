@@ -136,8 +136,6 @@ export class CustomersService {
   }
 
   async update(id: string, data: UpdateCustomerDto): Promise<CustomerModel> {
-    const { name, username, password, telephone, email } = data
-
     const checkCustomer = await this.prisma.customer.findUnique({
       where: {
         id,
@@ -161,40 +159,44 @@ export class CustomersService {
       )
     }
 
-    if ('username' in data && data.username !== undefined) {
+    const updateData: any = {}
+
+    if ('username' in updateData && updateData.username !== undefined) {
       await checkFieldsExistence(
         'username',
-        data.username,
-        `This username '${data.username}' already exists`,
+        updateData.username,
+        `This username '${updateData.username}' already exists`,
         this.prisma.customer,
       )
+    }
+    // Adicione as chaves que foram alteradas ao objeto de atualização
+    if ('name' in data) updateData.name = data.name
+    if ('username' in data) updateData.username = data.username
+    if ('password' in data) updateData.password = data.password
+
+    if ('telephone' in data && data.telephone !== undefined) {
+      updateData.phones = {
+        upsert: {
+          where: { id: checkCustomer.phones[0]?.id },
+          update: { telephone: data.telephone },
+          create: { telephone: data.telephone },
+        },
+      }
+    }
+
+    if ('email' in data && data.email !== undefined) {
+      updateData.emails = {
+        upsert: {
+          where: { id: checkCustomer.emails[0]?.id },
+          update: { email: data.email },
+          create: { email: data.email },
+        },
+      }
     }
 
     const customer = await this.prisma.customer.update({
       where: { id },
-      data: {
-        name,
-        username,
-        password,
-        phones: {
-          upsert: telephone
-            ? {
-                where: { id: checkCustomer.phones[0]?.id },
-                update: { telephone },
-                create: { telephone },
-              }
-            : undefined,
-        },
-        emails: {
-          upsert: email
-            ? {
-                where: { id: checkCustomer.emails[0]?.id },
-                update: { email },
-                create: { email },
-              }
-            : undefined,
-        },
-      },
+      data: updateData,
     })
 
     return excludedFields(customer, this.excludedFields)

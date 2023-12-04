@@ -12,7 +12,7 @@ interface ICardContact {
 
 export const CardContact: React.FC<ICardContact> = ({ contact }) => {
   const windowWidth = useWindowWidth();
-  const showOnlyName = windowWidth <= 426;
+  const showOnlyName = windowWidth <= 800;
 
   if (!contact || !contact.contact) {
     return <div>Dados de contato indisponíveis</div>;

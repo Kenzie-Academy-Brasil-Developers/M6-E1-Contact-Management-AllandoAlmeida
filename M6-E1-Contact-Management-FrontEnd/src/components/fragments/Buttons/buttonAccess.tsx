@@ -10,7 +10,7 @@ interface IButtonToAccess {
   textcolor?: string;
   hover?: string;
   type?: "button" | "submit" | "reset";
-  styles?: React.CSSProperties;
+  styles?: string | React.CSSProperties;
   onClick?:
     | ((
         e?: React.BaseSyntheticEvent<object, any, any> | undefined
