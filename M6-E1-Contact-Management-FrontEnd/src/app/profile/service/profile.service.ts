@@ -43,22 +43,22 @@ export interface TCustomerProfile {
     telephone: string;
     email: string;
     isActive: string;
-  };
-  contacts: {
-    id: string;
-    name: string;
-    zipCode: string;
-    street: string;
-    complement: string;
-    district: string;
-    locality: string;
-    state: string;
-    telephone: string;
-    email: string;
+    contacts: {
+      id?: string;
+      name: string;
+      zipCode: string;
+      street: string;
+      complement: string;
+      district: string;
+      locality: string;
+      state: string;
+      telephone: string;
+      email: string;
+    }[];
   };
 }
 
-export async function fetchProfile(): Promise<ICustomerSignUp> {
+export async function fetchProfile(): Promise<TCustomerProfile> {
   try {
     const tokenWithQuotes = localStorage.getItem("@Management:accessToken");
 
@@ -85,7 +85,7 @@ export async function fetchProfile(): Promise<ICustomerSignUp> {
       });
 
       if (response.ok) {
-        const data: ICustomerSignUp = await response.json();
+        const data: TCustomerProfile = await response.json();
         return data;
       }
 

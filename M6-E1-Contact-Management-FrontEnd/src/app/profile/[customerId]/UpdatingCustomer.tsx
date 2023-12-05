@@ -10,11 +10,11 @@ import {
   deleteCustomerById,
   upDateCustomerById,
 } from "./service/customer.service";
-import { TCustomerProfile } from "../service/profile.service";
+import { CustomerType, TCustomerProfile } from "../service/profile.service";
 import { ButtonNav } from "@/app/contacts/[contactId]/components/ButtonDel";
 import { useRouter } from "next/navigation";
 
-export const UpdatingCustomer: React.FC<TCustomerProfile> = ({ customer }) => {
+export const UpdatingCustomer: React.FC<TCustomerProfile> = ({ customer }: TCustomerProfile) => {
   const {
     handleSubmit,
     register,
