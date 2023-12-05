@@ -10,10 +10,11 @@ import {
   deleteCustomerById,
   upDateCustomerById,
 } from "./service/customer.service";
-import { ICustomerProfile } from "../service/profile.service";
+import { TCustomerProfile } from "../service/profile.service";
 import { ButtonNav } from "@/app/contacts/[contactId]/components/ButtonDel";
+import { useRouter } from "next/navigation";
 
-export const FormEditCustomer: React.FC<ICustomerProfile> = ({ customer }) => {
+export const UpdatingCustomer: React.FC<TCustomerProfile> = ({ customer }) => {
   const {
     handleSubmit,
     register,
@@ -21,6 +22,8 @@ export const FormEditCustomer: React.FC<ICustomerProfile> = ({ customer }) => {
     setValue,
     formState: { errors },
   }: UseFormReturn<any> = useForm();
+
+  const router = useRouter()
 
   const [isEditing, setIsEditing] = useState(false);
 
@@ -34,6 +37,17 @@ export const FormEditCustomer: React.FC<ICustomerProfile> = ({ customer }) => {
       setValue("username", customer.username || "");
       setValue("telephone", customer.telephone || "");
       setValue("email", customer.email || "");
+    setValue(
+        "telephone",
+        typeof customer.telephone === "string"
+          ? customer.telephone
+          : ""
+      );
+      
+      setValue(
+        "email",
+        typeof customer.email === "string" ? customer.email : ""
+      );
     } catch (error) {
       console.error("Error fetching address:", error);
     }
@@ -51,8 +65,9 @@ export const FormEditCustomer: React.FC<ICustomerProfile> = ({ customer }) => {
     if (customerId) {
       try {
         await upDateCustomerById(customerId, data);
-        reset(customerId);
+       
         setIsEditing(false);
+        router.push('/profile')
       } catch (error) {
         console.error("Error updating contact:", error);
       }
@@ -67,6 +82,7 @@ export const FormEditCustomer: React.FC<ICustomerProfile> = ({ customer }) => {
     if (customerId) {
       try {
         await deleteCustomerById(customerId);
+        router.push('/profile')
       } catch (error) {
         console.error("Error deleting customer:", error);
       }
@@ -95,14 +111,14 @@ export const FormEditCustomer: React.FC<ICustomerProfile> = ({ customer }) => {
           onSubmit={handleSubmit(onSubmit)}
         >
           <div className="flex flex-col gap-y-8">
-            <InputsEdit
+          <InputsEdit
               defaultValue={customer.name}
               className="inputbox"
               label={"Nome Contato:"}
               type="text"
               id="name"
               isEditing={isEditing}
-              {...register("name")}
+              register={register("name")}
             />
 
             <InputsEdit
@@ -112,7 +128,7 @@ export const FormEditCustomer: React.FC<ICustomerProfile> = ({ customer }) => {
               type="email"
               id="email"
               isEditing={isEditing}
-              {...register("email")}
+              register={register("email")}
             />
             <div>
               <InputsEdit
@@ -122,7 +138,7 @@ export const FormEditCustomer: React.FC<ICustomerProfile> = ({ customer }) => {
                 type="text"
                 id="telephone"
                 isEditing={isEditing}
-                {...register("telephone")}
+                register={register("telephone")}
               />
             </div>
           </div>
@@ -136,7 +152,7 @@ export const FormEditCustomer: React.FC<ICustomerProfile> = ({ customer }) => {
               id="username"
               isEditing={isEditing}
               placeholder={customer.username}
-              {...register("username")}
+              register={register("username")}
             />
           </div>
           <div>

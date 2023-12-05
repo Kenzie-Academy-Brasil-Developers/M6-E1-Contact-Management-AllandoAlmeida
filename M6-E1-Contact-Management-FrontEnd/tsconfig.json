@@ -22,6 +22,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/contacts/[contactId]/components/ButtonDel/styles.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/contacts/[contactId]/components/ButtonDel/styles.ts", "src/app/contacts/error.tsx"],
   "exclude": ["node_modules"]
 }

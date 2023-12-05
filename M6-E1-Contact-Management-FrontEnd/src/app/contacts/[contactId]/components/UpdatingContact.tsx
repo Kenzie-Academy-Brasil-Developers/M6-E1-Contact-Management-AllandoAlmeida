@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-
+'use client'
 import { SubmitHandler, UseFormReturn, useForm } from "react-hook-form";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
@@ -11,6 +11,7 @@ import {
 } from "../contact.service/contact.service";
 import InputsEdit from "@/components/fragments/InputsEdit";
 import { ButtonNav } from "./ButtonDel";
+import { useRouter } from "next/navigation";
 
 export const UpdatingContact: React.FC<TFormCurrentContact> = ({
   currentContact,
@@ -22,6 +23,8 @@ export const UpdatingContact: React.FC<TFormCurrentContact> = ({
     setValue,
     formState: { errors },
   }: UseFormReturn<any> = useForm();
+
+  const router = useRouter()
 
   const [isEditing, setIsEditing] = useState(false);
   useEffect(() => {
@@ -38,14 +41,14 @@ export const UpdatingContact: React.FC<TFormCurrentContact> = ({
       setValue("state", currentContact.state || "");
       setValue("telephone", currentContact.telephone || "");
       setValue("email", currentContact.email || "");
-      // Defina currentContact.telephone como uma string ou vazio caso não seja válido
+    
       setValue(
         "telephone",
         typeof currentContact.telephone === "string"
           ? currentContact.telephone
           : ""
       );
-      // Defina currentContact.email como uma string ou vazio caso não seja válido
+      
       setValue(
         "email",
         typeof currentContact.email === "string" ? currentContact.email : ""
@@ -60,15 +63,15 @@ export const UpdatingContact: React.FC<TFormCurrentContact> = ({
   };
 
   const handleSave = async (data: any) => {
-    console.log("Salvar:", data);
 
     const contactId = String(currentContact.id);
 
     if (contactId) {
       try {
         await upDateContact(contactId, data);
-        reset(contactId);
+       
         setIsEditing(false);
+        router.push('/profile')
       } catch (error) {
         console.error("Error updating contact:", error);
       }
@@ -83,6 +86,7 @@ export const UpdatingContact: React.FC<TFormCurrentContact> = ({
     if (contactId) {
       try {
         await deleteContactById(contactId);
+        router.push('/profile')
       } catch (error) {
         console.error("Error deleting contact:", error);
       }
@@ -93,7 +97,7 @@ export const UpdatingContact: React.FC<TFormCurrentContact> = ({
 
   const onSubmit: SubmitHandler<any> = async (data) => {
     console.log(data);
-    reset(data);
+    reset();
   };
 
   return (
@@ -118,7 +122,7 @@ export const UpdatingContact: React.FC<TFormCurrentContact> = ({
               type="text"
               id="name"
               isEditing={isEditing}
-              {...register("name")}
+              register={register("name")}
             />
 
             <InputsEdit
@@ -128,7 +132,7 @@ export const UpdatingContact: React.FC<TFormCurrentContact> = ({
               type="text"
               id="email"
               isEditing={isEditing}
-              {...register("email")}
+              register={register("email")}
             />
             <div>
               <InputsEdit
@@ -138,7 +142,7 @@ export const UpdatingContact: React.FC<TFormCurrentContact> = ({
                 type="text"
                 id="telephone"
                 isEditing={isEditing}
-                {...register("telephone")}
+                register={register("telephone")}
               />
             </div>
           </div>
@@ -151,7 +155,7 @@ export const UpdatingContact: React.FC<TFormCurrentContact> = ({
               id="zipCode"
               isEditing={isEditing}
               placeholder={currentContact.zipCode}
-              {...register("zipCode")}
+              register={register("zipCode")}
             />
             <div className="flex gap-y-8">
               <InputsEdit
@@ -161,7 +165,7 @@ export const UpdatingContact: React.FC<TFormCurrentContact> = ({
                 id="street"
                 defaultValue={currentContact.street}
                 isEditing={isEditing}
-                {...register("street")}
+                register={register("street")}
               />
               <InputsEdit
                 className="inputbox"
@@ -170,7 +174,7 @@ export const UpdatingContact: React.FC<TFormCurrentContact> = ({
                 id="complement"
                 defaultValue={currentContact.complement}
                 isEditing={isEditing}
-                {...register("complement")}
+                register={register("complement")}
               />
             </div>
           </div>
@@ -182,7 +186,7 @@ export const UpdatingContact: React.FC<TFormCurrentContact> = ({
               id="district"
               defaultValue={currentContact.district}
               isEditing={isEditing}
-              {...register("district")}
+              register={register("district")}
             />
             <InputsEdit
               className="inputbox"
@@ -191,7 +195,7 @@ export const UpdatingContact: React.FC<TFormCurrentContact> = ({
               id="locality"
               defaultValue={currentContact.locality}
               isEditing={isEditing}
-              {...register("locality")}
+              register={register("locality")}
             />
             <InputsEdit
               className="inputbox"
@@ -200,7 +204,7 @@ export const UpdatingContact: React.FC<TFormCurrentContact> = ({
               id="state"
               defaultValue={currentContact.state}
               isEditing={isEditing}
-              {...register("state")}
+              register={register("state")}
             />
           </div>
 

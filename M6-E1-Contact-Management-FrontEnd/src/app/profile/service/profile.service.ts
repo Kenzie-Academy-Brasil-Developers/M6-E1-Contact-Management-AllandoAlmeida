@@ -11,14 +11,14 @@ export interface CustomerType {
   id: string;
   username: string;
   name: string;
-  telephone: string 
-  email: string 
+  telephone: string;
+  email: string;
   isActive: string;
 }
 
 export interface ContactType {
   contact: any;
-  id: string 
+  id: string;
   name: string;
   zipCode: string;
   street: string;
@@ -26,20 +26,39 @@ export interface ContactType {
   district: string;
   locality: string;
   state: string;
-  telephone: string 
-  email: string 
+  telephone: string;
+  email: string;
 }
 
 export interface ICustomerSignUp {
   customer: CustomerType;
-  contacts: {ContactType: any}[]
+  contacts: { ContactType: any }[];
 }
 
-export interface ICustomerProfile {
-  customer: CustomerType;
+export interface TCustomerProfile {
+  customer: {
+    id: string;
+    username: string;
+    name: string;
+    telephone: string;
+    email: string;
+    isActive: string;
+  };
+  contacts: {
+    id: string;
+    name: string;
+    zipCode: string;
+    street: string;
+    complement: string;
+    district: string;
+    locality: string;
+    state: string;
+    telephone: string;
+    email: string;
+  };
 }
 
-export async function fetchProfile(): Promise<ICustomerSignUp > {
+export async function fetchProfile(): Promise<ICustomerSignUp> {
   try {
     const tokenWithQuotes = localStorage.getItem("@Management:accessToken");
 
@@ -56,7 +75,7 @@ export async function fetchProfile(): Promise<ICustomerSignUp > {
         }
       }
 
-      const userId = accessTokenData.sub
+      const userId = accessTokenData.sub;
 
       const response = await fetch(`${API_BASE_URL}/customers/${userId}`, {
         method: "GET",
@@ -78,6 +97,5 @@ export async function fetchProfile(): Promise<ICustomerSignUp > {
     throw new Error("Falha ao obter dados do perfil");
   }
 
-  
   throw new Error("Falha ao obter dados do perfil");
 }

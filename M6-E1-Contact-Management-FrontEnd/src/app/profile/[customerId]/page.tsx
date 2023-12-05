@@ -1,12 +1,11 @@
-'use client';
-import React, { useEffect, useState } from 'react';
-import { FormEditCustomer } from './FormEditCustomer';
-import { ICustomerProfile, fetchProfile } from '../service/profile.service';
-
+"use client";
+import React, { useEffect, useState } from "react";
+import { UpdatingCustomer } from "./UpdatingCustomer";
+import { TCustomerProfile, fetchProfile } from "../service/profile.service";
 
 const CustormerParams = () => {
   const [customer, setCustomer] = useState<{
-    customer: ICustomerProfile;
+    customer: TCustomerProfile;
   } | null>(null);
 
   useEffect(() => {
@@ -26,9 +25,20 @@ const CustormerParams = () => {
 
   return (
     <main>
-      <div className="w-[90%]">
-        {customer && <FormEditCustomer customer={customer.customer} />}
-      </div>
+      <ul>
+        <li>{customer && <UpdatingCustomer customer={customer.customer} contacts={{
+          id: "",
+          name: "",
+          zipCode: "",
+          street: "",
+          complement: "",
+          district: "",
+          locality: "",
+          state: "",
+          telephone: "",
+          email: ""
+        }} />}</li>
+      </ul>
     </main>
   );
 };

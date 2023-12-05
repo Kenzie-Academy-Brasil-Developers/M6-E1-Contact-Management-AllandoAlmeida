@@ -34,8 +34,15 @@ export default forwardRef(InputsEdit);
  */
 
 // No início do seu componente, certifique-se de importar useState e useEffect
-import React, { forwardRef, ForwardRefRenderFunction, InputHTMLAttributes, useEffect, useState } from "react";
-import { FieldError } from "react-hook-form";
+import { register } from "module";
+import React, {
+  forwardRef,
+  ForwardRefRenderFunction,
+  InputHTMLAttributes,
+  useEffect,
+  useState,
+} from "react";
+import { FieldError, UseFormRegisterReturn } from "react-hook-form";
 
 // ... (seu código)
 
@@ -43,36 +50,31 @@ interface IInputsProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
   errors?: { message?: string } | undefined;
   isEditing: boolean;
-  defaultValue: string; // Adicione a propriedade value
+  defaultValue: string;
+  register?: UseFormRegisterReturn;
 }
 
 const InputsEdit: ForwardRefRenderFunction<HTMLInputElement, IInputsProps> = (
-  { errors, label, type, isEditing, defaultValue, ...rest },
+  { errors, label, type, isEditing, defaultValue, register, ...rest },
   ref
 ) => {
-  const [inputValue, setInputValue] = useState(defaultValue);
 
- /*  useEffect(() => {
-    setInputValue(defaultValue);
-  }, [defaultValue, isEditing]);
- */
   return (
     <div className="inputbox">
       <input
         className="rounded-md p-3 text-gray-900 shadow-sm placeholder:text-gray-400 h-[2rem] focus-visible:outline-none focus-visible:ring-0"
-        ref={ref}
+      
         type={type}
         {...rest}
+        {...register}
         readOnly={!isEditing}
-        defaultValue={defaultValue} // Use inputValue ao invés de value diretamente
-        //onChange={(e) => setInputValue(e.target.value)} // Atualize o valor localmente
+        defaultValue={defaultValue}
       />
       <label htmlFor={rest.id}>{label}</label>
-      {errors && typeof errors === 'object' && 'message' in errors && (
+      {errors && typeof errors === "object" && "message" in errors && (
         <p>{errors.message}</p>
       )}
     </div>
-    
   );
 };
 
