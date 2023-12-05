@@ -43,19 +43,19 @@ interface IInputsProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
   errors?: { message?: string } | undefined;
   isEditing: boolean;
-  value: string; // Adicione a propriedade value
+  defaultValue: string; // Adicione a propriedade value
 }
 
 const InputsEdit: ForwardRefRenderFunction<HTMLInputElement, IInputsProps> = (
-  { errors, label, type, isEditing, value, ...rest },
+  { errors, label, type, isEditing, defaultValue, ...rest },
   ref
 ) => {
-  const [inputValue, setInputValue] = useState(value);
+  const [inputValue, setInputValue] = useState(defaultValue);
 
-  useEffect(() => {
-    setInputValue(value);
-  }, [value, isEditing]);
-
+ /*  useEffect(() => {
+    setInputValue(defaultValue);
+  }, [defaultValue, isEditing]);
+ */
   return (
     <div className="inputbox">
       <input
@@ -64,14 +64,15 @@ const InputsEdit: ForwardRefRenderFunction<HTMLInputElement, IInputsProps> = (
         type={type}
         {...rest}
         readOnly={!isEditing}
-        value={inputValue} // Use inputValue ao invés de value diretamente
-        onChange={(e) => setInputValue(e.target.value)} // Atualize o valor localmente
+        defaultValue={defaultValue} // Use inputValue ao invés de value diretamente
+        //onChange={(e) => setInputValue(e.target.value)} // Atualize o valor localmente
       />
       <label htmlFor={rest.id}>{label}</label>
       {errors && typeof errors === 'object' && 'message' in errors && (
         <p>{errors.message}</p>
       )}
     </div>
+    
   );
 };
 

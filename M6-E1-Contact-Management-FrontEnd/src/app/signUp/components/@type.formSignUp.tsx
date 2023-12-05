@@ -21,8 +21,8 @@ export interface ISignUp {
     createdAt: string;
     updatedAt: string;
     isActive: Boolean;
-    phones: IPhone[];
-    emails: IEmail[];
+    telephone: string;
+    email: string;
     contacts: IContact[];
   }
   

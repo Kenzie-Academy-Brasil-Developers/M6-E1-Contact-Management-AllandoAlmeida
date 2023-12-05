@@ -11,8 +11,8 @@ export interface CustomerType {
   id: string;
   username: string;
   name: string;
-  phones: { id: string; telephone: string }[];
-  emails: { id: string; email: string }[];
+  telephone: string 
+  email: string 
   isActive: string;
 }
 
@@ -26,8 +26,8 @@ export interface ContactType {
   district: string;
   locality: string;
   state: string;
-  phones: { id: string; telephone: string }[];
-  emails: { id: string; email: string }[];
+  telephone: string 
+  email: string 
 }
 
 export interface ICustomerSignUp {

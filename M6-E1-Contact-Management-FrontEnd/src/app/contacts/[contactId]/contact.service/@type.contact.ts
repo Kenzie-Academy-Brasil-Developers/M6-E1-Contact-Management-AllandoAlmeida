@@ -14,6 +14,6 @@ export interface TCurrentContact {
   district: string;
   locality: string;
   state: string;
-  phones: { telephone: string }[];
-  emails: { email: string }[];
+  telephone: string;
+  email: string;
 }

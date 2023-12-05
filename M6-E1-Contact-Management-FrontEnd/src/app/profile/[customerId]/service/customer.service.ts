@@ -5,8 +5,8 @@ import { Slide, toast } from "react-toastify";
 export interface ICustomerType {
   username?: string;
   name?: string;
-  phones?: { id: string; telephone: string }[];
-  emails?: { id: string; email: string }[];
+  telephone?: string
+  email?: string
 }
 
 export async function upDateCustomerById(customerId: string, data:ICustomerType) {

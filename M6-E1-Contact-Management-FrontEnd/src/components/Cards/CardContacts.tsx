@@ -1,7 +1,6 @@
 // CardContact.tsx
 'use client'
 import { ContactType } from "@/app/profile/service/profile.service";
-import { Key, useEffect, useState } from "react";
 import { useWindowWidth } from "../hooks/useWindowWidth";
 import { EditeIcon } from "../icons/EditeIcon";
 import Link from "next/link";
@@ -25,7 +24,7 @@ export const CardContact: React.FC<ICardContact> = ({ contact }) => {
       <ul className="w-[95%] grid grid-cols-3 items-center">
         <li
           className={`${
-            showOnlyName ? "col-span-3 text-lg" : "col-span-1 px-10 text-2xl"
+            showOnlyName ? "col-span-3 text-lg" : "col-span-1/2 px-10 text-2xl"
           }`}
         >
           {contact.contact.name || "Nome não disponível"}
@@ -33,33 +32,20 @@ export const CardContact: React.FC<ICardContact> = ({ contact }) => {
         {!showOnlyName && (
           <>
             <ul>
-              {contact.contact.phones?.map(
-                (phone: { id: Key | null | undefined; telephone: any }) => (
-                  <li key={phone.id} className="col-span-1 px-10  text-2xl">
-                    {phone.telephone || "Telefone não disponível"}
-                  </li>
-                )
-              )}
+              <li className="text-2xl">{contact.contact.telephone}</li>
+              
             </ul>
 
             <ul>
-              {contact.contact.emails?.map(
-                (email: { id: Key | null | undefined; email: any }) => (
-                  <li className="col-span-3 px-10 text-2xl" key={email.id}>
-                    <a
-                      href={`mailto:${email.email}`}
-                      className="text-red-500 hover:underline text-2xl"
-                    >
-                      {email.email || "Email não disponível"}
-                    </a>
-                  </li>
-                )
-              )}
+              <li className="text-2xl">
+                <a href={`mailto:${contact.contact.email}`} className="text-2xl">{contact.contact.email}</a>
+                
+                </li>
             </ul>
           </>
         )}
       </ul>
-      <Link href={`/contacts/${contact.contact.id}`} className="flex items-center">
+      <Link href={`/contacts/${contact.contact.id}`} className="flex items-center ">
         <EditeIcon />
       </Link>
     </div>

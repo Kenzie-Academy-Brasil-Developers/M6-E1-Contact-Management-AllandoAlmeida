@@ -3,7 +3,6 @@ import { Contact as ContactModel } from '@prisma/client'
 import { PrismaService } from 'src/database/prisma.service'
 import { CreateContactDto } from './dto/create-contact.dto'
 import { UpdateContactDto } from './dto/update-contact.dto'
-import { checkFieldsExistence } from 'src/Hooks/checkFieldsExistence'
 
 @Injectable()
 export class ContactsService {
@@ -19,16 +18,8 @@ export class ContactsService {
         district: createContactDto.district,
         locality: createContactDto.locality,
         state: createContactDto.state,
-        phones: {
-          create: {
-            telephone: createContactDto.telephone,
-          },
-        },
-        emails: {
-          create: {
-            email: createContactDto.email,
-          },
-        },
+        telephone: createContactDto.telephone,
+        email: createContactDto.email,
         customers: {
           createMany: {
             data: [{ customerId: customerId }],
@@ -36,18 +27,6 @@ export class ContactsService {
         },
       },
       include: {
-        phones: {
-          select: {
-            id: true,
-            telephone: true,
-          },
-        },
-        emails: {
-          select: {
-            id: true,
-            email: true,
-          },
-        },
         customers: {
           select: {
             id: true,
@@ -69,18 +48,6 @@ export class ContactsService {
         },
       },
       include: {
-        phones: {
-          select: {
-            id: true,
-            telephone: true,
-          },
-        },
-        emails: {
-          select: {
-            id: true,
-            email: true,
-          },
-        },
         customers: {
           select: {
             id: true,
@@ -107,18 +74,6 @@ export class ContactsService {
         id,
       },
       include: {
-        phones: {
-          select: {
-            id: true,
-            telephone: true,
-          },
-        },
-        emails: {
-          select: {
-            id: true,
-            email: true,
-          },
-        },
         customers: {
           select: {
             id: true,
@@ -137,54 +92,15 @@ export class ContactsService {
   async update(
     customerId: string,
     id: string,
-    data: UpdateContactDto,
+    updateContactDto: UpdateContactDto,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     @Request() request,
   ) {
-    const { name } = data
-
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const checkContact = await this.prisma.contact.findUnique({
-      where: {
-        id,
-      },
-      include: {
-        customers: true,
-        phones: true,
-        emails: true,
-      },
-    })
-
-    if ('name' in data && data.name !== undefined) {
-      await checkFieldsExistence(
-        'name',
-        data.name,
-        `This name '${name}' already exists`,
-        this.prisma.contact,
-      )
-    }
-
-    // Atualiza o contato
+    // Atualiza os campos principais do contato
     const updatedContact = await this.prisma.contact.update({
-      where: {
-        id,
-      },
-      data: {
-        name,
-      },
+      where: { id },
+      data: { ...updateContactDto },
       include: {
-        phones: {
-          select: {
-            id: true,
-            telephone: true,
-          },
-        },
-        emails: {
-          select: {
-            id: true,
-            email: true,
-          },
-        },
         customers: {
           select: {
             id: true,
@@ -192,11 +108,11 @@ export class ContactsService {
         },
       },
     })
-    const { phones, emails, customers, ...rest } = updatedContact
+
+    const { customers, ...rest } = updatedContact
+
     return {
       ...rest,
-      phones: phones.map((p) => ({ id: p.id, telephone: p.telephone })),
-      emails: emails.map((e) => ({ id: e.id, email: e.email })),
       customers: customers.map((c) => ({ id: c.id })),
     }
   }

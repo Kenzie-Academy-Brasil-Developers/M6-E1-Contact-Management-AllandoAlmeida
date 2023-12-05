@@ -30,35 +30,18 @@ export class CustomersService {
       'email',
       email,
       `This email '${email}' already exists`,
-      this.prisma.email,
+      this.prisma.customer,
     )
 
     const customer = await this.prisma.customer.create({
       data: {
         name,
         username,
-        phones: {
-          create: [{ telephone }],
-        },
-        emails: {
-          create: [{ email }],
-        },
+        telephone,
+        email,
         password: data.password,
       },
       include: {
-        phones: {
-          select: {
-            id: true,
-            telephone: true,
-          },
-        },
-        emails: {
-          select: {
-            id: true,
-            email: true,
-          },
-        },
-
         contacts: true,
       },
     })
@@ -68,19 +51,6 @@ export class CustomersService {
   async findAll(): Promise<CustomerModel[]> {
     const customers = await this.prisma.customer.findMany({
       include: {
-        phones: {
-          select: {
-            id: true,
-            telephone: true,
-          },
-        },
-        emails: {
-          select: {
-            id: true,
-            email: true,
-          },
-        },
-
         contacts: true,
       },
     })
@@ -93,18 +63,6 @@ export class CustomersService {
     const customer = await this.prisma.customer.findUnique({
       where: { id },
       include: {
-        phones: {
-          select: {
-            id: true,
-            telephone: true,
-          },
-        },
-        emails: {
-          select: {
-            id: true,
-            email: true,
-          },
-        },
         contacts: {
           select: {
             contact: {
@@ -117,8 +75,8 @@ export class CustomersService {
                 district: true,
                 locality: true,
                 state: true,
-                phones: true,
-                emails: true,
+                telephone: true,
+                email: true,
               },
             },
           },
@@ -135,14 +93,13 @@ export class CustomersService {
     })
   }
 
-  async update(id: string, data: UpdateCustomerDto): Promise<CustomerModel> {
+  async update(
+    id: string,
+    updateCustomerDto: UpdateCustomerDto,
+  ): Promise<CustomerModel> {
     const checkCustomer = await this.prisma.customer.findUnique({
       where: {
         id,
-      },
-      include: {
-        phones: true,
-        emails: true,
       },
     })
 
@@ -150,56 +107,12 @@ export class CustomersService {
       throw new NotFoundException("The ID doesn't exist")
     }
 
-    if ('name' in data && data.name !== undefined) {
-      await checkFieldsExistence(
-        'name',
-        data.name,
-        `This name '${data.name}' already exists`,
-        this.prisma.customer,
-      )
-    }
-
-    const updateData: any = {}
-
-    if ('username' in updateData && updateData.username !== undefined) {
-      await checkFieldsExistence(
-        'username',
-        updateData.username,
-        `This username '${updateData.username}' already exists`,
-        this.prisma.customer,
-      )
-    }
-    // Adicione as chaves que foram alteradas ao objeto de atualização
-    if ('name' in data) updateData.name = data.name
-    if ('username' in data) updateData.username = data.username
-    if ('password' in data) updateData.password = data.password
-
-    if ('telephone' in data && data.telephone !== undefined) {
-      updateData.phones = {
-        upsert: {
-          where: { id: checkCustomer.phones[0]?.id },
-          update: { telephone: data.telephone },
-          create: { telephone: data.telephone },
-        },
-      }
-    }
-
-    if ('email' in data && data.email !== undefined) {
-      updateData.emails = {
-        upsert: {
-          where: { id: checkCustomer.emails[0]?.id },
-          update: { email: data.email },
-          create: { email: data.email },
-        },
-      }
-    }
-
-    const customer = await this.prisma.customer.update({
+    const updateData = await this.prisma.customer.update({
       where: { id },
-      data: updateData,
+      data: { ...updateCustomerDto },
     })
 
-    return excludedFields(customer, this.excludedFields)
+    return excludedFields(updateData, this.excludedFields)
   }
 
   async remove(id: string): Promise<void> {

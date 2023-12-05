@@ -24,17 +24,7 @@ export interface IContactResponse {
   createdAt: string;
   updated: string;
   isActive: boolean;
-  phones: {
-    id: string;
-    telephone: string;
-    customerId: string | null;
-    contactId: string;
-  }[];
-  emails: {
-    id: string;
-    email: string;
-    customerId: string | null;
-    contactId: string;
-  }[];
+  telephone: string;
+  email: string;
   customers: string[];
 }

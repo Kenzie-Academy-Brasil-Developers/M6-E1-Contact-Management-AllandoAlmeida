@@ -1,4 +1,5 @@
 // logout.service.ts
+'use client'
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
@@ -9,9 +10,9 @@ export const useLogout = () => {
     console.log("Chamando logout");
     localStorage.removeItem("@Management:accessToken");
     localStorage.removeItem("@Management:refreshToken");
+    router.push("/", { replace: true });
   };
   console.log('passou')
-  router.push("/", { replace: true });
   
   useEffect(() => {
     logout();

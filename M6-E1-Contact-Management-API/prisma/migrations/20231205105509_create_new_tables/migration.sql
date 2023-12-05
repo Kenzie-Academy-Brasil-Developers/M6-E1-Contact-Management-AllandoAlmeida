@@ -7,6 +7,8 @@ CREATE TABLE "customers" (
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3),
     "isActive" BOOLEAN NOT NULL DEFAULT true,
+    "telephone" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
 
     CONSTRAINT "customers_pkey" PRIMARY KEY ("id")
 );
@@ -24,6 +26,8 @@ CREATE TABLE "contacts" (
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated" TIMESTAMP(3),
     "isActive" BOOLEAN NOT NULL DEFAULT true,
+    "telephone" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
 
     CONSTRAINT "contacts_pkey" PRIMARY KEY ("id")
 );
@@ -36,26 +40,6 @@ CREATE TABLE "contactToCustomer" (
     "assignedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "contactToCustomer_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "phones" (
-    "id" TEXT NOT NULL,
-    "telephone" TEXT NOT NULL,
-    "customerId" TEXT,
-    "contactId" TEXT,
-
-    CONSTRAINT "phones_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "emails" (
-    "id" TEXT NOT NULL,
-    "email" TEXT NOT NULL,
-    "customerId" TEXT,
-    "contactId" TEXT,
-
-    CONSTRAINT "emails_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
@@ -72,15 +56,3 @@ ALTER TABLE "contactToCustomer" ADD CONSTRAINT "contactToCustomer_customerId_fke
 
 -- AddForeignKey
 ALTER TABLE "contactToCustomer" ADD CONSTRAINT "contactToCustomer_contactId_fkey" FOREIGN KEY ("contactId") REFERENCES "contacts"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "phones" ADD CONSTRAINT "phones_customerId_fkey" FOREIGN KEY ("customerId") REFERENCES "customers"("id") ON DELETE SET NULL ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "phones" ADD CONSTRAINT "phones_contactId_fkey" FOREIGN KEY ("contactId") REFERENCES "contacts"("id") ON DELETE SET NULL ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "emails" ADD CONSTRAINT "emails_customerId_fkey" FOREIGN KEY ("customerId") REFERENCES "customers"("id") ON DELETE SET NULL ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "emails" ADD CONSTRAINT "emails_contactId_fkey" FOREIGN KEY ("contactId") REFERENCES "contacts"("id") ON DELETE SET NULL ON UPDATE CASCADE;

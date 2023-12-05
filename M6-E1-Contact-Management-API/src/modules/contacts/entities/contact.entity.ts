@@ -12,7 +12,7 @@ export class Contact implements Prisma.ContactCreateInput {
   createdAt?: Date
   updated?: Date | null
   isActive?: boolean
-  phones?: Prisma.PhoneCreateNestedManyWithoutContactInput
-  emails?: Prisma.EmailCreateNestedManyWithoutContactInput
+  telephone: string
+  email: string
   customers?: Prisma.ContactToCustomerCreateNestedManyWithoutContactInput
 }

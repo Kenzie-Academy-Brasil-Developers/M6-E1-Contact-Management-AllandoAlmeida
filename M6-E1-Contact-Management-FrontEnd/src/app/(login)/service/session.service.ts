@@ -37,7 +37,7 @@ export async function Session(data: ISession) {
       const { accessToken, refreshToken, id } = responseData;
 
       localStorage.setItem("@Management:accessToken", accessToken);
-      //localStorage.setItem("@Management:refreshToken", refreshToken);
+      localStorage.setItem("@Management:refreshToken", refreshToken);
 
       toast.success("Logado com Sucesso!", {
         transition: Slide,

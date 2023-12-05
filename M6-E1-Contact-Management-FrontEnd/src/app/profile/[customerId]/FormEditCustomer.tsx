@@ -32,10 +32,8 @@ export const FormEditCustomer: React.FC<ICustomerProfile> = ({ customer }) => {
     try {
       setValue("name", customer.name || "");
       setValue("username", customer.username || "");
-      setValue("phones", customer.phones || "");
-      setValue("emails", customer.emails || "");
-
-      setValue("phones", Array.isArray(customer.phones) ? customer.phones : []);
+      setValue("telephone", customer.telephone || "");
+      setValue("email", customer.email || "");
     } catch (error) {
       console.error("Error fetching address:", error);
     }
@@ -48,12 +46,12 @@ export const FormEditCustomer: React.FC<ICustomerProfile> = ({ customer }) => {
   const handleSave = async (data: any) => {
     console.log("Salvar:", data);
 
-    const contactId = String(customer.id);
+    const customerId = String(customer.id);
 
-    if (contactId) {
+    if (customerId) {
       try {
-        await upDateCustomerById(contactId, data);
-        reset(contactId);
+        await upDateCustomerById(customerId, data);
+        reset(customerId);
         setIsEditing(false);
       } catch (error) {
         console.error("Error updating contact:", error);
@@ -98,7 +96,7 @@ export const FormEditCustomer: React.FC<ICustomerProfile> = ({ customer }) => {
         >
           <div className="flex flex-col gap-y-8">
             <InputsEdit
-              value={customer.name}
+              defaultValue={customer.name}
               className="inputbox"
               label={"Nome Contato:"}
               type="text"
@@ -108,35 +106,30 @@ export const FormEditCustomer: React.FC<ICustomerProfile> = ({ customer }) => {
             />
 
             <InputsEdit
-              value={customer.emails?.[0]?.email || ""}
+              defaultValue={customer.email}
               className="inputbox"
               label={"E-mail:"}
-              type="emails"
-              id="emails"
+              type="email"
+              id="email"
               isEditing={isEditing}
-              {...(Array.isArray(customer.emails) && customer.emails.length > 0
-                ? register("emails.0.emals")
-                : {})}
+              {...register("email")}
             />
             <div>
               <InputsEdit
-                value={customer.phones?.[0]?.telephone || ""}
+                defaultValue={customer.telephone}
                 className="inputbox"
                 label={"Telefone:"}
                 type="text"
-                id="phones"
+                id="telephone"
                 isEditing={isEditing}
-                {...(Array.isArray(customer.phones) &&
-                customer.phones.length > 0
-                  ? register("phones.0.telephone")
-                  : register("phones.telephone"))}
+                {...register("telephone")}
               />
             </div>
           </div>
 
           <div className="flex flex-col gap-y-8">
             <InputsEdit
-              value={customer.username}
+              defaultValue={customer.username}
               className="inputbox"
               label={"username:"}
               type="text"

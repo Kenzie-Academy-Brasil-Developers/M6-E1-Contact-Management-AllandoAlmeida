@@ -1,10 +1,13 @@
-'use client';
-import { isTokenExpired, updateToken } from '@/app/(login)/service/session.service';
-import { api } from '@/service/api';
-import React, { useEffect, useState } from 'react';
-import { Slide, toast } from 'react-toastify';
-import { TCurrentContact } from './contact.service/@type.contact';
-import { FormEditContact } from './components/FormEditContact';
+"use client";
+import {
+  isTokenExpired,
+  updateToken,
+} from "@/app/(login)/service/session.service";
+import { api } from "@/service/api";
+import { TCurrentContact } from "./contact.service/@type.contact";
+import { UpdatingContact } from "./components/UpdatingContact";
+import { Slide, toast } from "react-toastify";
+import { useEffect, useState } from "react";
 
 export interface IContactParams {
   params: {
@@ -13,7 +16,9 @@ export interface IContactParams {
 }
 
 async function getContactById(contactId: string) {
-  const accessToken = localStorage.getItem("@Management:accessToken")?.replace(/"/g, "");
+  const accessToken = localStorage
+    .getItem("@Management:accessToken")
+    ?.replace(/"/g, "");
 
   if (accessToken) {
     const accessTokenData = JSON.parse(atob(accessToken.split(".")[1]));
@@ -60,7 +65,9 @@ async function getContactById(contactId: string) {
 
 const ContactParams = ({ params }: IContactParams) => {
   const { contactId } = params;
-  const [currentContact, setCurrentContact] = useState<TCurrentContact | null>(null);
+  const [currentContact, setCurrentContact] = useState<TCurrentContact | null>(
+    null
+  );
 
   useEffect(() => {
     const fetchData = async () => {
@@ -68,22 +75,36 @@ const ContactParams = ({ params }: IContactParams) => {
         const contactData: TCurrentContact = await getContactById(contactId);
         setCurrentContact(contactData);
       } catch (error) {
-        console.error('Erro ao obter dados do contato:', error);
+        console.error("Erro ao obter dados do contato:", error);
       }
     };
 
     fetchData();
   }, [contactId]);
 
-  console.log('currentContact', currentContact);
+  console.log("currentContact", currentContact);
 
   return (
     <main>
       <ul>
-        <li>{currentContact && <FormEditContact currentContact={currentContact} />}</li>
+        <li>
+          {currentContact && (
+            <UpdatingContact
+              currentContact={currentContact}
+              name={currentContact.name}
+              zipCode={currentContact.zipCode}
+              street={currentContact.street}
+              complement={currentContact.complement}
+              district={currentContact.district}
+              locality={currentContact.locality}
+              state={currentContact.state}
+              telephone={currentContact.telephone}
+              email={currentContact.email}
+            />
+          )}
+        </li>
       </ul>
     </main>
   );
 };
-
 export default ContactParams;

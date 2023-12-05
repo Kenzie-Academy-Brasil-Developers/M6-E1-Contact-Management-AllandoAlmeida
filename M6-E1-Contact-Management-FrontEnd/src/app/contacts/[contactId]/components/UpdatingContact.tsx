@@ -1,19 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-"use client";
 
 import { SubmitHandler, UseFormReturn, useForm } from "react-hook-form";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { CloseIcon } from "@/components/icons/CloseIcon";
-import InputsEdit from "@/components/fragments/InputsEdit";
-import { TFormCurrentContac } from "./@type.formEditContact";
-import { ButtonNav } from "./ButtonDel";
+import { TFormCurrentContact } from "./@type.formEditContact";
 import {
   deleteContactById,
   upDateContact,
 } from "../contact.service/contact.service";
+import InputsEdit from "@/components/fragments/InputsEdit";
+import { ButtonNav } from "./ButtonDel";
 
-export const FormEditContact: React.FC<TFormCurrentContac> = ({
+export const UpdatingContact: React.FC<TFormCurrentContact> = ({
   currentContact,
 }) => {
   const {
@@ -25,7 +24,6 @@ export const FormEditContact: React.FC<TFormCurrentContac> = ({
   }: UseFormReturn<any> = useForm();
 
   const [isEditing, setIsEditing] = useState(false);
-
   useEffect(() => {
     fetchAddress();
   }, [currentContact]);
@@ -38,10 +36,19 @@ export const FormEditContact: React.FC<TFormCurrentContac> = ({
       setValue("district", currentContact.district || "");
       setValue("locality", currentContact.locality || "");
       setValue("state", currentContact.state || "");
-
+      setValue("telephone", currentContact.telephone || "");
+      setValue("email", currentContact.email || "");
+      // Defina currentContact.telephone como uma string ou vazio caso não seja válido
       setValue(
-        "phones",
-        Array.isArray(currentContact.phones) ? currentContact.phones : []
+        "telephone",
+        typeof currentContact.telephone === "string"
+          ? currentContact.telephone
+          : ""
+      );
+      // Defina currentContact.email como uma string ou vazio caso não seja válido
+      setValue(
+        "email",
+        typeof currentContact.email === "string" ? currentContact.email : ""
       );
     } catch (error) {
       console.error("Error fetching address:", error);
@@ -105,7 +112,7 @@ export const FormEditContact: React.FC<TFormCurrentContac> = ({
         >
           <div className="flex flex-col gap-y-8">
             <InputsEdit
-              value={currentContact.name}
+              defaultValue={currentContact.name}
               className="inputbox"
               label={"Nome Contato:"}
               type="text"
@@ -115,35 +122,29 @@ export const FormEditContact: React.FC<TFormCurrentContac> = ({
             />
 
             <InputsEdit
-              value={currentContact.emails?.[0]?.email || ""}
+              defaultValue={currentContact.email}
               className="inputbox"
               label={"E-mail:"}
-              type="email"
-              id="emails"
+              type="text"
+              id="email"
               isEditing={isEditing}
-              {...(Array.isArray(currentContact.emails) &&
-              currentContact.emails.length > 0
-                ? register("emails.0.emals")
-                : {})}
+              {...register("email")}
             />
             <div>
               <InputsEdit
-                value={currentContact.phones?.[0]?.telephone || ""}
+                defaultValue={currentContact.telephone}
                 className="inputbox"
-                label={"Telefone:"}
+                label={"Contato"}
                 type="text"
-                id="phones"
+                id="telephone"
                 isEditing={isEditing}
-                {...(Array.isArray(currentContact.phones) &&
-                currentContact.phones.length > 0
-                  ? register("phones.0.telephone")
-                  : register("phones.telephone"))}
+                {...register("telephone")}
               />
             </div>
           </div>
           <div className="flex flex-col gap-y-8">
             <InputsEdit
-              value={currentContact.zipCode}
+              defaultValue={currentContact.zipCode}
               className="inputbox"
               label={"CEP:"}
               type="text"
@@ -158,7 +159,7 @@ export const FormEditContact: React.FC<TFormCurrentContac> = ({
                 label={"Rua:"}
                 type="text"
                 id="street"
-                value={currentContact.street}
+                defaultValue={currentContact.street}
                 isEditing={isEditing}
                 {...register("street")}
               />
@@ -167,7 +168,7 @@ export const FormEditContact: React.FC<TFormCurrentContac> = ({
                 label={"Numero:"}
                 type="text"
                 id="complement"
-                value={currentContact.complement}
+                defaultValue={currentContact.complement}
                 isEditing={isEditing}
                 {...register("complement")}
               />
@@ -179,7 +180,7 @@ export const FormEditContact: React.FC<TFormCurrentContac> = ({
               label={"Bairro:"}
               type="text"
               id="district"
-              value={currentContact.district}
+              defaultValue={currentContact.district}
               isEditing={isEditing}
               {...register("district")}
             />
@@ -188,7 +189,7 @@ export const FormEditContact: React.FC<TFormCurrentContac> = ({
               label={"Cidade:"}
               type="text"
               id="locality"
-              value={currentContact.locality}
+              defaultValue={currentContact.locality}
               isEditing={isEditing}
               {...register("locality")}
             />
@@ -197,13 +198,13 @@ export const FormEditContact: React.FC<TFormCurrentContac> = ({
               label={"Estado (UF):"}
               type="text"
               id="state"
-              value={currentContact.state}
+              defaultValue={currentContact.state}
               isEditing={isEditing}
               {...register("state")}
             />
           </div>
 
-          <div className="flex gap-x-3">
+          <div>
             <ButtonNav
               width="70%"
               height="4.8rem"
@@ -221,7 +222,6 @@ export const FormEditContact: React.FC<TFormCurrentContac> = ({
               }}
               disabled={false}
             />
-
             <ButtonNav
               width="9.8rem"
               height="4.8rem"

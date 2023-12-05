@@ -15,8 +15,8 @@ model Customer {
   createdAt DateTime            @default(now())
   updatedAt DateTime?           @updatedAt
   isActive  Boolean             @default(true)
-  phones    Phone[]
-  emails    Email[]
+  telephone String
+  email     String
   contacts  ContactToCustomer[]
 
   @@map(name: "customers")
@@ -34,8 +34,8 @@ model Contact {
   createdAt  DateTime            @default(now()) @map(name: "createdAt")
   updated    DateTime?           @updatedAt @map(name: "updated")
   isActive   Boolean             @default(true)
-  phones     Phone[]
-  emails     Email[]
+  telephone  String
+  email      String
   customers  ContactToCustomer[]
 
   @@map(name: "contacts")
@@ -51,26 +51,4 @@ model ContactToCustomer {
   contact  Contact  @relation(fields: [contactId], references: [id])
 
   @@map(name: "contactToCustomer")
-}
-
-model Phone {
-  id         String    @id @default(uuid())
-  telephone  String
-  customerId String?
-  contactId  String?
-  customer   Customer? @relation(fields: [customerId], references: [id])
-  contact    Contact?  @relation(fields: [contactId], references: [id])
-
-  @@map(name: "phones")
-}
-
-model Email {
-  id         String    @id @default(uuid())
-  email      String
-  customerId String?
-  contactId  String?
-  customer   Customer? @relation(fields: [customerId], references: [id])
-  contact    Contact?  @relation(fields: [contactId], references: [id])
-
-  @@map(name: "emails")
 }
