@@ -22,10 +22,10 @@ export const FormSession: React.FC<{ onLogin: (data: IFormSession) => void }> = 
   }: UseFormReturn<IFormSession> = useForm<IFormSession>();
 
   const onSubmit: SubmitHandler<IFormSession> = async (data) => {
-    // Envie a requisição de login
+   
     const responseData = await Session(data);
 
-    // Chame a função onLogin apenas se o login for bem-sucedido
+    
     if (responseData) {
       onLogin(data);
     }
@@ -61,7 +61,7 @@ export const FormSession: React.FC<{ onLogin: (data: IFormSession) => void }> = 
               {...register("password")}
               errors={errors.password}
             />
-            <ButtonToAccess type="submit" text="Entrar" styles={"btnAccess"} />
+            <ButtonToAccess type="submit" text="Entrar" styles={"btnAccess"} width={undefined} />
           </div>
         </form>
         <div className="w-full p-7">

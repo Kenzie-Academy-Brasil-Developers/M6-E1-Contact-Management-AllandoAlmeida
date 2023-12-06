@@ -1,13 +1,13 @@
 // buttonNavPage.tsx
 import Link from "next/link";
 import "../Buttons/styles/styles.buttonNavRegister.css";
-import { ReactNode } from "react"; // Adicione essa importação
+import { ReactNode } from "react";
 
 interface IButtonNavPage {
-  text: string;
+  text?: string;
   herf: string;
-  option: ReactNode; // Modifique o tipo para ReactNode
-  onClick: () => void;
+  option?: ReactNode;
+  onClick?: () => void;
 }
 
 export const ButtonNavPage: React.FC<IButtonNavPage> = ({ text, herf, option, onClick, ...rest }) => {

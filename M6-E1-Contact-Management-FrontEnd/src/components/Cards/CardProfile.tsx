@@ -21,21 +21,13 @@ export const CardProfile: React.FC<ICardProfile> = ({ customer }) => {
   }
 
   return (
-    <section className="flex justify-around md:flex-col md:w-full ">
-      <div className="flex flex-col gap-y-5">
-        <ul className="flex flex-col gap-y-2 ">
-          <span className="text-[1rem] text-gray-700">Nome:</span>
-          <span className="text-[1.2rem]">
-            {customer.name || "Nome não disponível"}
-          </span>
-        </ul>
-        <ul className="flex md:flex-col gap-y-2">
-          <span className="text-[1rem] text-gray-700">Usuário:</span>
-          <span className="text-[1.2rem]">
-            {customer.username || "Nome não disponível"}
-          </span>
-        </ul>
-      </div>
+    <section className="w-[80vw] px-6">
+      <ul className="flex flex-col gap-y-2 ">
+        <span className="text-[1rem] text-gray-700">Nome:</span>
+        <span className="text-[1.2rem]">
+          {customer.name || "Nome não disponível"}
+        </span>
+      </ul>
 
       <div>
         <Link href={`/profile/${customer.id}`} className="flex items-center">
