@@ -1,25 +1,25 @@
 "use client";
 
-import { SubmitHandler, UseFormReturn, useForm } from "react-hook-form";
-import Inputs from "../../../components/fragments/Inputs";
+import { useForm } from "react-hook-form";
+import Inputs from "../fragments/Inputs";
+import { ButtonNavPage } from "../fragments/Buttons/buttonNavPage";
 import { ButtonToAccess } from "@/components/fragments/Buttons/buttonAccess";
-import { ButtonNavPage } from "@/components/fragments/Buttons/buttonNavPage";
-import { SignUp } from "../service/signup.service";
-import { IFormSignUp } from "./@type.formSignUp";
+import React from "react";
+import { useAuth } from "@/contexts/authContext";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { CustomerData, CustomerSchema } from "@/schema/customer.schema";
 
+export const SignupForm = () => {
+  const { register, handleSubmit } = useForm<CustomerData>({
+    resolver: zodResolver(CustomerSchema),
+  });
+  const { signup } = useAuth();
 
-export const FormSignUp: React.FC = () => {
-  const {
-    handleSubmit,
-    register,
-    reset,
-    formState: { errors },
-  }: UseFormReturn<IFormSignUp> = useForm<IFormSignUp>();
-
-  const onSubmit: SubmitHandler<IFormSignUp> = async (data) => {
-    SignUp(data);
-    reset();
+  const onSubmit = async (data: CustomerData) => {
+    console.log(data);
+    signup(data);
   };
+
   return (
     <div className="w-full h-[35rem]  flex flex-col gap-y-10">
       <div className="box flex-col w-[28rem] h-[full] gap-y-10 ">
@@ -28,7 +28,7 @@ export const FormSignUp: React.FC = () => {
           onSubmit={handleSubmit(onSubmit)}
         >
           <div className="mt-[2rem]">
-            <h2>Cadastro</h2>
+            <h2>Login</h2>
           </div>
           <div className="flex flex-col mt-[2rem] gap-y-10">
             <Inputs
@@ -37,61 +37,49 @@ export const FormSignUp: React.FC = () => {
               type="name"
               placeholder=""
               {...register("name")}
-              errors={errors.name}
             />
 
             <Inputs
               className="inputbox"
-              label={"Username:"}
+              label={"Usuário:"}
               type="username"
               placeholder=""
               {...register("username")}
-              errors={errors.username}
             />
-
             <Inputs
               className="inputbox"
               label={"Contato:"}
               type="telephone"
               placeholder=""
               {...register("telephone")}
-              errors={errors.telephone}
             />
-
-         {/*    <Inputs
-              className="inputbox"
-              label={"Sobre você:"}
-              type="bio"
-              placeholder=""
-              {...register("bio")}
-              errors={errors.bio}
-            /> */}
-
             <Inputs
               className="inputbox"
               label={"E-mail:"}
               type="email"
               placeholder=""
               {...register("email")}
-              errors={errors.email}
             />
-
             <Inputs
               className="inputbox"
               label={"Senha:"}
               type="password"
               placeholder=""
               {...register("password")}
-              errors={errors.password}
             />
-            <ButtonToAccess type="submit" text="Entrar" styles={"btnAccess"} />
+            <ButtonToAccess
+              type="submit"
+              text="Entrar"
+              styles={"btnAccess"}
+              width={undefined}
+            />
           </div>
         </form>
         <div className="w-full p-7">
           <ButtonNavPage
-            text={"Acesse a sua Conta!"}
-            herf={"/"}
-            option={"LOGIN"}
+            text={"Ainda não possui uma conta?"}
+            herf={"/signup"}
+            option={"Cadastre-se"}
           />
         </div>
       </div>

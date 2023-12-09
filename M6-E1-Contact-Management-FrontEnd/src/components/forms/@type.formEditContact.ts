@@ -1,4 +1,4 @@
-import { TCurrentContact } from "../contact.service/@type.contact";
+import { TCurrentContact } from "../../app/contacts/[contactId]/contact.service/@type.contact";
 
 export interface TFormCurrentContact extends TCurrentContact {
   currentContact: {

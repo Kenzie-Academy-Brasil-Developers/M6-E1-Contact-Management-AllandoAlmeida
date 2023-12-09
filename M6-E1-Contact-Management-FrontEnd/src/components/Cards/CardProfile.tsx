@@ -3,19 +3,10 @@
 import React from "react";
 import { EditeIcon } from "../icons/EditeIcon";
 import Link from "next/link";
+import { TCustomerProfile } from "@/app/customers/service/profile.service";
 
-interface ICardProfile {
-  customer: {
-    id: string;
-    username: string;
-    name: string;
-    telephone: string;
-    email: string;
-    isActive: string;
-  };
-}
 
-export const CardProfile: React.FC<ICardProfile> = ({ customer }) => {
+export const CardProfile: React.FC<TCustomerProfile> = ({ customer }) => {
   if (!customer) {
     return <div>Dados do cliente indisponíveis</div>;
   }
@@ -30,7 +21,7 @@ export const CardProfile: React.FC<ICardProfile> = ({ customer }) => {
       </ul>
 
       <div>
-        <Link href={`/profile/${customer.id}`} className="flex items-center">
+        <Link href={`/customers/${customer.id}`} className="flex items-center">
           <span className="flex items-center gap-x-1 font-bold h-[5rem]">
             <EditeIcon />
             <span className="text-lg">MEUS DADOS</span>

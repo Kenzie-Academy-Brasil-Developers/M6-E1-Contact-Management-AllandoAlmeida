@@ -1,20 +1,26 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
-
 import { SubmitHandler, UseFormReturn, useForm } from "react-hook-form";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { CloseIcon } from "@/components/icons/CloseIcon";
 import InputsEdit from "@/components/fragments/InputsEdit";
-import {
-  deleteCustomerById,
-  upDateCustomerById,
-} from "./service/customer.service";
-import { CustomerType, TCustomerProfile } from "../service/profile.service";
-import { ButtonNav } from "@/app/contacts/[contactId]/components/ButtonDel";
+import { ButtonNav } from "@/components/ButtonNav";
 import { useRouter } from "next/navigation";
+import { deleteCustomerParams } from "@/app/customers/[customerId]/service/customer.service";
+import { TCustomerParams } from "@/app/customers/service/profile.service";
 
-export const UpdatingCustomer: React.FC<TCustomerProfile> = ({ customer }: TCustomerProfile) => {
+export interface ICustomerUpdate {
+  customer: {
+    id: string | null;
+    username: string;
+    name: string;
+    telephone: string;
+    email: string;
+    isActive: string;
+  };
+}
+
+export const UpdatingCustomer = ({ customer }: ICustomerUpdate) => {
   const {
     handleSubmit,
     register,
@@ -23,7 +29,7 @@ export const UpdatingCustomer: React.FC<TCustomerProfile> = ({ customer }: TCust
     formState: { errors },
   }: UseFormReturn<any> = useForm();
 
-  const router = useRouter()
+  const router = useRouter();
 
   const [isEditing, setIsEditing] = useState(false);
 
@@ -37,13 +43,11 @@ export const UpdatingCustomer: React.FC<TCustomerProfile> = ({ customer }: TCust
       setValue("username", customer.username || "");
       setValue("telephone", customer.telephone || "");
       setValue("email", customer.email || "");
-    setValue(
+      setValue(
         "telephone",
-        typeof customer.telephone === "string"
-          ? customer.telephone
-          : ""
+        typeof customer.telephone === "string" ? customer.telephone : ""
       );
-      
+
       setValue(
         "email",
         typeof customer.email === "string" ? customer.email : ""
@@ -65,9 +69,9 @@ export const UpdatingCustomer: React.FC<TCustomerProfile> = ({ customer }: TCust
     if (customerId) {
       try {
         await upDateCustomerById(customerId, data);
-       
+
         setIsEditing(false);
-        router.push('/profile')
+        router.push("/customers");
       } catch (error) {
         console.error("Error updating contact:", error);
       }
@@ -76,13 +80,11 @@ export const UpdatingCustomer: React.FC<TCustomerProfile> = ({ customer }: TCust
     }
   };
 
-  const handleDelete = async (customerId: string) => {
-    console.log("Excluir", customerId);
-
-    if (customerId) {
+  const handleDelete = async ({ params }: TCustomerParams) => {
+    if (params) {
       try {
-        await deleteCustomerById(customerId);
-        router.push('/profile')
+        await deleteCustomerParams({ params });
+        router.push("/customers");
       } catch (error) {
         console.error("Error deleting customer:", error);
       }
@@ -91,7 +93,8 @@ export const UpdatingCustomer: React.FC<TCustomerProfile> = ({ customer }: TCust
     }
   };
 
-  const onSubmit: SubmitHandler<any> = async (data) => {
+  const onSubmit: SubmitHandler<any> = async (customerId, data) => {
+    upDateCustomerById(customerId, data);
     console.log(data);
     reset(data);
   };
@@ -101,7 +104,7 @@ export const UpdatingCustomer: React.FC<TCustomerProfile> = ({ customer }: TCust
       <div className="box flex-col w-[35rem]">
         <div className="flex w-[100%] items-center mt-[2rem] justify-between p-7">
           <h1 className="text-[2.5rem]">Contatos</h1>
-          <Link href={"/profile"}>
+          <Link href={"/customers"}>
             <CloseIcon />
           </Link>
         </div>
@@ -111,7 +114,7 @@ export const UpdatingCustomer: React.FC<TCustomerProfile> = ({ customer }: TCust
           onSubmit={handleSubmit(onSubmit)}
         >
           <div className="flex flex-col gap-y-8">
-          <InputsEdit
+            <InputsEdit
               defaultValue={customer.name}
               className="inputbox"
               label={"Nome Contato:"}
@@ -181,7 +184,9 @@ export const UpdatingCustomer: React.FC<TCustomerProfile> = ({ customer }: TCust
               background="color-color-primary-disable"
               textcolor="white"
               hover="color-grey-2"
-              onClick={() => handleDelete(String(customer.id))}
+              onClick={() =>
+                handleDelete({ params: { customerId: String(customer.id) } })
+              }
               data-contact-id={String(customer.id)}
               disabled={false}
             />
@@ -191,3 +196,7 @@ export const UpdatingCustomer: React.FC<TCustomerProfile> = ({ customer }: TCust
     </div>
   );
 };
+
+function upDateCustomerById(customerId: string, data: any) {
+  throw new Error("Function not implemented.");
+}

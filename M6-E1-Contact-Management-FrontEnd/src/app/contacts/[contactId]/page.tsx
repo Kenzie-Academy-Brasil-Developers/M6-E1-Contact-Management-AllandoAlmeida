@@ -5,7 +5,7 @@ import {
 } from "@/app/(login)/service/session.service";
 import { api } from "@/service/api";
 import { TCurrentContact } from "./contact.service/@type.contact";
-import { UpdatingContact } from "./components/UpdatingContact";
+import { UpdatingContact } from "../../../components/forms/UpdatingContactForm";
 import { Slide, toast } from "react-toastify";
 import { useEffect, useState } from "react";
 

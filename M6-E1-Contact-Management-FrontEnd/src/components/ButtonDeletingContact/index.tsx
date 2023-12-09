@@ -1,9 +1,9 @@
 import React, { ReactNode, MouseEventHandler } from "react";
-import { ButtonNav } from "../ButtonDel";
 import {
   StyledContainerButton,
   StyledContainerDeleting,
 } from "./styles";
+import { ButtonNav } from "../ButtonNav";
 
 interface DeletingContactProps {
   children?: ReactNode;

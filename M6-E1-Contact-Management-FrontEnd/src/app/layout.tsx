@@ -3,6 +3,8 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/header/Header";
 import StyledComponentsRegistry from "@/lib/registy";
+import 'react-toastify/dist/ReactToastify.css';
+import { Providers } from "./providers";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,10 +20,12 @@ export default function RootLayout({
 }) {
   return (
     <html>
-      <body>
-        <Header />
-        <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
-      </body>
+      <Providers>
+        <body>
+          <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
+        </body>
+      </Providers>
+      <Header />
     </html>
   );
 }

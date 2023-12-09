@@ -56,7 +56,7 @@ interface IInputsProps extends InputHTMLAttributes<HTMLInputElement> {
 
 const InputsEdit: ForwardRefRenderFunction<HTMLInputElement, IInputsProps> = (
   { errors, label, type, isEditing, defaultValue, register, ...rest },
-  ref
+  
 ) => {
 
   return (

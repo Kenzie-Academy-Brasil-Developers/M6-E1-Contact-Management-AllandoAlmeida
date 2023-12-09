@@ -8,9 +8,9 @@ import { TFormCurrentContact } from "./@type.formEditContact";
 import {
   deleteContactById,
   upDateContact,
-} from "../contact.service/contact.service";
+} from "../../app/contacts/[contactId]/contact.service/contact.service";
 import InputsEdit from "@/components/fragments/InputsEdit";
-import { ButtonNav } from "./ButtonDel";
+import { ButtonNav } from "../ButtonNav";
 import { useRouter } from "next/navigation";
 
 export const UpdatingContact: React.FC<TFormCurrentContact> = ({
@@ -71,7 +71,7 @@ export const UpdatingContact: React.FC<TFormCurrentContact> = ({
         await upDateContact(contactId, data);
        
         setIsEditing(false);
-        router.push('/profile')
+        router.push('/customers')
       } catch (error) {
         console.error("Error updating contact:", error);
       }
@@ -86,7 +86,7 @@ export const UpdatingContact: React.FC<TFormCurrentContact> = ({
     if (contactId) {
       try {
         await deleteContactById(contactId);
-        router.push('/profile')
+        router.push('/customers')
       } catch (error) {
         console.error("Error deleting contact:", error);
       }
@@ -105,7 +105,7 @@ export const UpdatingContact: React.FC<TFormCurrentContact> = ({
       <div className="box flex-col w-[35rem]">
         <div className="flex w-[100%] items-center mt-[2rem] justify-between p-7">
           <h1 className="text-[2.5rem]">Contatos</h1>
-          <Link href={"/profile"}>
+          <Link href={"/customers"}>
             <CloseIcon />
           </Link>
         </div>

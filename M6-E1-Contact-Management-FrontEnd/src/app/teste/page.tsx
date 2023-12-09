@@ -3,7 +3,7 @@
 
 import "react-toastify/dist/ReactToastify.css";
 import React, { useEffect, useState } from "react";
-import { ButtonNav } from "../contacts/[contactId]/components/ButtonDel";
+import { ButtonNav } from "../../components/ButtonNav";
 
 export default function Test() {
 

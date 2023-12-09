@@ -1,38 +1,24 @@
-"use client";
-
-import { SubmitHandler, UseFormReturn, useForm } from "react-hook-form";
-import Inputs from "../../../components/fragments/Inputs";
-import { ButtonNavPage } from "../../../components/fragments/Buttons/buttonNavPage";
+import { useForm } from "react-hook-form";
+import Inputs from "../fragments/Inputs";
+import { ButtonNavPage } from "../fragments/Buttons/buttonNavPage";
 import { ButtonToAccess } from "@/components/fragments/Buttons/buttonAccess";
 import React from "react";
-import { Session } from "@/app/(login)/service/session.service";
+import { useAuth } from "@/contexts/authContext";
 
-interface IFormSession {
-  username: string;
-  password: string;
-  FieldValues: any;
-}
+import { zodResolver } from "@hookform/resolvers/zod";
+import { SessionData, SessionSchema } from "@/schema/session.schema";
 
-export const FormSession: React.FC<{ onLogin: (data: IFormSession) => void }> = ({ onLogin }) => {
-  const {
-    handleSubmit,
-    register,
-    reset,
-    formState: { errors },
-  }: UseFormReturn<IFormSession> = useForm<IFormSession>();
+export const SessionForm = () => {
+  const { register, handleSubmit } = useForm<SessionData>({
+    resolver: zodResolver(SessionSchema),
+  });
+  const { session } = useAuth();
 
-  const onSubmit: SubmitHandler<IFormSession> = async (data) => {
-   
-    const responseData = await Session(data);
-
-    
-    if (responseData) {
-      onLogin(data);
-    }
-
-    reset();
+  const onSubmit = async (data: SessionData) => {
+    session(data);
+    console.log(data)
   };
-  
+
   return (
     <div className="w-full h-[35rem]  flex flex-col gap-y-10">
       <div className="box flex-col w-[28rem] h-[full] gap-y-10 ">
@@ -50,7 +36,6 @@ export const FormSession: React.FC<{ onLogin: (data: IFormSession) => void }> = 
               type="username"
               placeholder=""
               {...register("username")}
-              errors={errors.username}
             />
 
             <Inputs
@@ -59,9 +44,13 @@ export const FormSession: React.FC<{ onLogin: (data: IFormSession) => void }> = 
               type="password"
               placeholder=""
               {...register("password")}
-              errors={errors.password}
             />
-            <ButtonToAccess type="submit" text="Entrar" styles={"btnAccess"} width={undefined} />
+            <ButtonToAccess
+              type="submit"
+              text="Entrar"
+              styles={"btnAccess"}
+              width={undefined}
+            />
           </div>
         </form>
         <div className="w-full p-7">

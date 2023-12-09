@@ -1,13 +1,13 @@
 "use client";
 import { SubmitHandler, UseFormReturn, useForm } from "react-hook-form";
-import Inputs from "../../../components/fragments/Inputs";
+import Inputs from "../fragments/Inputs";
 import React, { useState } from "react";
 import { useViaCepService } from "@/service/useViaCep.service";
 import { ButtonNav } from "@/components/fragments/Buttons/buttonNavegate";
 import { ButtonToAccess } from "@/components/fragments/Buttons/buttonAccess";
 import Link from "next/link";
 import { CloseIcon } from "@/components/icons/CloseIcon";
-import { newContact } from "../service/contacts.service";
+import { newContact } from "../../app/contacts/service/contacts.service";
 import { redirect } from "next/navigation";
 
 interface IContactForm {
@@ -70,7 +70,7 @@ export const FormContacts: React.FC = () => {
     try {
       console.log("contato", data);
       await newContact(data);
-      redirect('/profile')
+      redirect('/customers')
     } catch (error) {
       console.error("Ocorreu um erro ao enviar o formulário:", error);
     }
@@ -80,7 +80,7 @@ export const FormContacts: React.FC = () => {
       <div className="box flex-col w-[35rem] ">
         <div className="flex w-[100%] items-center mt-[2rem] justify-between p-7">
           <h1 className="text-[2.5rem]">Contatos</h1>
-          <Link href={"/profile"}>
+          <Link href={"/customers"}>
             <CloseIcon />
           </Link>
         </div>

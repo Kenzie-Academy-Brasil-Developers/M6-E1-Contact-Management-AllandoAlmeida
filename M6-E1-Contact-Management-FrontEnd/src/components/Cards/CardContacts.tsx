@@ -1,19 +1,20 @@
 // CardContact.tsx
 'use client'
-import { ContactType } from "@/app/profile/service/profile.service";
+import { IContact } from "@/app/customers/page";
 import { useWindowWidth } from "../hooks/useWindowWidth";
 import { EditeIcon } from "../icons/EditeIcon";
 import Link from "next/link";
 
-interface ICardContact {
-  contact: ContactType;
+interface CardContactProps {
+  key: string;
+  contact: IContact;
 }
 
-export const CardContact: React.FC<ICardContact> = ({ contact }) => {
+export const CardContact: React.FC<CardContactProps> = ({ key, contact }) => {
   const windowWidth = useWindowWidth();
   const showOnlyName = windowWidth <= 1024;
 
-  if (!contact || !contact.contact) {
+  if (!contact || !contact.id) {
     return <div>Dados de contato indisponíveis</div>;
   }
 
@@ -27,25 +28,25 @@ export const CardContact: React.FC<ICardContact> = ({ contact }) => {
             showOnlyName ? "col-span-3 text-lg" : "col-span-1/2 px-10 text-2xl"
           }`}
         >
-          {contact.contact.name || "Nome não disponível"}
+          {contact.name || "Nome não disponível"}
         </li>
         {!showOnlyName && (
           <>
             <ul>
-              <li className="text-2xl">{contact.contact.telephone}</li>
+              <li className="text-2xl">{contact.telephone}</li>
               
             </ul>
 
             <ul>
               <li className="text-2xl">
-                <a href={`mailto:${contact.contact.email}`} className="text-2xl">{contact.contact.email}</a>
+                <a href={`mailto:${contact.email}`} className="text-2xl">{contact.email}</a>
                 
                 </li>
             </ul>
           </>
         )}
       </ul>
-      <Link href={`/contacts/${contact.contact.id}`} className="flex items-center ">
+      <Link href={`/contacts/${contact.id}`} className="flex items-center ">
         <EditeIcon />
       </Link>
     </div>

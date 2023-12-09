@@ -1,4 +1,4 @@
-import { FormContacts } from "./formContacts/FormContacts";
+import { FormContacts } from "../../components/forms/ContactsForm";
 
 
 export default function Contacts() {

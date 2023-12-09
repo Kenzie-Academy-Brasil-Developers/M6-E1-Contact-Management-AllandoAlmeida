@@ -70,7 +70,7 @@ export const Header = ({}) => {
       setLogoutFlag(false);
     }
   }, [logoutFlag, router]);
-
+ 
   return (
     <header className="font-normal h-[6rem] border-b-2 border-gray-600 font-inherit text-inherit no-underline  outline-none border-0 box-border top-0 left-0 right-0 fixed  backdrop-blur z-50 bg-brancoHeader  shadow-md flex">
       <div className="w-[95vw] m-auto md:w-[60vw] backdrop-filter backdrop-blur-lg bg-opacity-50 bg-transparent md:mx-auto px-2 flex justify-between items-center border-2">

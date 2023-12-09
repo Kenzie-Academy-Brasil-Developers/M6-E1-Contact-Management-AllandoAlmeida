@@ -10,9 +10,7 @@ export interface ButtonNavProps {
   hover?: string;
   type?: "button" | "submit" | "reset";
   styles?: React.CSSProperties; // Adicionando a propriedade styles
-  onClick?: (
-    e?: React.BaseSyntheticEvent<object, any, any> | undefined
-  ) => Promise<void> | (() => void);
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
   disabled?: boolean;
 }
 
