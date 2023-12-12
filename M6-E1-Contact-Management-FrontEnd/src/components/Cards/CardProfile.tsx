@@ -3,7 +3,7 @@
 import React from "react";
 import { EditeIcon } from "../icons/EditeIcon";
 import Link from "next/link";
-import { TCustomerProfile } from "@/app/customers/service/profile.service";
+import { TCustomerProfile } from "@/service/profile.service";
 
 
 export const CardProfile: React.FC<TCustomerProfile> = ({ customer }) => {

@@ -1,13 +1,17 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
-import { SubmitHandler, UseFormReturn, useForm } from "react-hook-form";
+import { UseFormReturn, useForm } from "react-hook-form";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { CloseIcon } from "@/components/icons/CloseIcon";
-import InputsEdit from "@/components/fragments/InputsEdit";
-import { ButtonNav } from "@/components/ButtonNav";
 import { useRouter } from "next/navigation";
-import { deleteCustomerParams } from "@/app/customers/[customerId]/service/customer.service";
-import { TCustomerParams } from "@/app/customers/service/profile.service";
+import { CloseIcon } from "../icons/CloseIcon";
+import InputsEdit from "../fragments/InputsEdit";
+import { ButtonNav } from "../ButtonNav";
+import { ICustomerType, TCustomerParams } from "@/schema/customer.schema";
+import {
+  deleteCustomerParams,
+  upDateCustomerParams,
+} from "@/contexts/customerContext";
 
 export interface ICustomerUpdate {
   customer: {
@@ -20,7 +24,7 @@ export interface ICustomerUpdate {
   };
 }
 
-export const UpdatingCustomer = ({ customer }: ICustomerUpdate) => {
+export const UpdatingCustomerForm = ({ customer }: ICustomerUpdate) => {
   const {
     handleSubmit,
     register,
@@ -30,8 +34,6 @@ export const UpdatingCustomer = ({ customer }: ICustomerUpdate) => {
   }: UseFormReturn<any> = useForm();
 
   const router = useRouter();
-
-  const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
     fetchAddress();
@@ -57,20 +59,13 @@ export const UpdatingCustomer = ({ customer }: ICustomerUpdate) => {
     }
   };
 
-  const toggleEditing = () => {
-    setIsEditing(!isEditing);
-  };
-
   const handleSave = async (data: any) => {
     console.log("Salvar:", data);
-
     const customerId = String(customer.id);
 
     if (customerId) {
       try {
-        await upDateCustomerById(customerId, data);
-
-        setIsEditing(false);
+        await upDateCustomerParams({ params: { customerId } }, data);
         router.push("/customers");
       } catch (error) {
         console.error("Error updating contact:", error);
@@ -93,10 +88,8 @@ export const UpdatingCustomer = ({ customer }: ICustomerUpdate) => {
     }
   };
 
-  const onSubmit: SubmitHandler<any> = async (customerId, data) => {
-    upDateCustomerById(customerId, data);
-    console.log(data);
-    reset(data);
+  const onSubmit = async (data: ICustomerType) => {
+    await handleSave(data);
   };
 
   return (
@@ -120,7 +113,6 @@ export const UpdatingCustomer = ({ customer }: ICustomerUpdate) => {
               label={"Nome Contato:"}
               type="text"
               id="name"
-              isEditing={isEditing}
               register={register("name")}
             />
 
@@ -130,7 +122,6 @@ export const UpdatingCustomer = ({ customer }: ICustomerUpdate) => {
               label={"E-mail:"}
               type="email"
               id="email"
-              isEditing={isEditing}
               register={register("email")}
             />
             <div>
@@ -140,7 +131,6 @@ export const UpdatingCustomer = ({ customer }: ICustomerUpdate) => {
                 label={"Telefone:"}
                 type="text"
                 id="telephone"
-                isEditing={isEditing}
                 register={register("telephone")}
               />
             </div>
@@ -153,27 +143,20 @@ export const UpdatingCustomer = ({ customer }: ICustomerUpdate) => {
               label={"username:"}
               type="text"
               id="username"
-              isEditing={isEditing}
               placeholder={customer.username}
               register={register("username")}
             />
           </div>
-          <div>
+          <div className="flex gap-x-3">
             <ButtonNav
               width="70%"
               height="4.8rem"
               type="submit"
-              text={isEditing ? "Salvar" : "Editar"}
+              text="Salvar"
               background="color-grey-1"
               textcolor="color-grey-0"
               hover="color-grey-2"
-              onClick={async (e) => {
-                if (isEditing) {
-                  await handleSubmit(handleSave)();
-                } else {
-                  toggleEditing();
-                }
-              }}
+              onClick={handleSubmit(onSubmit)}
               disabled={false}
             />
             <ButtonNav
@@ -196,7 +179,3 @@ export const UpdatingCustomer = ({ customer }: ICustomerUpdate) => {
     </div>
   );
 };
-
-function upDateCustomerById(customerId: string, data: any) {
-  throw new Error("Function not implemented.");
-}

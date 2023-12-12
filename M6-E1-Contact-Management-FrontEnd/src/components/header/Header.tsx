@@ -6,12 +6,6 @@ import { SignOutIcon } from "../icons/SignOutIcon";
 import { ButtonNavPage } from "../fragments/Buttons/buttonNavPage";
 import Image from "next/image";
 import Link from "next/link";
-import {
-  isTokenExpired,
-  updateToken,
-} from "@/app/(login)/service/session.service";
-import { fetchProfile } from "@/app/profile/service/profile.service";
-
 interface TUser {
   name: string;
 }
@@ -29,15 +23,6 @@ export const Header = ({}) => {
         if (tokenWithQuotes) {
           const token = tokenWithQuotes.replace(/"/g, "");
           const accessTokenData = JSON.parse(atob(token.split(".")[1]));
-
-          if (await isTokenExpired()) {
-            const updatedToken = await updateToken();
-
-            if (!updatedToken) {
-              console.error("Falha ao atualizar o token");
-              throw new Error("Falha ao atualizar o token");
-            }
-          }
 
           const userId = accessTokenData.sub;
           const userName = accessTokenData.name;

@@ -1,4 +1,4 @@
-import { Slide, toast } from "react-toastify";
+/* import { Slide, toast } from "react-toastify";
 import { API_BASE_URL } from "@/service/api";
 
 export interface ISession {
@@ -117,3 +117,4 @@ export async function updateToken() {
   }
 }
 
+ */

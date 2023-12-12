@@ -2,7 +2,7 @@
 import {
   isTokenExpired,
   updateToken,
-} from "@/app/(login)/service/session.service";
+} from "@/service/session.service";
 import { api } from "@/service/api";
 import { TCurrentContact } from "./contact.service/@type.contact";
 import { UpdatingContact } from "../../../components/forms/UpdatingContactForm";

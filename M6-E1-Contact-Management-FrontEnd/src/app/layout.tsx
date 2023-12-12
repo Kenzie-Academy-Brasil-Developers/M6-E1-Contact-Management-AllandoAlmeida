@@ -19,13 +19,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html>
+    <html>      
       <Providers>
         <body>
           <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
         </body>
       </Providers>
-      <Header />
     </html>
   );
 }

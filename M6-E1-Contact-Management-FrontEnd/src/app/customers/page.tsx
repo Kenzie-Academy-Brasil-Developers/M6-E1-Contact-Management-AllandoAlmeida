@@ -1,11 +1,10 @@
-
 import CardProfile from "@/components/Cards/CardProfile";
 import { Footer } from "@/components/footer/Footer";
 import { CreateItemsIcon } from "@/components/icons/CreateItemsIcon";
 import Link from "next/link";
-import { fetchCustomer } from "./service/profile.service";
 import { Key } from "react";
 import { CardContact } from "@/components/Cards/CardContacts";
+import { fetchCustomer } from "@/contexts/customerContext";
 
 export interface IContact {
   id: Key;
@@ -25,7 +24,8 @@ export interface IContactList {
   contact: IContact;
 }
 
-const Profile = async () => {
+const Customer = async () => {
+
   const customer = await fetchCustomer();
   console.log(customer);
   return (
@@ -53,7 +53,7 @@ const Profile = async () => {
           </ul>
 
           <div className="w-10/10 mt-10 overflow-x-auto text-lg">
-            {customer.contacts.map((contactItem: IContactList) => (
+            {customer?.contacts?.map((contactItem: IContactList) => (
               <CardContact
                 key={contactItem.key}
                 contact={contactItem.contact}
@@ -67,4 +67,4 @@ const Profile = async () => {
   );
 };
 
-export default Profile;
+export default Customer;

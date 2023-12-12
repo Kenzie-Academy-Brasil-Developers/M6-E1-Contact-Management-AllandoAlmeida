@@ -1,6 +1,6 @@
-import { jwtDecode } from "jwt-decode";
-import { verifyToken } from "@/session/verifyToken";
-import { API_BASE_URL, api } from "@/service/api";
+/* import { jwtDecode } from "jwt-decode";
+import { API_BASE_URL, api } from "../../../service/api";
+import { verifyAccessToken } from "@/components/hooks/verifyAccessToken";
 
 export interface TCustomerProfile {
   customer: {
@@ -26,7 +26,7 @@ export interface TCustomerProfile {
 }
 
 export async function fetchCustomer() {
-  const accessToken = await verifyToken();
+  const accessToken = await verifyAccessToken();
   const decodedToken = jwtDecode(accessToken);
   const userId: string = decodedToken.sub ?? "";
 
@@ -46,7 +46,7 @@ export async function fetchCustomer() {
 }
 
 export interface TCustomerParams {
-  params: { customerId: string };
+  params: { customerId: string | null};
 }
 
 const revalidate = 90;
@@ -54,7 +54,7 @@ const revalidate = 90;
 export const fetchCustomerParams = async ({ params }: TCustomerParams) => {
   console.log("params", params);
 
-  const accessToken = await verifyToken();
+  const accessToken = await verifyAccessToken();
   console.log("accessToken", accessToken);
   try {
     const customerId = params.customerId;
@@ -76,3 +76,4 @@ export const fetchCustomerParams = async ({ params }: TCustomerParams) => {
     return null;
   }
 };
+ */

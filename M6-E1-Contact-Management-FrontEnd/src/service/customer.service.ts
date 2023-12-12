@@ -1,7 +1,8 @@
-import { api } from "@/service/api";
-import { verifyToken } from "@/session/verifyToken";
+/* "use server";
 import { Slide, toast } from "react-toastify";
 import { TCustomerParams } from "../../service/profile.service";
+import { api } from "../../../../service/api";
+import { verifyAccessToken } from "@/components/hooks/verifyAccessToken";
 
 export interface ICustomerType {
   username?: string;
@@ -11,11 +12,10 @@ export interface ICustomerType {
 }
 
 export const upDateCustomerParams = async (
- { params }: TCustomerParams,
+  { params }: TCustomerParams,
   data: ICustomerType
 ) => {
-  const accessToken = await verifyToken();
-  console.log("accessToken", accessToken);
+  const accessToken = await verifyAccessToken();
   try {
     const customerId = params.customerId;
     console.log(customerId);
@@ -40,28 +40,31 @@ export const upDateCustomerParams = async (
     });
     return null;
   }
-}
+};
 
-export const  deleteCustomerParams = async ({ params }: TCustomerParams) => {
+export const deleteCustomerParams = async ({ params }: TCustomerParams) => {
   console.log("params", params);
 
-  const accessToken = await verifyToken();
+  const accessToken = await verifyAccessToken();
   console.log("accessToken", accessToken);
   try {
     const customerId = params.customerId;
     console.log(customerId);
     api.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
-      await api.delete(`customers/${customerId}`);
+    const response = await api.delete(`/customers/${customerId}`);
 
-      toast.success("Exclusão realizada com Sucesso!", {
-        transition: Slide,
-        autoClose: 2000,
-      });
-    } catch (error) {
-      toast.error("Ocorreu um erro ao tentar realizar a operação solicitada.", {
-        transition: Slide,
-        autoClose: 2000,
-      });
+    console.log("response contact", response);
+    if (response.status === 204) {
+      const customer = response.data;
+      console.log("customer", customer);
+      return customer;
+    } else {
+      console.error("Erro:", response.statusText);
+      return null;
     }
-    return Promise.resolve();
+  } catch (error) {
+    console.log("Ops! Cadastro não concluído.", error);
+    return null;
   }
+};
+ */

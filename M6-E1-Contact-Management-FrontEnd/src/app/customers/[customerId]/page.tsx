@@ -1,10 +1,8 @@
-import {
-  UpdatingCustomer,
-} from "@/components/forms/UpdatingCustomerForm";
-import {
-  TCustomerParams,
-  fetchCustomerParams,
-} from "../service/profile.service";
+
+import React from "react";
+import { UpdatingCustomerForm } from "../../../components/forms/UpdatingCustomerForm";
+import { fetchCustomerParams } from "@/contexts/customerContext";
+import { TCustomerParams } from "@/schema/customer.schema";
 
 const CustomerParams = async ({ params }: TCustomerParams) => {
   const customer = await fetchCustomerParams({ params });
@@ -13,7 +11,7 @@ const CustomerParams = async ({ params }: TCustomerParams) => {
     <main>
       <ul>
         <p>preciso rever essa função</p>
-        <UpdatingCustomer customer={customer} />
+        { customer && <UpdatingCustomerForm customer={customer} />}
       </ul>
     </main>
   );
