@@ -16,7 +16,6 @@ export const SignupForm = () => {
   const { signup } = useAuth();
 
   const onSubmit = async (data: CustomerData) => {
-    console.log(data);
     signup(data);
   };
 

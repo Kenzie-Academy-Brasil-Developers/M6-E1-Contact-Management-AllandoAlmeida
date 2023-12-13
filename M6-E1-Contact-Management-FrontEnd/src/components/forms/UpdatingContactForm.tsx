@@ -1,19 +1,20 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-'use client'
+"use client";
 import { SubmitHandler, UseFormReturn, useForm } from "react-hook-form";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { CloseIcon } from "@/components/icons/CloseIcon";
 import { TFormCurrentContact } from "./@type.formEditContact";
-import {
-  deleteContactById,
-  upDateContact,
-} from "../../app/contacts/[contactId]/contact.service/contact.service";
 import InputsEdit from "@/components/fragments/InputsEdit";
 import { ButtonNav } from "../ButtonNav";
 import { useRouter } from "next/navigation";
+import {
+  deleteContactParams,
+  upDateContactParams,
+} from "@/contexts/contactContext";
+import { IContactType, TContactParams } from "@/schema/contact.schema";
 
-export const UpdatingContact: React.FC<TFormCurrentContact> = ({
+export const UpdatingContactForm: React.FC<TFormCurrentContact> = ({
   currentContact,
 }) => {
   const {
@@ -24,7 +25,7 @@ export const UpdatingContact: React.FC<TFormCurrentContact> = ({
     formState: { errors },
   }: UseFormReturn<any> = useForm();
 
-  const router = useRouter()
+  const router = useRouter();
 
   const [isEditing, setIsEditing] = useState(false);
   useEffect(() => {
@@ -41,14 +42,14 @@ export const UpdatingContact: React.FC<TFormCurrentContact> = ({
       setValue("state", currentContact.state || "");
       setValue("telephone", currentContact.telephone || "");
       setValue("email", currentContact.email || "");
-    
+
       setValue(
         "telephone",
         typeof currentContact.telephone === "string"
           ? currentContact.telephone
           : ""
       );
-      
+
       setValue(
         "email",
         typeof currentContact.email === "string" ? currentContact.email : ""
@@ -58,20 +59,13 @@ export const UpdatingContact: React.FC<TFormCurrentContact> = ({
     }
   };
 
-  const toggleEditing = () => {
-    setIsEditing(!isEditing);
-  };
-
   const handleSave = async (data: any) => {
-
     const contactId = String(currentContact.id);
 
     if (contactId) {
       try {
-        await upDateContact(contactId, data);
-       
-        setIsEditing(false);
-        router.push('/customers')
+        await upDateContactParams({ params: { contactId } }, data);
+        router.replace("/customers");
       } catch (error) {
         console.error("Error updating contact:", error);
       }
@@ -80,13 +74,11 @@ export const UpdatingContact: React.FC<TFormCurrentContact> = ({
     }
   };
 
-  const handleDelete = async (contactId: string) => {
-    console.log("Excluir", contactId);
-
-    if (contactId) {
+  const handleDelete = async ({ params }: TContactParams) => {
+    if (params) {
       try {
-        await deleteContactById(contactId);
-        router.push('/customers')
+        await deleteContactParams({ params });
+        router.push("/customers");
       } catch (error) {
         console.error("Error deleting contact:", error);
       }
@@ -95,9 +87,8 @@ export const UpdatingContact: React.FC<TFormCurrentContact> = ({
     }
   };
 
-  const onSubmit: SubmitHandler<any> = async (data) => {
-    console.log(data);
-    reset();
+  const onSubmit = async (data: IContactType) => {
+    await handleSave(data);
   };
 
   return (
@@ -121,7 +112,6 @@ export const UpdatingContact: React.FC<TFormCurrentContact> = ({
               label={"Nome Contato:"}
               type="text"
               id="name"
-              isEditing={isEditing}
               register={register("name")}
             />
 
@@ -131,7 +121,6 @@ export const UpdatingContact: React.FC<TFormCurrentContact> = ({
               label={"E-mail:"}
               type="text"
               id="email"
-              isEditing={isEditing}
               register={register("email")}
             />
             <div>
@@ -141,7 +130,6 @@ export const UpdatingContact: React.FC<TFormCurrentContact> = ({
                 label={"Contato"}
                 type="text"
                 id="telephone"
-                isEditing={isEditing}
                 register={register("telephone")}
               />
             </div>
@@ -153,7 +141,6 @@ export const UpdatingContact: React.FC<TFormCurrentContact> = ({
               label={"CEP:"}
               type="text"
               id="zipCode"
-              isEditing={isEditing}
               placeholder={currentContact.zipCode}
               register={register("zipCode")}
             />
@@ -164,7 +151,6 @@ export const UpdatingContact: React.FC<TFormCurrentContact> = ({
                 type="text"
                 id="street"
                 defaultValue={currentContact.street}
-                isEditing={isEditing}
                 register={register("street")}
               />
               <InputsEdit
@@ -173,7 +159,6 @@ export const UpdatingContact: React.FC<TFormCurrentContact> = ({
                 type="text"
                 id="complement"
                 defaultValue={currentContact.complement}
-                isEditing={isEditing}
                 register={register("complement")}
               />
             </div>
@@ -185,7 +170,6 @@ export const UpdatingContact: React.FC<TFormCurrentContact> = ({
               type="text"
               id="district"
               defaultValue={currentContact.district}
-              isEditing={isEditing}
               register={register("district")}
             />
             <InputsEdit
@@ -194,7 +178,6 @@ export const UpdatingContact: React.FC<TFormCurrentContact> = ({
               type="text"
               id="locality"
               defaultValue={currentContact.locality}
-              isEditing={isEditing}
               register={register("locality")}
             />
             <InputsEdit
@@ -203,27 +186,20 @@ export const UpdatingContact: React.FC<TFormCurrentContact> = ({
               type="text"
               id="state"
               defaultValue={currentContact.state}
-              isEditing={isEditing}
               register={register("state")}
             />
           </div>
 
-          <div>
+          <div className="flex gap-x-3">
             <ButtonNav
               width="70%"
               height="4.8rem"
               type="submit"
-              text={isEditing ? "Salvar" : "Editar"}
+              text="Salvar"
               background="color-grey-1"
               textcolor="color-grey-0"
               hover="color-grey-2"
-              onClick={async (e) => {
-                if (isEditing) {
-                  await handleSubmit(handleSave)();
-                } else {
-                  toggleEditing();
-                }
-              }}
+              onClick={handleSubmit(onSubmit)}
               disabled={false}
             />
             <ButtonNav
@@ -234,7 +210,11 @@ export const UpdatingContact: React.FC<TFormCurrentContact> = ({
               background="color-color-primary-disable"
               textcolor="white"
               hover="color-grey-2"
-              onClick={() => handleDelete(String(currentContact.id))}
+              onClick={() =>
+                handleDelete({
+                  params: { contactId: String(currentContact.id) },
+                })
+              }
               data-contact-id={String(currentContact.id)}
               disabled={false}
             />

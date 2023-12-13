@@ -60,7 +60,6 @@ export const UpdatingCustomerForm = ({ customer }: ICustomerUpdate) => {
   };
 
   const handleSave = async (data: any) => {
-    console.log("Salvar:", data);
     const customerId = String(customer.id);
 
     if (customerId) {

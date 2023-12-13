@@ -7,31 +7,21 @@ import { ButtonNav } from "@/components/fragments/Buttons/buttonNavegate";
 import { ButtonToAccess } from "@/components/fragments/Buttons/buttonAccess";
 import Link from "next/link";
 import { CloseIcon } from "@/components/icons/CloseIcon";
-import { newContact } from "../../app/contacts/service/contacts.service";
-import { redirect } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
+import { fetchContact } from "@/contexts/contactContext";
+import { ContactData, IContactType } from "@/schema/contact.schema";
 
-interface IContactForm {
-  name: string;
-  street: string;
-  complement: string;
-  zipCode: string;
-  district: string;
-  locality: string;
-  state: string;
-  telephone: string;
-  email: string;
-}
 
 export const FormContacts: React.FC = () => {
   const {
     handleSubmit,
     register,
-    reset,
     setValue,
     formState: { errors },
-  }: UseFormReturn<IContactForm> = useForm<IContactForm>();
+  }: UseFormReturn<ContactData> = useForm<ContactData>();
+  const router = useRouter()
 
-  const [address, setAddress] = useState<IContactForm>({
+  const [address, setAddress] = useState<IContactType>({
     name: "",
     street: "",
     complement: "",
@@ -44,17 +34,21 @@ export const FormContacts: React.FC = () => {
   });
 
   const getAddress = useViaCepService();
-  const fetchAddress = async (cep: string) => {
-    try {
-      const response = await getAddress(cep);
-      setValue("street", response.street || "");
-      setValue("complement", address.complement || "");
-      setValue("zipCode", address.zipCode || "");
-      setValue("district", response.district || "");
-      setValue("locality", response.locality || "");
-      setValue("state", response.state || "");
-    } catch (error) {
-      console.error("Error fetching address:", error);
+  const fetchAddress = async (cep: string | undefined) => {
+    if(cep){
+      try {
+        const response = await getAddress(cep);
+        setValue("street", response.street || "");
+        setValue("complement", address.complement || "");
+        setValue("zipCode", address.zipCode || "");
+        setValue("district", response.district || "");
+        setValue("locality", response.locality || "");
+        setValue("state", response.state || "");
+      } catch (error) {
+        console.error("Error fetching address:", error);
+      }
+    } else {
+      console.error("CEP não fornecido");
     }
   };
 
@@ -66,11 +60,10 @@ export const FormContacts: React.FC = () => {
     fetchAddress(value);
   };
 
-  const onSubmit: SubmitHandler<IContactForm> = async (data) => {
+  const onSubmit: SubmitHandler<ContactData> = async (data) => {
     try {
-      console.log("contato", data);
-      await newContact(data);
-      redirect('/customers')
+      await fetchContact(data);
+      router.push('/customers')
     } catch (error) {
       console.error("Ocorreu um erro ao enviar o formulário:", error);
     }
@@ -129,7 +122,7 @@ export const FormContacts: React.FC = () => {
                   label={"Cep:"}
                   type="text"
                   id="zipCode"
-                  //value={address.zipCode}
+                  value={address.zipCode}
                   placeholder={""}
                   {...register("zipCode")}
                   onBlur={(e) => handleBlur(e.target.value)}

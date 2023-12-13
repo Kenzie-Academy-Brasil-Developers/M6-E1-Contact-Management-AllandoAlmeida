@@ -1,13 +1,16 @@
-import CardProfile from "@/components/Cards/CardProfile";
+
 import { Footer } from "@/components/footer/Footer";
 import { CreateItemsIcon } from "@/components/icons/CreateItemsIcon";
 import Link from "next/link";
 import { Key } from "react";
 import { CardContact } from "@/components/Cards/CardContacts";
 import { fetchCustomer } from "@/contexts/customerContext";
+import Header from "@/components/header/Header";
+import { verifyAccessToken } from "@/components/hooks/verifyAccessToken";
+import { ContactData } from "@/schema/contact.schema";
 
 export interface IContact {
-  id: Key;
+  id: string;
   name: string;
   zipCode: string;
   street: string;
@@ -19,21 +22,19 @@ export interface IContact {
   email: string;
 }
 
-export interface IContactList {
-  key: string;
-  contact: IContact;
-}
+
 
 const Customer = async () => {
+  await verifyAccessToken()
 
   const customer = await fetchCustomer();
-  console.log(customer);
+  
   return (
     <main className="flex items-center justify-center">
+      <Header customer={customer?.customer? customer.customer : undefined} />
       <section className="container profile-Container w-[95vw] m-auto md:w-[60vw] md:h-[80vh] md:gap-x-10 flex-wrap mt-[12rem] md:mt-[3rem]">
         <div className="border-2 border-gray-600">
           <div className="w-10/10">
-            {customer && <CardProfile customer={customer} />}
           </div>
         </div>
         <div className="border-2 border-gray-600 flex justify-center items-end rounded-2xl backdrop-filter backdrop-blur-lg bg-opacity-50 bg-transparent w-[90%] md:w-[95%] px-5 h-[5rem] flex-col">
@@ -53,9 +54,9 @@ const Customer = async () => {
           </ul>
 
           <div className="w-10/10 mt-10 overflow-x-auto text-lg">
-            {customer?.contacts?.map((contactItem: IContactList) => (
+            {customer?.contacts?.map((contactItem: ContactData) => (
               <CardContact
-                key={contactItem.key}
+                key={contactItem.id}
                 contact={contactItem.contact}
               />
             ))}

@@ -21,7 +21,6 @@ export const AuthProvider = ({ children }: Props) => {
   const router = useRouter();
 
   const signup = async (customerData: CustomerData) => {
-    console.log(customerData);
     api
       .post("/customers/register", customerData)
       .then(() => {
@@ -42,7 +41,7 @@ export const AuthProvider = ({ children }: Props) => {
           maxAge: 60 * 30,
         }),
           setCookie("Management.refreshToken", response.data.refreshToken, {
-            maxAge: 7 * 24 * 60,
+            maxAge: 60 * 30,
           });
       })
       .then(() => {

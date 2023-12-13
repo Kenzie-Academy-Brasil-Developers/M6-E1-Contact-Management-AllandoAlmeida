@@ -36,7 +36,6 @@ export class ContactsController {
   @Post()
   @UseGuards(AuthJwtGuard)
   async create(@Body() createContactDto: CreateContactDto, @Request() req) {
-    console.log('contato', createContactDto)
     return await this.contactsService.create(createContactDto, req.user.id)
   }
 

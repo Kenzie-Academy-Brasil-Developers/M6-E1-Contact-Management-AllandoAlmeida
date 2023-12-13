@@ -10,7 +10,7 @@ const CustomerParams = async ({ params }: TCustomerParams) => {
   return (
     <main>
       <ul>
-        <p>preciso rever essa função</p>
+        
         { customer && <UpdatingCustomerForm customer={customer} />}
       </ul>
     </main>

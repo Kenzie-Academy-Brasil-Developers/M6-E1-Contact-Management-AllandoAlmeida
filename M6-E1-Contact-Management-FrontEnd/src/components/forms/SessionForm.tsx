@@ -16,7 +16,6 @@ export const SessionForm = () => {
 
   const onSubmit = async (data: SessionData) => {
     session(data);
-    console.log(data)
   };
 
   return (
