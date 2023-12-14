@@ -54,5 +54,5 @@ export const CustomerTypeSchema = z.object({
   email: z.string().email().optional(),
 });
 
-export type TCustomerParams = z.infer<typeof CustomerParamsSchema>;
+export type CustomerParams = z.infer<typeof CustomerParamsSchema>;
 export type ICustomerType = z.infer<typeof CustomerTypeSchema>;

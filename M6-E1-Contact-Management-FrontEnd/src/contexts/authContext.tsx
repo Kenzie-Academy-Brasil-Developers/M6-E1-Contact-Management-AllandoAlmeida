@@ -39,11 +39,8 @@ export const AuthProvider = ({ children }: Props) => {
       .post("/session", sessionData)
       .then((response) => {
         setCookie("Management.accessToken", response.data.accessToken, {
-          maxAge: 60 * 30,
-        }),
-          setCookie("Management.refreshToken", response.data.refreshToken, {
-            maxAge: 60 * 30,
-          });
+          maxAge: 60 * 120,
+        })       
       })
       .then(() => {
         Toast({ message: "Login realizado com sucesso", isSucess: true });

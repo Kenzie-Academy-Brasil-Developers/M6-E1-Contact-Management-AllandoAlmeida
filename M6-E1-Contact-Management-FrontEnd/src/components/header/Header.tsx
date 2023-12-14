@@ -4,6 +4,7 @@ import { CustomerContactData } from '@/schema/customer.schema';
 import Link from 'next/link';
 import Image from 'next/image';
 import { SignOutIcon } from '../icons/SignOutIcon';
+import { getCookie } from 'cookies-next';
 
 interface HeaderProps {
   user?:{
@@ -12,9 +13,11 @@ interface HeaderProps {
   
 }
 
-const Header: React.FC<HeaderProps> = ({user}) => {
+const Header: React.FC<HeaderProps> = () => {
+  const accessToken = getCookie('key');
+  console.log(accessToken)
   
-  const firstLetter = user?.name? user.name.charAt(0) : null;
+  /* const firstLetter = user?.name? user.name.charAt(0) : null; */
 
   return (
     <header className="font-normal h-[6rem] border-b-2 border-gray-600 font-inherit text-inherit no-underline outline-none border-0 box-border top-0 left-0 right-0 fixed backdrop-blur z-50 bg-brancoHeader shadow-md flex">
@@ -28,7 +31,7 @@ const Header: React.FC<HeaderProps> = ({user}) => {
             height={100}
           />
         </Link>
-        {user ? (
+       {/*  {user ? (
           <nav className="flex">
             <div className="flex items-center md:gap-10 flex-wrap">
               <div className="flex items-center text-lg gap-1 md:gap-3 flex-wrap">
@@ -42,14 +45,14 @@ const Header: React.FC<HeaderProps> = ({user}) => {
                 )}
               </div>
               <button
-                /* onClick={logout} */
+                /* onClick={logout} 
                 className="w-[3rem] h-[3rem] bg-transparent rounded-lg flex justify-center items-center hover:bg-grey-1"
               >
                 <SignOutIcon />
               </button>
             </div>
           </nav>
-        ) : (
+        ) : ( */}
           <nav className="flex">
             <div className="flex items-center text-lg gap-3 md:gap-10 flex-wrap">
               <div className="flex items-center justify-center gap-2 rounded-xl w-[8rem] h-[4rem] text-white hover:bg-grey-1">

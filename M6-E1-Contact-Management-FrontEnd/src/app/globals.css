@@ -205,6 +205,14 @@ button {
   width: 2rem; /* Ou qualquer largura desejada para a última célula */
 }
 
+.custom-scrollbar::-webkit-scrollbar {
+  width: 5px; /* Ajuste a largura conforme necessário */
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  @apply bg-gray-500 rounded-xl; /* Define a cor do polegar da barra de rolagem como transparente */
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: 255, 255, 255;

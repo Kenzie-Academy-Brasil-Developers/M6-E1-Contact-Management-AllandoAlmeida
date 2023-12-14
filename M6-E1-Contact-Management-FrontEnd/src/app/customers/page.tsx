@@ -7,15 +7,12 @@ import Header from "@/components/header/Header";
 import { verifyAccessToken } from "@/components/hooks/verifyAccessToken";
 import { CustomerContactData } from "@/schema/customer.schema";
 
-
-
 const Customer = async () => {
   await verifyAccessToken();
-  
 
   const customer = await fetchCustomer();
 
-  console.log('customer', customer?.contacts)
+  console.log("customer", customer?.contacts);
 
   return (
     <main className="flex items-center justify-center">
@@ -26,7 +23,7 @@ const Customer = async () => {
             <CreateItemsIcon />
           </Link>
         </div>
-        {customer && <CardContact customer={customer} />}
+        <div className="flex flex-col w-[90%] h-[70vh] md:h-[80%] md:mb-10">{customer && <CardContact customer={customer} />}</div>
       </section>
       <Footer />
     </main>
@@ -34,8 +31,6 @@ const Customer = async () => {
 };
 
 export default Customer;
-
-
 
 /* 
 import { Footer } from "@/components/footer/Footer";

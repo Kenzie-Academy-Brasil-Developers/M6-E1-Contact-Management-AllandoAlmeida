@@ -6,7 +6,7 @@ export default function Home() {
   return (
     <main className="">
       <section>
-        <Header customer={undefined} />
+        <Header/>
         <SessionForm />
       </section>
     </main>
