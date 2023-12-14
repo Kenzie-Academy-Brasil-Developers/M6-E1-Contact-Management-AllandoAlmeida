@@ -7,11 +7,11 @@ import { fetchCustomer } from "@/contexts/customerContext";
 const Contacts = async () => {
   await verifyAccessToken()
 
-  const customer = await fetchCustomer();
+ 
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <Header customer={customer}/>
+      <Header/>
       <section className="mt-[5rem]">
         <FormContacts/>
       </section>

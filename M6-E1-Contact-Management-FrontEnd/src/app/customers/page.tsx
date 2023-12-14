@@ -1,4 +1,43 @@
+import { Footer } from "@/components/footer/Footer";
+import { CreateItemsIcon } from "@/components/icons/CreateItemsIcon";
+import Link from "next/link";
+import { CardContact } from "@/components/Cards/CardContacts";
+import { fetchCustomer } from "@/contexts/customerContext";
+import Header from "@/components/header/Header";
+import { verifyAccessToken } from "@/components/hooks/verifyAccessToken";
+import { CustomerContactData } from "@/schema/customer.schema";
 
+
+
+const Customer = async () => {
+  await verifyAccessToken();
+  
+
+  const customer = await fetchCustomer();
+
+  console.log('customer', customer?.contacts)
+
+  return (
+    <main className="flex items-center justify-center">
+      <Header />
+      <section className="container profile-Container w-[95vw] m-auto md:w-[60vw] md:h-[80vh] md:gap-x-10 flex-wrap mt-[12rem] md:mt-0">
+        <div className="flex justify-center items-end backdrop-filter backdrop-blur-lg bg-opacity-50 bg-transparent  w-[95%] md:w-[95%] px-5 h-[8rem] flex-col">
+          <Link href={"/contacts"}>
+            <CreateItemsIcon />
+          </Link>
+        </div>
+        {customer && <CardContact customer={customer} />}
+      </section>
+      <Footer />
+    </main>
+  );
+};
+
+export default Customer;
+
+
+
+/* 
 import { Footer } from "@/components/footer/Footer";
 import { CreateItemsIcon } from "@/components/icons/CreateItemsIcon";
 import Link from "next/link";
@@ -69,3 +108,4 @@ const Customer = async () => {
 };
 
 export default Customer;
+ */

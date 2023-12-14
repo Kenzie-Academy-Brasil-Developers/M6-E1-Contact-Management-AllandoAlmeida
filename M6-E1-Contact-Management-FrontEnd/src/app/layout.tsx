@@ -4,6 +4,7 @@ import "./globals.css";
 import StyledComponentsRegistry from "@/lib/registy";
 import "react-toastify/dist/ReactToastify.css";
 import { Providers } from "./providers";
+import { Footer } from "@/components/footer/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,6 +23,7 @@ export default function RootLayout({
       <Providers>
         <body>
           <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
+          <Footer />
         </body>
       </Providers>
     </html>

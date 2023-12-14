@@ -1,4 +1,37 @@
-// CardContact.tsx
+import { CustomerContactData } from "@/schema/customer.schema";
+import { useWindowWidth } from "../hooks/useWindowWidth";
+import { EditeIcon } from "../icons/EditeIcon";
+import Link from "next/link";
+import { ContactData } from "@/schema/contact.schema";
+
+export const CardContact = ({ customer }: CustomerContactData) => {
+  console.log("cardContacts", customer?.contacts);
+
+  return (
+    <section className="flex flex-col mt-1 h-[5rem] gap-1 border-b-[0.02rem]  border-gray-700 text-[2rem] hover:border-b-[0.05rem] flex-wrap">
+      {customer &&
+        customer.contacts.map((contact: ContactData) => (
+          <ul key={contact.contact.id} >
+            <li className="w-10 text-xl">
+              <Link
+                id={contact.contact.id}
+                href={`/contacts/${contact.contact.id}`}
+                className="flex items-center "
+              >
+                <EditeIcon />
+              </Link>
+            </li>
+            <li>{contact.contact.name}</li>
+            <li>{contact.contact.telephone}</li>
+            <li>{contact.contact.email}</li>
+          </ul>
+        ))}
+    </section>
+  );
+};
+
+
+/* // CardContact.tsx
 "use client";
 import { IContact } from "@/app/customers/page";
 import { useWindowWidth } from "../hooks/useWindowWidth";
@@ -38,3 +71,4 @@ export const CardContact: React.FC<CardContactProps> = ({ key, contact }) => {
   );
 };
 
+ */

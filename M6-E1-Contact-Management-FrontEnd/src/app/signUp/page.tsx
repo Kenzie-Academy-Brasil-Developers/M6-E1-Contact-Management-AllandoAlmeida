@@ -1,13 +1,13 @@
+"use client";
 import { SignupForm } from "@/components/forms/SignupForm";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import Header from "@/components/header/Header";
 
 export default function SignUp() {
   return (
     <main>
-      <section className="flex min-h-screen flex-col items-center justify-between p-24">
+      <Header customer={undefined} />
+      <section>
         <SignupForm />
-        <ToastContainer />
       </section>
     </main>
   );

@@ -96,6 +96,10 @@ h2 {
   @apply relative w-full border-b-[0.05rem] border-white;
 }
 
+.inputbox input {
+  @apply  h-[4.8rem] bg-transparent border-none outline-none text-[1.3rem] px-0 text-gray-900;
+}
+
 .inputbox label {
   @apply absolute top-1/2 left-2 transform -translate-y-1/2 text-white text-base pointer-events-none transition duration-500;
 }
@@ -103,10 +107,6 @@ h2 {
 input:focus ~ label,
 input:not(:placeholder-shown) ~ label {
   @apply top-0 left-0;
-}
-
-.inputbox input {
-  @apply w-full h-[4.8rem] bg-transparent border-none outline-none text-base px-0 text-gray-300;
 }
 
 .inputbox ion-icon {

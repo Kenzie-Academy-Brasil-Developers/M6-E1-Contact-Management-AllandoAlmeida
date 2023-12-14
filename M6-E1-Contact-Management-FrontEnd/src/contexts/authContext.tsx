@@ -21,6 +21,7 @@ export const AuthProvider = ({ children }: Props) => {
   const router = useRouter();
 
   const signup = async (customerData: CustomerData) => {
+    console.log('customerDate', customerData)
     api
       .post("/customers/register", customerData)
       .then(() => {

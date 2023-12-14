@@ -32,3 +32,5 @@ export const StyledButtonNav = styled.button<ButtonProps>`
       props.hover || "var(--default-hover-background-color)"};
   }
 `;
+
+

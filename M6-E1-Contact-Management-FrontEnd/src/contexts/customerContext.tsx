@@ -1,4 +1,4 @@
-"use server";
+
 
 import { Slide, toast } from "react-toastify";
 import { API_BASE_URL, api } from "../service/api";
@@ -11,7 +11,11 @@ import {
   TCustomerParams,
 } from "@/schema/customer.schema";
 
+
+
 export const fetchCustomer = async () => {
+
+
   const accessToken = await verifyAccessToken();
   const decodedToken = jwtDecode(accessToken);
 

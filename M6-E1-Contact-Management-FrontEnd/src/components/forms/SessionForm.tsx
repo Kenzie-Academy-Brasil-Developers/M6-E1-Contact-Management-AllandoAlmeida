@@ -15,18 +15,19 @@ export const SessionForm = () => {
   const { session } = useAuth();
 
   const onSubmit = async (data: SessionData) => {
+    console.log('session', data)
     session(data);
   };
 
   return (
-    <div className="w-full h-[35rem]  flex flex-col gap-y-10">
-      <div className="box flex-col w-[28rem] h-[full] gap-y-10 ">
+    <div className="w-full flex flex-col">
+      <div className="box flex-col w-[28rem]  gap-y-5">
         <form
           className="flex flex-col gap-y-7  w-[100%] p-7"
           onSubmit={handleSubmit(onSubmit)}
         >
-          <div className="mt-[2rem]">
-            <h2>Login</h2>
+          <div className="mt-[2rem] font-bold">
+            <h1 className="text-[3rem]">LOGIN</h1>
           </div>
           <div className="flex flex-col mt-[2rem] gap-y-10">
             <Inputs

@@ -11,7 +11,6 @@ import { redirect, useRouter } from "next/navigation";
 import { fetchContact } from "@/contexts/contactContext";
 import { ContactData, IContactType } from "@/schema/contact.schema";
 
-
 export const FormContacts: React.FC = () => {
   const {
     handleSubmit,
@@ -19,7 +18,7 @@ export const FormContacts: React.FC = () => {
     setValue,
     formState: { errors },
   }: UseFormReturn<ContactData> = useForm<ContactData>();
-  const router = useRouter()
+  const router = useRouter();
 
   const [address, setAddress] = useState<IContactType>({
     name: "",
@@ -35,7 +34,7 @@ export const FormContacts: React.FC = () => {
 
   const getAddress = useViaCepService();
   const fetchAddress = async (cep: string | undefined) => {
-    if(cep){
+    if (cep) {
       try {
         const response = await getAddress(cep);
         setValue("street", response.street || "");
@@ -63,14 +62,14 @@ export const FormContacts: React.FC = () => {
   const onSubmit: SubmitHandler<ContactData> = async (data) => {
     try {
       await fetchContact(data);
-      router.push('/customers')
+      router.push("/customers");
     } catch (error) {
       console.error("Ocorreu um erro ao enviar o formulário:", error);
     }
   };
   return (
     <div className="w-full h-[50rem]  flex flex-col">
-      <div className="box flex-col w-[35rem] ">
+      <div className="box flex-col w-[35rem]">
         <div className="flex w-[100%] items-center mt-[2rem] justify-between p-7">
           <h1 className="text-[2.5rem]">Contatos</h1>
           <Link href={"/customers"}>
@@ -79,29 +78,28 @@ export const FormContacts: React.FC = () => {
         </div>
 
         <form
-          className="flex flex-col gap-y-7 mb-[2rem] w-[100%] px-7"
+          className="flex flex-col gap-7 mb-[2rem] w-[100%] px-7"
           onSubmit={handleSubmit(onSubmit)}
         >
-          <div className="flex justify-between items-center"></div>
-          <div className="flex flex-col mt-[2rem] gap-y-10">
-            <div className="flex flex-col gap-y-8">
-              <Inputs
-                className="inputbox"
-                label={"Nome Completo:"}
-                type="name"
-                {...register("name")}
-                errors={errors.name}
-              />
+          <Inputs
+            className="inputbox"
+            label={"Nome Completo:"}
+            type="name"
+            placeholder=""
+            {...register("name")}
+            errors={errors.name}
+          />
 
-              <Inputs
-                className="inputbox"
-                label={"E-mail:"}
-                type="email"
-                placeholder=""
-                {...register("email")}
-                errors={errors.email}
-              />
-
+          <div className="flex items-center gap-5">
+            <Inputs
+              className="inputbox"
+              label={"E-mail:"}
+              type="email"
+              placeholder=""
+              {...register("email")}
+              errors={errors.email}
+            />
+            <div>
               <Inputs
                 className="inputbox"
                 label={"Contato:"}
@@ -111,47 +109,46 @@ export const FormContacts: React.FC = () => {
                 errors={errors.telephone}
               />
             </div>
-            <div className="flex gap-y-10">
-              <h2>Endereço</h2>
-            </div>
+          </div>
 
-            <div className="flex items-center flex-wrap gap-5">
-              <div>
-                <Inputs
-                  className="inputbox"
-                  label={"Cep:"}
-                  type="text"
-                  id="zipCode"
-                  value={address.zipCode}
-                  placeholder={""}
-                  {...register("zipCode")}
-                  onBlur={(e) => handleBlur(e.target.value)}
-                  onChange={(e) =>
-                    setAddress((prevAddress) => ({
-                      ...prevAddress,
-                      zipCode: e.target.value, //setValues
-                    }))
-                  }
-                />
-              </div>
-              <div>
-                <ButtonNav
-                  type="button"
-                  className="block w-[100px] h-[30px] rounded-md bg-indigo-600 px-3.5 py-2.5 my-2 text-center text-[0.8rem] font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 "
-                  onClick={handleBuscarCepClick}
-                  text={"Pesquisar"}
-                />
-              </div>
-            </div>
-            <div className="flex md:flex-col gap-y-5">
+          <div className="flex items-center flex-wrap gap-5">
+            <div>
               <Inputs
                 className="inputbox"
-                label={"Rua:"}
+                label={"Cep:"}
                 type="text"
-                id="street"
+                id="zipCode"
+                value={address.zipCode}
                 placeholder={""}
-                {...register("street")}
+                {...register("zipCode")}
+                onBlur={(e) => handleBlur(e.target.value)}
+                onChange={(e) =>
+                  setAddress((prevAddress) => ({
+                    ...prevAddress,
+                    zipCode: e.target.value, //setValues
+                  }))
+                }
               />
+            </div>
+
+            <ButtonNav
+              type="button"
+              className="block w-[100px] h-[30px] rounded-md bg-indigo-600 px-3.5 py-2.5 my-2 text-center text-[0.8rem] font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 "
+              onClick={handleBuscarCepClick}
+              text={"Pesquisar"}
+            />
+          </div>
+
+          <div className="flex gap-5">
+            <Inputs
+              className="inputbox"
+              label={"Rua:"}
+              type="text"
+              id="street"
+              placeholder={""}
+              {...register("street")}
+            />
+            <div>
               <Inputs
                 className="inputbox"
                 label={"Numero:"}
@@ -161,35 +158,37 @@ export const FormContacts: React.FC = () => {
                 {...register("complement")}
               />
             </div>
-            <div className="flex">
-              <Inputs
-                className="inputbox"
-                label={"Bairro:"}
-                type="text"
-                id="district"
-                //value={address.district}
-                placeholder={""}
-                {...register("district")}
-              />
-              <Inputs
-                className="inputbox"
-                label={"Cidade:"}
-                type="text"
-                id="locality"
-                //value={address.locality}
-                placeholder={""}
-                {...register("locality")}
-              />
-              <Inputs
-                className="inputbox"
-                label={"Estado (UF):"}
-                type="text"
-                id="state"
-                //value={address.state}
-                placeholder={""}
-                {...register("state")}
-              />
-            </div>
+          </div>
+          <div className="flex gap-5">
+            <Inputs
+              className="inputbox"
+              label={"Bairro:"}
+              type="text"
+              id="district"
+              //value={address.district}
+              placeholder={""}
+              {...register("district")}
+            />
+            <Inputs
+              className="inputbox"
+              label={"Cidade:"}
+              type="text"
+              id="locality"
+              //value={address.locality}
+              placeholder={""}
+              {...register("locality")}
+            />
+            <Inputs
+              className="inputbox"
+              label={"Estado (UF):"}
+              type="text"
+              id="state"
+              //value={address.state}
+              placeholder={""}
+              {...register("state")}
+            />
+          </div>
+          <div>
             <ButtonToAccess
               type="submit"
               text="SALVAR"
