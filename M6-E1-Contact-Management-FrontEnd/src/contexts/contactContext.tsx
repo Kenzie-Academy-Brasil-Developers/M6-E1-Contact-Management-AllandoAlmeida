@@ -4,6 +4,7 @@ import { jwtDecode } from "jwt-decode";
 import { verifyAccessToken } from "@/components/hooks/verifyAccessToken";
 import {
   ContactData,
+  CurrentContactData,
   DeepPartialContactData,
   TContactParams,
 } from "@/schema/contact.schema";
@@ -65,7 +66,7 @@ export const ContactProvider = ({ children }: Props) => {
       const response = await api.get(`/contacts/${contactId}`);
 
       if (response.status === 200) {
-        const contact = response.data as ContactData & { isActive: string };
+        const contact = response.data as CurrentContactData & { isActive: string };
 
         return contact;
       } else {

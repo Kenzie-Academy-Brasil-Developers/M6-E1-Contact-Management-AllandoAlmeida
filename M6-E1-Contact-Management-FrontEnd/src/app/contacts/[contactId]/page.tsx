@@ -1,21 +1,35 @@
+'use client'
 import { UpdatingContactForm } from "@/components/forms/UpdatingContactForm";
 import Header from "@/components/header/Header";
 import { useContact } from "@/contexts/contactContext";
-import { TContactParams } from "@/schema/contact.schema";
+import { CurrentContactData, CurrentContactSchema, TContactParams } from "@/schema/contact.schema";
+import { useEffect, useState } from "react";
 
-const ContactParams = async ({ params }: TContactParams) => {
+const ContactParams = ({ params }: TContactParams) => {
 
-  const { fetchContactParams } = useContact()
+  const { fetchContactParams } = useContact();
 
-  const contact = await fetchContactParams({ params });
+  const [contact, setContact] = useState<CurrentContactData | null>
+
+  useEffect(() => {
+    const getContact = async () => {
+      try {
+        const fetchedContact = await fetchContactParams({ params });
+        setContact(fetchedContact);
+      } catch (error) {
+        console.error("Erro ao buscar contato:", error);
+      }
+    };
+
+    getContact();
+  }, [fetchContactParams, params]);
 
   return (
     <main>
-      <Header/>
-      
-        <UpdatingContactForm contact={contact}/>
-   
+      <Header />
+      {contact && <UpdatingContactForm contact={contact} />}
     </main>
   );
 };
+
 export default ContactParams;

@@ -14,6 +14,24 @@ export const ContactSchema = z.object({
   state: z.string(),
 });
 
+export const CurrentContactSchema = z.object({
+  contact: z.union([
+    z.object({
+              id: z.string(),
+        name: z.string(),
+        zipCode: z.string(),
+        street: z.string(),
+        complement: z.string(),
+        district: z.string(),
+        locality: z.string(),
+        state: z.string(),
+        telephone: z.string(),
+        email: z.string().email(),
+      }),
+    z.null(),
+  ]),
+});
+
 export const ContactParamsSchema = z.object({
   params: z.object({
     contactId: z.string().nullable(),
@@ -31,6 +49,8 @@ export const ContactTypeSchema = z.object({
   telephone: z.string().optional(),
   email: z.string().email().optional(),
 });
+
+export type CurrentContactData = z.infer<typeof CurrentContactSchema>
 
 export type ContactData = z.infer<typeof ContactSchema>;
 export type DeepPartialContactData = DeepPartial<ContactData>;

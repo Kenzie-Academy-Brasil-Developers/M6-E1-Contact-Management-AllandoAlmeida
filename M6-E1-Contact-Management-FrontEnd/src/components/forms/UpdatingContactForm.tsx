@@ -8,12 +8,12 @@ import InputsEdit from "@/components/fragments/InputsEdit";
 import { ButtonNav } from "../ButtonNav";
 import { useRouter } from "next/navigation";
 
-import { ContactData, IContactType, TContactParams } from "@/schema/contact.schema";
+import { CurrentContactData, IContactType, TContactParams } from "@/schema/contact.schema";
 import { useContact } from "@/contexts/contactContext";
 
-export const UpdatingContactForm = ({
-  contact,
-}: ContactData) => {
+export const UpdatingContactForm: React.FC<CurrentContactData> = ({
+  currentContact,
+}) => {
   const {
     handleSubmit,
     register,
@@ -28,29 +28,29 @@ export const UpdatingContactForm = ({
 
   useEffect(() => {
     fetchAddress();
-  }, [contact]);
+  }, [currentContact]);
 
   const fetchAddress = () => {
     try {
-      setValue("street", contact.street || "");
-      setValue("complement", contact.complement || "");
-      setValue("zipCode", contact.zipCode || "");
-      setValue("district", contact.district || "");
-      setValue("locality", contact.locality || "");
-      setValue("state", contact.state || "");
-      setValue("telephone", contact.telephone || "");
-      setValue("email", contact.email || "");
+      setValue("street", currentContact.street || "");
+      setValue("complement", currentContact.complement || "");
+      setValue("zipCode", currentContact.zipCode || "");
+      setValue("district", currentContact.district || "");
+      setValue("locality", currentContact.locality || "");
+      setValue("state", currentContact.state || "");
+      setValue("telephone", currentContact.telephone || "");
+      setValue("email", currentContact.email || "");
 
       setValue(
         "telephone",
-        typeof contact.telephone === "string"
-          ? contact.telephone
+        typeof currentContact.telephone === "string"
+          ? currentContact.telephone
           : ""
       );
 
       setValue(
         "email",
-        typeof contact.email === "string" ? contact.email : ""
+        typeof currentContact.email === "string" ? currentContact.email : ""
       );
     } catch (error) {
       console.error("Error fetching address:", error);
@@ -58,7 +58,7 @@ export const UpdatingContactForm = ({
   };
 
   const handleSave = async (data: any) => {
-    const contactId = String(contact.id);
+    const contactId = String(currentContact.id);
 
     if (contactId) {
       try {
@@ -105,7 +105,7 @@ export const UpdatingContactForm = ({
         >
           <div className="flex flex-col gap-y-8">
             <InputsEdit
-              defaultValue={contact.name}
+              defaultValue={currentContact.name}
               className="inputbox"
               label={"Nome Contato:"}
               type="text"
@@ -114,7 +114,7 @@ export const UpdatingContactForm = ({
             />
 
             <InputsEdit
-              defaultValue={contact.email}
+              defaultValue={currentContact.email}
               className="inputbox"
               label={"E-mail:"}
               type="text"
@@ -123,7 +123,7 @@ export const UpdatingContactForm = ({
             />
             <div>
               <InputsEdit
-                defaultValue={contact.telephone}
+                defaultValue={currentContact.telephone}
                 className="inputbox"
                 label={"Contato"}
                 type="text"
@@ -134,12 +134,12 @@ export const UpdatingContactForm = ({
           </div>
           <div className="flex flex-col gap-y-8">
             <InputsEdit
-              defaultValue={contact.zipCode}
+              defaultValue={currentContact.zipCode}
               className="inputbox"
               label={"CEP:"}
               type="text"
               id="zipCode"
-              placeholder={contact.zipCode}
+              placeholder={currentContact.zipCode}
               register={register("zipCode")}
             />
             <div className="flex gap-y-8">
@@ -148,7 +148,7 @@ export const UpdatingContactForm = ({
                 label={"Rua:"}
                 type="text"
                 id="street"
-                defaultValue={contact.street}
+                defaultValue={currentContact.street}
                 register={register("street")}
               />
               <InputsEdit
@@ -156,7 +156,7 @@ export const UpdatingContactForm = ({
                 label={"Numero:"}
                 type="text"
                 id="complement"
-                defaultValue={contact.complement}
+                defaultValue={currentContact.complement}
                 register={register("complement")}
               />
             </div>
@@ -167,7 +167,7 @@ export const UpdatingContactForm = ({
               label={"Bairro:"}
               type="text"
               id="district"
-              defaultValue={contact.district}
+              defaultValue={currentContact.district}
               register={register("district")}
             />
             <InputsEdit
@@ -175,7 +175,7 @@ export const UpdatingContactForm = ({
               label={"Cidade:"}
               type="text"
               id="locality"
-              defaultValue={contact.locality}
+              defaultValue={currentContact.locality}
               register={register("locality")}
             />
             <InputsEdit
@@ -183,7 +183,7 @@ export const UpdatingContactForm = ({
               label={"Estado (UF):"}
               type="text"
               id="state"
-              defaultValue={contact.state}
+              defaultValue={currentContact.state}
               register={register("state")}
             />
           </div>
@@ -210,10 +210,10 @@ export const UpdatingContactForm = ({
               hover="color-grey-2"
               onClick={() =>
                 handleDelete({
-                  params: { contactId: String(contact.id) },
+                  params: { contactId: String(currentContact.id) },
                 })
               }
-              data-contact-id={String(contact.id)}
+              data-contact-id={String(currentContact.id)}
               disabled={false}
             />
           </div>
