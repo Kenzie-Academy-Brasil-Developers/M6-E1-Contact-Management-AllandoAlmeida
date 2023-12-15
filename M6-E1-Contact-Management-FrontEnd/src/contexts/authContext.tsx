@@ -10,7 +10,7 @@ interface Props {
 }
 
 interface AuthProviderData {
-  signup: (customerdata: CustomerData) => void;
+  register: (customerdata: CustomerData) => void;
   session: (sessionData: SessionData) => void;
 }
 
@@ -19,7 +19,7 @@ const AuthContext = createContext<AuthProviderData>({} as AuthProviderData);
 export const AuthProvider = ({ children }: Props) => {
   const router = useRouter();
 
-  const signup = async (customerData: CustomerData) => {
+  const register = async (customerData: CustomerData) => {
 
     api
       .post("/customers/register", customerData)
@@ -52,7 +52,7 @@ export const AuthProvider = ({ children }: Props) => {
 
   
   return (
-    <AuthContext.Provider value={{ signup, session }}>
+    <AuthContext.Provider value={{ register, session }}>
       {children}
     </AuthContext.Provider>
   );

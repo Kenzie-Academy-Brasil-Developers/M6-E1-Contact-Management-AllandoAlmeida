@@ -57,7 +57,7 @@ export const SessionForm = () => {
         <div className="w-full p-7">
           <ButtonNavPage
             text={"Ainda não possui uma conta?"}
-            herf={"/signup"}
+            herf={"/register"}
             option={"Cadastre-se"}
           />
         </div>

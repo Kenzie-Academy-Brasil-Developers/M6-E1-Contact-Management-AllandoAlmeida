@@ -8,11 +8,11 @@ import { CustomerData, CustomerSchema } from "@/schema/customer.schema";
 import { ButtonNav } from "../ButtonNav";
 import { useRouter } from "next/navigation";
 
-export const SignupForm = () => {
+export const RegisterForm = () => {
   const { register, handleSubmit } = useForm<CustomerData>({
     resolver: zodResolver(CustomerSchema),
   });
-  const { signup } = useAuth();
+  const { register: registerUser } = useAuth();
   const router = useRouter();
 
   const handleNavigation = () => {
@@ -21,7 +21,7 @@ export const SignupForm = () => {
 
   const onSubmit = async (data: CustomerData) => {
 
-    signup(data);
+    registerUser(data);
   };
 
   return (

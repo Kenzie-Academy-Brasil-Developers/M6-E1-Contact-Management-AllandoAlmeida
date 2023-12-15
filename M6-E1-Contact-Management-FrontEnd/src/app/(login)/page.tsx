@@ -1,14 +1,16 @@
-
 import { SessionForm } from "@/components/forms/SessionForm";
 import Header from "@/components/header/Header";
+import { NextPage } from "next";
 
-export default function Home() {
+const Login: NextPage = () => {
   return (
     <main className="">
       <section>
-        <Header/>
+        <Header />
         <SessionForm />
       </section>
     </main>
   );
-}
+};
+
+export default Login;

@@ -73,7 +73,7 @@ const Header = () => {
             <div className="flex items-center text-lg gap-3 md:gap-10 flex-wrap">
               <div className="flex items-center justify-center gap-2 rounded-xl w-[8rem] h-[4rem] text-white hover:bg-grey-1">
                 <Link
-                  href={"/signup"}
+                  href={"/register"}
                   className="text-[1rem] md:text-lg font-bold"
                 >
                   CADASTRE-SE
