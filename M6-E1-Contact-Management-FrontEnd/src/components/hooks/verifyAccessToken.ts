@@ -1,14 +1,12 @@
-import { getCookie } from "cookies-next";
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-export const revalidate = 90
-export const verifyAccessToken = async () => {
-  const accessToken = getCookie("Management.accessToken", { cookies });
+
+export const verifyAccessToken = () => {
+/*   const accessToken = localStorage.getItem("@Management:accessToken");
   if (!accessToken) {
     redirect("/");
   }
 
-  return accessToken;
-};
+  return accessToken */
+}; 
 

@@ -1,7 +1,4 @@
-import { Slide, toast } from "react-toastify";
 import { api } from "../service/api";
-import { jwtDecode } from "jwt-decode";
-import { verifyAccessToken } from "@/components/hooks/verifyAccessToken";
 import {
   ContactData,
   CurrentContactData,
@@ -9,6 +6,8 @@ import {
   TContactParams,
 } from "@/schema/contact.schema";
 import { ReactNode, createContext, useContext } from "react";
+import Toast from "@/components/toast";
+import { useRouter } from "next/navigation";
 
 interface Props {
   children: ReactNode;
@@ -16,8 +15,11 @@ interface Props {
 
 interface ContactProviderData {
   fetchContact: (contactData: ContactData) => void;
-  fetchContactParams: (contactParams: TContactParams) => void;
-  upDateContactParams: (contactParams: TContactParams, data: DeepPartialContactData) => void;
+  fetchContactParams: (contactParams: TContactParams) => Promise<CurrentContactData | undefined>;
+  upDateContactParams: (
+    contactParams: TContactParams,
+    data: DeepPartialContactData
+  ) => void;
   deleteContactParams: (contactParams: TContactParams) => void;
 }
 
@@ -26,56 +28,87 @@ const ContactContext = createContext<ContactProviderData>(
 );
 
 export const ContactProvider = ({ children }: Props) => {
+  const router = useRouter();
+
   const fetchContact = async (data: ContactData) => {
-    const accessToken = await verifyAccessToken();
-    const decodedToken = jwtDecode(accessToken);
-    const customerId: string = decodedToken.sub ?? "";
-
-    if (!customerId) throw new Error("Customer not found!");
     try {
-      api.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
-      const response = await api.post("/contacts", data);
+      const accessToken = localStorage
+        .getItem("@Management:accessToken")
+        ?.replace(/"/g, "");
 
-      if (response.status === 201) {
-        if (typeof window !== "undefined") {
-          toast.success("Customer updated successfully", {
-            transition: Slide,
-            autoClose: 2000,
-          });
+
+      const tokenWithQuotes = localStorage.getItem("@Management:accessToken");
+
+      if (tokenWithQuotes) {
+        const token = tokenWithQuotes.replace(/"/g, "");
+        const accessTokenData = JSON.parse(atob(token.split(".")[1]));
+
+        const userId = accessTokenData.sub;
+
+
+        if (!userId) throw new Error("Customer not found!");
+
+        api.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+        const response = await api.post("/contacts", data);
+
+
+        if (response.status === 201) {
+          if (typeof window !== "undefined") {
+            Toast({
+              message: "Cadastro realizado com sucesso",
+              isSucess: true,
+            });
+          }
+        } else {
+          console.error("Erro:", response.statusText);
+          return null;
         }
-      } else {
-        console.error("Erro:", response.statusText);
-        return null;
       }
     } catch (error) {
       if (typeof window !== "undefined") {
-        toast.error("Ops! Cadastro não concluído.", {
-          transition: Slide,
-          autoClose: 2000,
-        });
+        Toast({ message: "Opa! Algo deu errado" });
+        router.push("/customers");
       }
       return null;
     }
   };
 
-  const fetchContactParams = async ({ params }: TContactParams) => {
-    const accessToken = await verifyAccessToken();
+  const fetchContactParams = async ({ params }: TContactParams):Promise<CurrentContactData | undefined> => {
     try {
-      const contactId = params.contactId;
-      api.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
-      const response = await api.get(`/contacts/${contactId}`);
+      const accessToken = localStorage
+        .getItem("@Management:accessToken")
+        ?.replace(/"/g, "");
+   
+      const tokenWithQuotes = localStorage.getItem("@Management:accessToken");
 
-      if (response.status === 200) {
-        const contact = response.data as CurrentContactData & { isActive: string };
+      if (tokenWithQuotes) {
+        const token = tokenWithQuotes.replace(/"/g, "");
+        const accessTokenData = JSON.parse(atob(token.split(".")[1]));
 
-        return contact;
-      } else {
-        console.error("Error:", response.statusText);
-        return null;
+        const userId = accessTokenData.sub;
+ 
+
+        if (!userId) throw new Error("Customer not found!");
+
+        api.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+        const contactId = params.contactId;
+        const response = await api.get(`/contacts/${contactId}`);
+
+        if (response.status === 200) {
+          const contact = response.data as CurrentContactData & { isActive: string };
+
+          return contact;
+        } else {
+          console.error("Error:", response.statusText);
+          return undefined;
+        }
       }
     } catch (error) {
-      console.log("Oops! Customer retrieval failed.", error);
-      return null;
+      if (typeof window !== "undefined") {
+        Toast({ message: "Opa! Algo deu errado" });
+        router.push("/customers");
+      }
+      return undefined;
     }
   };
 
@@ -83,52 +116,84 @@ export const ContactProvider = ({ children }: Props) => {
     { params }: TContactParams,
     data: DeepPartialContactData
   ) => {
-    const accessToken = await verifyAccessToken();
     try {
-      const contactId = params.contactId;
-      api.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
-      const response = await api.patch(`contacts/${contactId}`, data);
-      if (response.status === 200) {
-        if (typeof window !== "undefined") {
-          toast.success("Customer updated successfully", {
-            transition: Slide,
-            autoClose: 2000,
-          });
+      const accessToken = localStorage
+        .getItem("@Management:accessToken")
+        ?.replace(/"/g, "");     
+
+      const tokenWithQuotes = localStorage.getItem("@Management:accessToken");
+
+      if (tokenWithQuotes) {
+        const token = tokenWithQuotes.replace(/"/g, "");
+        const accessTokenData = JSON.parse(atob(token.split(".")[1]));
+
+        const userId = accessTokenData.sub;
+
+
+        if (!userId) throw new Error("Customer not found!");
+
+        api.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+        const contactId = params.contactId;
+        const response = await api.patch(`contacts/${contactId}`, data);
+        if (response.status === 200) {
+          if (typeof window !== "undefined") {
+            Toast({
+              message: "Cadastro atualizado com sucesso",
+              isSucess: true,
+            });
+          }
+        } else {
+          console.error("Erro:", response.statusText);
+          return null;
         }
-      } else {
-        console.error("Error:", response.statusText);
-        return { error: response.statusText };
       }
     } catch (error) {
       if (typeof window !== "undefined") {
-        toast.error("Oops! Customer update failed.", {
-          transition: Slide,
-          autoClose: 2000,
-        });
+        Toast({ message: "Opa! Algo deu errado" });
+        router.push("/customers");
       }
       return { error };
     }
   };
 
   const deleteContactParams = async ({ params }: TContactParams) => {
-    const accessToken = await verifyAccessToken();
     try {
-      const contactId = params.contactId;
-      api.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
-      const response = await api.delete(`contacts/${contactId}`);
-      if (response.status === 204) {
-        toast.success("Customer deleted successfully", {
-          transition: Slide,
-          autoClose: 2000,
-        });
-        return response.data;
-      } else {
-        console.error("Error:", response.statusText);
-        return null;
+      const accessToken = localStorage
+        .getItem("@Management:accessToken")
+        ?.replace(/"/g, "");
+
+      const tokenWithQuotes = localStorage.getItem("@Management:accessToken");
+
+      if (tokenWithQuotes) {
+        const token = tokenWithQuotes.replace(/"/g, "");
+        const accessTokenData = JSON.parse(atob(token.split(".")[1]));
+
+        const userId = accessTokenData.sub;
+
+
+        if (!userId) throw new Error("Customer not found!");
+
+        api.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+        const contactId = params.contactId;
+        const response = await api.delete(`contacts/${contactId}`);
+        if (response.status === 204) {
+          if (typeof window !== "undefined") {
+            Toast({
+              message: "Operação realizada com sucesso",
+              isSucess: true,
+            });
+          }
+        } else {
+          console.error("Erro:", response.statusText);
+          return null;
+        }
       }
     } catch (error) {
-      console.log("Oops! Customer deletion failed.", error);
-      return null;
+      if (typeof window !== "undefined") {
+        Toast({ message: "Opa! Algo deu errado" });
+        router.push("/customers");
+      }
+      return { error };
     }
   };
   return (
@@ -145,4 +210,4 @@ export const ContactProvider = ({ children }: Props) => {
   );
 };
 
-export const useContact = () => useContext(ContactContext)
+export const useContact = () => useContext(ContactContext);

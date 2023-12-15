@@ -7,11 +7,9 @@ import { useRouter } from "next/navigation";
 import { CloseIcon } from "../icons/CloseIcon";
 import InputsEdit from "../fragments/InputsEdit";
 import { ButtonNav } from "../ButtonNav";
-import { ICustomerType, TCustomerParams } from "@/schema/customer.schema";
-import {
-  deleteCustomerParams,
-  upDateCustomerParams,
-} from "@/contexts/customerContext";
+import { useCustomer } from "@/contexts/customerContext";
+import { CustomerParams, ICustomerType } from "@/schema/customer.schema";
+
 
 export interface ICustomerUpdate {
   customer: {
@@ -25,6 +23,10 @@ export interface ICustomerUpdate {
 }
 
 export const UpdatingCustomerForm = ({ customer }: ICustomerUpdate) => {
+
+
+  const {upDateCustomerParams,deleteCustomerParams } = useCustomer();
+  const router = useRouter()
   const {
     handleSubmit,
     register,
@@ -32,8 +34,6 @@ export const UpdatingCustomerForm = ({ customer }: ICustomerUpdate) => {
     setValue,
     formState: { errors },
   }: UseFormReturn<any> = useForm();
-
-  const router = useRouter();
 
   useEffect(() => {
     fetchAddress();
@@ -74,7 +74,7 @@ export const UpdatingCustomerForm = ({ customer }: ICustomerUpdate) => {
     }
   };
 
-  const handleDelete = async ({ params }: TCustomerParams) => {
+  const handleDelete = async ({ params }: CustomerParams) => {
     if (params) {
       try {
         await deleteCustomerParams({ params });
@@ -92,10 +92,10 @@ export const UpdatingCustomerForm = ({ customer }: ICustomerUpdate) => {
   };
 
   return (
-    <div className="w-full h-[50rem] flex flex-col">
+    <div className="w-full flex flex-col border-2">
       <div className="box flex-col w-[35rem]">
         <div className="flex w-[100%] items-center mt-[2rem] justify-between p-7">
-          <h1 className="text-[2.5rem]">Contatos</h1>
+          <h1 className="text-[2.5rem]">Meus Dados</h1>
           <Link href={"/customers"}>
             <CloseIcon />
           </Link>
@@ -107,7 +107,7 @@ export const UpdatingCustomerForm = ({ customer }: ICustomerUpdate) => {
         >
           <div className="flex flex-col gap-y-8">
             <InputsEdit
-              defaultValue={customer.name}
+              defaultValue={customer?.name}
               className="inputbox"
               label={"Nome Contato:"}
               type="text"
@@ -116,7 +116,7 @@ export const UpdatingCustomerForm = ({ customer }: ICustomerUpdate) => {
             />
 
             <InputsEdit
-              defaultValue={customer.email}
+              defaultValue={customer?.email}
               className="inputbox"
               label={"E-mail:"}
               type="email"
@@ -125,7 +125,7 @@ export const UpdatingCustomerForm = ({ customer }: ICustomerUpdate) => {
             />
             <div>
               <InputsEdit
-                defaultValue={customer.telephone}
+                defaultValue={customer?.telephone}
                 className="inputbox"
                 label={"Telefone:"}
                 type="text"
@@ -137,12 +137,12 @@ export const UpdatingCustomerForm = ({ customer }: ICustomerUpdate) => {
 
           <div className="flex flex-col gap-y-8">
             <InputsEdit
-              defaultValue={customer.username}
+              defaultValue={customer?.username}
               className="inputbox"
               label={"username:"}
               type="text"
               id="username"
-              placeholder={customer.username}
+              placeholder={customer?.username}
               register={register("username")}
             />
           </div>
@@ -167,9 +167,9 @@ export const UpdatingCustomerForm = ({ customer }: ICustomerUpdate) => {
               textcolor="white"
               hover="color-grey-2"
               onClick={() =>
-                handleDelete({ params: { customerId: String(customer.id) } })
+                handleDelete({ params: { customerId: String(customer?.id) } })
               }
-              data-contact-id={String(customer.id)}
+              data-contact-id={String(customer?.id)}
               disabled={false}
             />
           </div>

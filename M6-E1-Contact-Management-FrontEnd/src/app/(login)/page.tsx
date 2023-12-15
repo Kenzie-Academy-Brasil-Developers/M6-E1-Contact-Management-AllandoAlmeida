@@ -1,4 +1,4 @@
-"use client";
+
 import { SessionForm } from "@/components/forms/SessionForm";
 import Header from "@/components/header/Header";
 

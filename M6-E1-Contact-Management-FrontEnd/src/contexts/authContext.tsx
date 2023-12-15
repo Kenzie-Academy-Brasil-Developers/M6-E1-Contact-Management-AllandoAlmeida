@@ -2,7 +2,6 @@ import Toast from "@/components/toast";
 import { CustomerData } from "@/schema/customer.schema";
 import { SessionData } from "@/schema/session.schema";
 import { api } from "@/service/api";
-import { setCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
 import { ReactNode, createContext, useContext } from "react";
 
@@ -21,7 +20,7 @@ export const AuthProvider = ({ children }: Props) => {
   const router = useRouter();
 
   const signup = async (customerData: CustomerData) => {
-    console.log('customerDate', customerData)
+
     api
       .post("/customers/register", customerData)
       .then(() => {
@@ -38,9 +37,7 @@ export const AuthProvider = ({ children }: Props) => {
     api
       .post("/session", sessionData)
       .then((response) => {
-        setCookie("Management.accessToken", response.data.accessToken, {
-          maxAge: 60 * 120,
-        })       
+        localStorage.setItem("@Management:accessToken", response.data.accessToken)       
       })
       .then(() => {
         Toast({ message: "Login realizado com sucesso", isSucess: true });

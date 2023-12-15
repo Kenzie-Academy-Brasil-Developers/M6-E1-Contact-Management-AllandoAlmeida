@@ -1,3 +1,4 @@
+'use client'
 import { useForm } from "react-hook-form";
 import Inputs from "../fragments/Inputs";
 import { ButtonNavPage } from "../fragments/Buttons/buttonNavPage";
@@ -15,7 +16,7 @@ export const SessionForm = () => {
   const { session } = useAuth();
 
   const onSubmit = async (data: SessionData) => {
-    console.log('session', data)
+
     session(data);
   };
 

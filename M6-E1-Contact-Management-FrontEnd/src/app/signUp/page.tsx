@@ -5,7 +5,7 @@ import Header from "@/components/header/Header";
 export default function SignUp() {
   return (
     <main>
-      <Header customer={undefined} />
+      <Header/>
       <section>
         <SignupForm />
       </section>

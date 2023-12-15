@@ -1,22 +1,23 @@
-import { Slide, toast } from "react-toastify";
+import Toast from "@/components/toast";
 import { api } from "../service/api";
-import { jwtDecode } from "jwt-decode";
-import { verifyAccessToken } from "@/components/hooks/verifyAccessToken";
 import {
+  CurrentCustomerData,
   CustomerContactData,
   CustomerData,
   CustomerParams,
   DeepPartialCustomerContactData,
+  ICustomerType,
 } from "@/schema/customer.schema";
 import { ReactNode, createContext, useContext } from "react";
+import { useRouter } from "next/navigation";
 
 interface Props {
   children: ReactNode;
 }
 
 interface CustomerProviderData {
-  fetchCustomer: (customerContactData: CustomerContactData) => void;
-  fetchCustomerParams: (customerParams: CustomerParams) => void;
+  fetchCustomer: () => Promise<CustomerContactData | undefined>;
+  fetchCustomerParams: (customerParams: CustomerParams) => Promise<CurrentCustomerData | undefined>;
   upDateCustomerParams: (
     customerParams: CustomerParams,
     data: DeepPartialCustomerContactData
@@ -28,100 +29,141 @@ const CustomerContext = createContext<CustomerProviderData>(
   {} as CustomerProviderData
 );
 export const CustomerProvider = ({ children }: Props) => {
-  
-  const fetchCustomer = async () => {
-    const accessToken = await verifyAccessToken();
-    const decodedToken = jwtDecode(accessToken);
+  const router = useRouter();
 
+  const fetchCustomer = async (): Promise<CustomerContactData | undefined> => {
     try {
-      const userId: string = decodedToken.sub ?? "";
+      const accessToken = localStorage
+        .getItem("@Management:accessToken")
+        ?.replace(/"/g, "");
 
-      api.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
-      const response = await api.get(`/customers/${userId}`);
-      if (response.status === 200) {
-        const customer = response.data as CustomerContactData;
+      const tokenWithQuotes = localStorage.getItem("@Management:accessToken");
 
-        return customer;
-      } else {
-        console.error("Error:", response.statusText);
-        return null;
+      if (tokenWithQuotes) {
+        const token = tokenWithQuotes.replace(/"/g, "");
+        const accessTokenData = JSON.parse(atob(token.split(".")[1]));
+
+        const userId = accessTokenData.sub;
+
+
+        if (!userId) throw new Error("Customer not found!");
+
+        api.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+        const response = await api.get(`/customers/${userId}`);
+
+        if (response.status === 200) {
+          const customer = response.data as CustomerContactData;
+          return customer;
+        } else {
+          console.error("Error:", response.statusText);
+          return undefined;
+        }
       }
     } catch (error) {
       console.log("Oops! Customer retrieval failed.", error);
-      return null;
+      return undefined;
     }
   };
 
-  const fetchCustomerParams = async ({ params }: CustomerParams) => {
-    const accessToken = await verifyAccessToken();
+  const fetchCustomerParams = async ({ params }: CustomerParams):Promise<CurrentCustomerData | undefined> => {
     try {
-      const customerId = params.customerId;
+      const accessToken = localStorage
+        .getItem("@Management:accessToken")
+        ?.replace(/"/g, "");
+
+      
+      const tokenWithQuotes = localStorage.getItem("@Management:accessToken");
+
+      if (tokenWithQuotes) {
+        const token = tokenWithQuotes.replace(/"/g, "");
+        const accessTokenData = JSON.parse(atob(token.split(".")[1]));
+
+        const userId = accessTokenData.sub;
+
+
+        if (!userId) throw new Error("Customer not found!");
+
       api.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+      const customerId = params.customerId ;
       const response = await api.get(`/customers/${customerId}`);
+
       if (response.status === 200) {
-        const customer = response.data as CustomerData & { isActive: string };
+        const customer = response.data as CurrentCustomerData & { isActive: string };
 
         return customer;
       } else {
         console.error("Error:", response.statusText);
-        return null;
+        return undefined;
       }
+    }
     } catch (error) {
-      console.log("Oops! Customer retrieval failed.", error);
-      return null;
+      if (typeof window !== "undefined") {
+        Toast({ message: "Opa! Algo deu errado" });
+        router.push("/customers");
+      }
+      return undefined;
     }
   };
+
 
   const upDateCustomerParams = async (
     { params }: CustomerParams,
     data: DeepPartialCustomerContactData
   ) => {
-    const accessToken = await verifyAccessToken();
     try {
-      const customerId = params.customerId;
+      const accessToken = localStorage
+        .getItem("@Management:accessToken")
+        ?.replace(/"/g, "");
+
       api.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+      const customerId = params.customerId;
       const response = await api.patch(`customers/${customerId}`, data);
       if (response.status === 200) {
         if (typeof window !== "undefined") {
-          toast.success("Customer updated successfully", {
-            transition: Slide,
-            autoClose: 2000,
+          Toast({
+            message: "Cadastro atualizado com sucesso",
+            isSucess: true,
           });
         }
       } else {
-        console.error("Error:", response.statusText);
-        return { error: response.statusText };
+        console.error("Erro:", response.statusText);
+        return null;
       }
     } catch (error) {
       if (typeof window !== "undefined") {
-        toast.error("Oops! Customer update failed.", {
-          transition: Slide,
-          autoClose: 2000,
-        });
+        Toast({ message: "Opa! Algo deu errado" });
+        router.push("/customers");
       }
       return { error };
     }
   };
 
   const deleteCustomerParams = async ({ params }: CustomerParams) => {
-    const accessToken = await verifyAccessToken();
     try {
-      const customerId = params.customerId;
+      const accessToken = localStorage
+        .getItem("@Management:accessToken")
+        ?.replace(/"/g, "");
+ 
       api.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+      const customerId = params.customerId;
       const response = await api.delete(`/customers/${customerId}`);
       if (response.status === 204) {
-        toast.success("Customer deleted successfully", {
-          transition: Slide,
-          autoClose: 2000,
-        });
-        return response.data;
+        if (typeof window !== "undefined") {
+          Toast({
+            message: "Cadastro atualizado com sucesso",
+            isSucess: true,
+          });
+        }
       } else {
-        console.error("Error:", response.statusText);
+        console.error("Erro:", response.statusText);
         return null;
       }
     } catch (error) {
-      console.log("Oops! Customer deletion failed.", error);
-      return null;
+      if (typeof window !== "undefined") {
+        Toast({ message: "Opa! Algo deu errado" });
+        router.push("/customers");
+      }
+      return { error };
     }
   };
 

@@ -7,9 +7,9 @@ import { ButtonNav } from "@/components/fragments/Buttons/buttonNavegate";
 import { ButtonToAccess } from "@/components/fragments/Buttons/buttonAccess";
 import Link from "next/link";
 import { CloseIcon } from "@/components/icons/CloseIcon";
-import { redirect, useRouter } from "next/navigation";
-import { fetchContact } from "@/contexts/contactContext";
 import { ContactData, IContactType } from "@/schema/contact.schema";
+import { useRouter } from "next/navigation";
+import { useContact } from "@/contexts/contactContext";
 
 export const FormContacts: React.FC = () => {
   const {
@@ -19,6 +19,8 @@ export const FormContacts: React.FC = () => {
     formState: { errors },
   }: UseFormReturn<ContactData> = useForm<ContactData>();
   const router = useRouter();
+
+  const { fetchContact } = useContact()
 
   const [address, setAddress] = useState<IContactType>({
     name: "",
@@ -68,7 +70,7 @@ export const FormContacts: React.FC = () => {
     }
   };
   return (
-    <div className="w-full h-[50rem]  flex flex-col">
+    <div className="w-full flex flex-col items-center justify-center">
       <div className="box flex-col w-[35rem]">
         <div className="flex w-[100%] items-center mt-[2rem] justify-between p-7">
           <h1 className="text-[2.5rem]">Contatos</h1>

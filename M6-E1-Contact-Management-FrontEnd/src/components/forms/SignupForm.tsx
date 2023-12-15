@@ -20,7 +20,7 @@ export const SignupForm = () => {
   };
 
   const onSubmit = async (data: CustomerData) => {
-    console.log('data', data)
+
     signup(data);
   };
 

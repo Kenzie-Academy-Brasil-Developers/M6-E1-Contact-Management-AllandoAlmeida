@@ -1,3 +1,4 @@
+"use client";
 import { AuthProvider } from "@/contexts/authContext";
 import { ContactProvider } from "@/contexts/contactContext";
 import { CustomerProvider } from "@/contexts/customerContext";
@@ -21,11 +22,9 @@ export const Providers = ({ children }: { children: ReactNode }) => {
         theme="light"
       />
       <AuthProvider>
-        <CustomerProvider>
-          <ContactProvider>
-            {children}
-          </ContactProvider>
-        </CustomerProvider>
+        <ContactProvider>
+          <CustomerProvider>{children}</CustomerProvider>
+        </ContactProvider>
       </AuthProvider>
     </>
   );

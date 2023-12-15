@@ -7,12 +7,12 @@ export const useLogout = () => {
   const router = useRouter();
 
   const logout = () => {
-    console.log("Chamando logout");
+
     localStorage.removeItem("@Management:accessToken");
     localStorage.removeItem("@Management:refreshToken");
-    router.push("/", { replace: true });
+    router.push("/");
   };
-  console.log('passou')
+
   
   useEffect(() => {
     logout();
