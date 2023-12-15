@@ -29,6 +29,12 @@ A API é responsável pela gestão de contatos, e possui as seguintes funcionali
   Para executar a aplicação basta abrir o terminal na raiz do diretório "M6-E1-Contact-Management-API"
   e rodar o comando `npm run start:dev`. A porta padrão para acessar a api é a 3009 `http://localhost:3009`.
 
+#### Migração do Banco de dados
+
+- Antes de executar o comando de migração do prisma, é impresindivel que seja configurado as variaveis de ambiente;
+- Para executar as migrções rodar o comando `npx prisma migrate dev`;
+
+
 para faciltar a atulização da API é possivel acessar a documentação localmente no endereço
 http://localhost:3009/api/documentation
 
