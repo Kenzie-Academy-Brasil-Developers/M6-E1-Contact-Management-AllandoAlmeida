@@ -33,21 +33,21 @@ async function bootstrap() {
       persistAuthorization: false,
       docExpansion: 'list',
     },
-  });
+  })
   const redirectToSwagger = (
     req: express.Request,
     res: express.Response,
     next: express.NextFunction,
   ) => {
     if (req.url === '/') {
-      res.redirect(301, '/api/documentation');
+      res.redirect(301, '/api/documentation')
     } else {
-      next();
+      next()
     }
-  };
+  }
 
   // Aplicando o middleware
-  app.use(redirectToSwagger);
+  app.use(redirectToSwagger)
   app.enableCors()
   await app.listen(3009)
 }
