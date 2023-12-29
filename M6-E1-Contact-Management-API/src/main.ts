@@ -19,7 +19,7 @@ async function bootstrap() {
   )
   app.use
 
-  const options = new DocumentBuilder()
+  const config = new DocumentBuilder()
     .setTitle('Contact-Management API')
     .setDescription(
       'Solução eficiente e intuitiva para cadastrar e gerenciamento de clientes e seus respectivos contatos',
@@ -27,7 +27,7 @@ async function bootstrap() {
     .setVersion('0.0.1')
     .addBearerAuth()
     .build()
-  const document = SwaggerModule.createDocument(app, options)
+  const document = SwaggerModule.createDocument(app, config)
   SwaggerModule.setup('api/documentation', app, document, {
     swaggerOptions: {
       persistAuthorization: false,
