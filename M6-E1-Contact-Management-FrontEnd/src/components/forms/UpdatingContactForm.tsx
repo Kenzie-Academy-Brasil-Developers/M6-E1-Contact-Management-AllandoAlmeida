@@ -15,7 +15,7 @@ import {
 } from "@/schema/contact.schema";
 import { useContact } from "@/contexts/contactContext";
 
-export const UpdatingContactForm = ({ contact }: CurrentContactData) => {
+export const UpdatingContactForm = ({ ...contact }: CurrentContactData) => {
   const {
     handleSubmit,
     register,

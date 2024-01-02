@@ -7,28 +7,23 @@ import { useEffect, useState } from "react";
 
 const ContactParams = ({ params }: TContactParams) => {
   const { fetchContactParams } = useContact();
-  const [data, setData] = useState<
-    | {
-        contact: {
-          id: string;
-          name: string;
-          telephone: string;
-          email: string;
-          zipCode: string;
-          street: string;
-          complement: string;
-          district: string;
-          locality: string;
-          state: string;
-        } | null;
-      }
-    | undefined
-  >();
+  const [data, setData] = useState<{
+    id: string;
+    name: string;
+    telephone: string;
+    email: string;
+    zipCode: string;
+    street: string;
+    complement: string;
+    district: string;
+    locality: string;
+    state: string;
+  } | undefined>();
 
   const fetchData = async () => {
     try {
       const fetchedData = await fetchContactParams({ params });
-      
+
       setData(fetchedData!);
     } catch (error) {
       console.error(error);
@@ -44,7 +39,7 @@ const ContactParams = ({ params }: TContactParams) => {
     <main className="flex min-h-screen flex-col items-center justify-center p-24">
       <Header />
       <section>
-        <UpdatingContactForm contact={data} />
+      {data && <UpdatingContactForm {...data} />}
       </section>
     </main>
   );
