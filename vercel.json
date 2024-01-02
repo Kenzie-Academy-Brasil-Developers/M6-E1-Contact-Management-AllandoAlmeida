@@ -1,0 +1,20 @@
+{
+    "version": 2,
+    "builds": [
+      { "src": "/M6-E1-Contact-Management-API/**", "use": "@vercel/node" },
+      { "src": "/M6-E1-Contact-Management-FrontEnd/**", "use": "@vercel/static" }
+    ],
+    "routes": [
+      {
+        "handle": "filesystem"
+      },
+      {
+        "src": "/M6-E1-Contact-Management-API/(.*)",
+        "dest": "/M6-E1-Contact-Management-API/$1"
+      },
+      {
+        "src": "/M6-E1-Contact-Management-FrontEnd/(.*)",
+        "dest": "/M6-E1-Contact-Management-FrontEnd/$1"
+      }
+    ]
+  }

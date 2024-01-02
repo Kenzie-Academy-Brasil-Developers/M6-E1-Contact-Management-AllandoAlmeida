@@ -17,7 +17,9 @@ interface Props {
 
 interface CustomerProviderData {
   fetchCustomer: () => Promise<CustomerContactData | undefined>;
-  fetchCustomerParams: (customerParams: CustomerParams) => Promise<CurrentCustomerData | undefined>;
+  fetchCustomerParams: (
+    customerParams: CustomerParams
+  ) => Promise<CurrentCustomerData | undefined>;
   upDateCustomerParams: (
     customerParams: CustomerParams,
     data: DeepPartialCustomerContactData
@@ -45,7 +47,6 @@ export const CustomerProvider = ({ children }: Props) => {
 
         const userId = accessTokenData.sub;
 
-
         if (!userId) throw new Error("Customer not found!");
 
         api.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
@@ -65,13 +66,14 @@ export const CustomerProvider = ({ children }: Props) => {
     }
   };
 
-  const fetchCustomerParams = async ({ params }: CustomerParams):Promise<CurrentCustomerData | undefined> => {
+  const fetchCustomerParams = async ({
+    params,
+  }: CustomerParams): Promise<CurrentCustomerData | undefined> => {
     try {
       const accessToken = localStorage
         .getItem("@Management:accessToken")
         ?.replace(/"/g, "");
 
-      
       const tokenWithQuotes = localStorage.getItem("@Management:accessToken");
 
       if (tokenWithQuotes) {
@@ -80,22 +82,23 @@ export const CustomerProvider = ({ children }: Props) => {
 
         const userId = accessTokenData.sub;
 
-
         if (!userId) throw new Error("Customer not found!");
 
-      api.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
-      const customerId = params.customerId ;
-      const response = await api.get(`/customers/${customerId}`);
+        api.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+        const customerId = params.customerId;
+        const response = await api.get(`/customers/${customerId}`);
 
-      if (response.status === 200) {
-        const customer = response.data as CurrentCustomerData & { isActive: string };
+        if (response.status === 200) {
+          const customer = response.data as CurrentCustomerData & {
+            isActive: string;
+          };
 
-        return customer;
-      } else {
-        console.error("Error:", response.statusText);
-        return undefined;
+          return customer;
+        } else {
+          console.error("Error:", response.statusText);
+          return undefined;
+        }
       }
-    }
     } catch (error) {
       if (typeof window !== "undefined") {
         Toast({ message: "Opa! Algo deu errado" });
@@ -104,7 +107,6 @@ export const CustomerProvider = ({ children }: Props) => {
       return undefined;
     }
   };
-
 
   const upDateCustomerParams = async (
     { params }: CustomerParams,
@@ -143,7 +145,7 @@ export const CustomerProvider = ({ children }: Props) => {
       const accessToken = localStorage
         .getItem("@Management:accessToken")
         ?.replace(/"/g, "");
- 
+
       api.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
       const customerId = params.customerId;
       const response = await api.delete(`/customers/${customerId}`);
@@ -153,6 +155,8 @@ export const CustomerProvider = ({ children }: Props) => {
             message: "Cadastro atualizado com sucesso",
             isSucess: true,
           });
+          router.push("/");
+          localStorage.removeItem("@Management:accessToken");
         }
       } else {
         console.error("Erro:", response.statusText);
