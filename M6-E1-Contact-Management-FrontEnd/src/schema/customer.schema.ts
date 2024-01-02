@@ -1,6 +1,7 @@
 import { DeepPartial } from "react-hook-form";
 import { z } from "zod";
 
+//criação
 export const CustomerSchema = z.object({
   name: z.string().min(4, "Nome é obrigatório"),
   username: z.string().min(4, "Username é obrigatório"),
@@ -10,6 +11,8 @@ export const CustomerSchema = z.object({
 });
 
 export type CustomerData = z.infer<typeof CustomerSchema>;
+
+//lista cadastro de cliente completo
 
 export const CustomerContactSchema = z.object({
   customer: z.object({
@@ -34,21 +37,23 @@ export const CustomerContactSchema = z.object({
   }),
 });
 
+
+
 export const CurrentCustomerSchema = z.object({
-  customer: z.object({
+ 
     id: z.string(),
     username: z.string(),
     name: z.string(),
     telephone: z.string(),
     email: z.string().email(),
     isActive: z.boolean(),
-  }),
+
 });
 
 export type CurrentCustomerData = z.infer<typeof CurrentCustomerSchema>;
 
 export type CustomerContactData = z.infer<typeof CustomerContactSchema>;
-export type DeepPartialCustomerContactData = DeepPartial<CustomerContactData>;
+export type DeepPartialCustomerContactData = DeepPartial<CurrentCustomerData>;
 
 export const CustomerParamsSchema = z.object({
   params: z.object({

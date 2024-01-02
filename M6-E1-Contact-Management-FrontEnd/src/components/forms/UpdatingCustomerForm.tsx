@@ -8,7 +8,7 @@ import { CloseIcon } from "../icons/CloseIcon";
 import InputsEdit from "../fragments/InputsEdit";
 import { ButtonNav } from "../ButtonNav";
 import { useCustomer } from "@/contexts/customerContext";
-import { CustomerParams, ICustomerType } from "@/schema/customer.schema";
+import { CurrentCustomerData, CustomerParams, ICustomerType } from "@/schema/customer.schema";
 
 
 export interface ICustomerUpdate {
@@ -22,7 +22,7 @@ export interface ICustomerUpdate {
   };
 }
 
-export const UpdatingCustomerForm = ({ customer }: ICustomerUpdate) => {
+export const UpdatingCustomerForm = ({ ...customer }: CurrentCustomerData) => {
 
 
   const {upDateCustomerParams,deleteCustomerParams } = useCustomer();
