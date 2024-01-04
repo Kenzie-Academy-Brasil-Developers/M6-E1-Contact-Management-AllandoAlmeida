@@ -5,7 +5,7 @@ import Link from "next/link";
 import { CustomerContactData } from "@/schema/customer.schema";
 import { GiGears } from "react-icons/gi";
 
-export const CardProfile = ({ customer }: CustomerContactData) => {
+export const CardProfile = ({ ...customer }: CustomerContactData) => {
   const firstLetter = customer?.name.charAt(0);
   <span className="text-white font-poppins text-17 font-semibold flex items-center justify-center w-9 h-9 rounded-full bg-yellow-500">
     {firstLetter}

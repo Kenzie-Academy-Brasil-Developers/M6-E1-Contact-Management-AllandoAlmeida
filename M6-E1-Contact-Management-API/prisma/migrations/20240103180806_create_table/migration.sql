@@ -33,13 +33,9 @@ CREATE TABLE "contacts" (
 );
 
 -- CreateTable
-CREATE TABLE "contactToCustomer" (
-    "id" TEXT NOT NULL,
-    "customerId" TEXT NOT NULL,
-    "contactId" TEXT NOT NULL,
-    "assignedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-
-    CONSTRAINT "contactToCustomer_pkey" PRIMARY KEY ("id")
+CREATE TABLE "_ContactToCustomer" (
+    "A" TEXT NOT NULL,
+    "B" TEXT NOT NULL
 );
 
 -- CreateIndex
@@ -51,8 +47,14 @@ CREATE UNIQUE INDEX "customers_username_key" ON "customers"("username");
 -- CreateIndex
 CREATE UNIQUE INDEX "contacts_name_key" ON "contacts"("name");
 
--- AddForeignKey
-ALTER TABLE "contactToCustomer" ADD CONSTRAINT "contactToCustomer_customerId_fkey" FOREIGN KEY ("customerId") REFERENCES "customers"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+-- CreateIndex
+CREATE UNIQUE INDEX "_ContactToCustomer_AB_unique" ON "_ContactToCustomer"("A", "B");
+
+-- CreateIndex
+CREATE INDEX "_ContactToCustomer_B_index" ON "_ContactToCustomer"("B");
 
 -- AddForeignKey
-ALTER TABLE "contactToCustomer" ADD CONSTRAINT "contactToCustomer_contactId_fkey" FOREIGN KEY ("contactId") REFERENCES "contacts"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "_ContactToCustomer" ADD CONSTRAINT "_ContactToCustomer_A_fkey" FOREIGN KEY ("A") REFERENCES "contacts"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "_ContactToCustomer" ADD CONSTRAINT "_ContactToCustomer_B_fkey" FOREIGN KEY ("B") REFERENCES "customers"("id") ON DELETE CASCADE ON UPDATE CASCADE;

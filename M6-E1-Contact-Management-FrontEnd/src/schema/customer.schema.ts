@@ -12,17 +12,30 @@ export const CustomerSchema = z.object({
 
 export type CustomerData = z.infer<typeof CustomerSchema>;
 
-//lista cadastro de cliente completo
+export const ContactSchema = z.array(z.object({
+  id: z.string(),
+  name: z.string(),
+  zipCode: z.string(),
+  street: z.string(),
+  complement: z.string(),
+  district: z.string(),
+  locality: z.string(),
+  state: z.string(),
+  telephone: z.string(),
+  email: z.string().email(),
+}));
+
+//lista cadastro de cliente completo/*  */
 
 export const CustomerContactSchema = z.object({
-  customer: z.object({
-    id: z.string(),
-    username: z.string(),
-    name: z.string(),
-    telephone: z.string(),
-    email: z.string().email(),
-    isActive: z.boolean(),
-    contacts: z.object({
+  id: z.string(),
+  username: z.string(),
+  name: z.string(),
+  telephone: z.string(),
+  email: z.string().email(),
+  isActive: z.boolean(),
+  contacts: z.array(
+    z.object({
       id: z.string(),
       name: z.string(),
       zipCode: z.string(),
@@ -34,20 +47,16 @@ export const CustomerContactSchema = z.object({
       telephone: z.string(),
       email: z.string().email(),
     }),
-  }),
+  )
 });
 
-
-
 export const CurrentCustomerSchema = z.object({
- 
-    id: z.string(),
-    username: z.string(),
-    name: z.string(),
-    telephone: z.string(),
-    email: z.string().email(),
-    isActive: z.boolean(),
-
+  id: z.string(),
+  username: z.string(),
+  name: z.string(),
+  telephone: z.string(),
+  email: z.string().email(),
+  isActive: z.boolean(),
 });
 
 export type CurrentCustomerData = z.infer<typeof CurrentCustomerSchema>;

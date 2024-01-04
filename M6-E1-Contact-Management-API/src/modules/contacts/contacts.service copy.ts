@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException, Request } from '@nestjs/common'
+/* import { Injectable, NotFoundException, Request } from '@nestjs/common'
 import { Contact as ContactModel } from '@prisma/client'
 import { PrismaService } from 'src/database/prisma.service'
 import { CreateContactDto } from './dto/create-contact.dto'
@@ -21,7 +21,9 @@ export class ContactsService {
         telephone: createContactDto.telephone,
         email: createContactDto.email,
         customers: {
-          connect: { id: customerId },
+          createMany: {
+            data: [{ customerId: customerId }],
+          },
         },
       },
       include: {
@@ -41,7 +43,7 @@ export class ContactsService {
       where: {
         customers: {
           some: {
-            id: customerId,
+            customerId,
           },
         },
       },
@@ -114,7 +116,6 @@ export class ContactsService {
       customers: customers.map((c) => ({ id: c.id })),
     }
   }
-  /* 
 
   async remove(customerId: string, contactId: string) {
     const contact = await this.prisma.contact.findUnique({
@@ -167,5 +168,6 @@ export class ContactsService {
         },
       })
     }
-  } */
+  }
 }
+ */

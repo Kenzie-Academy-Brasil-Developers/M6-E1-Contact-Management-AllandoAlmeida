@@ -1,6 +1,6 @@
 import { Prisma } from '@prisma/client'
 
-export class Contact implements Prisma.ContactCreateInput {
+export class Contacts implements Prisma.ContactCreateInput {
   readonly id?: string
   name: string
   zipCode: string
@@ -14,5 +14,4 @@ export class Contact implements Prisma.ContactCreateInput {
   isActive?: boolean
   telephone: string
   email: string
-  customers?: Prisma.ContactToCustomerCreateNestedManyWithoutContactInput
 }

@@ -91,7 +91,7 @@ export class ContactsController {
     const userId = request.user.id
     return this.contactsService.update(userId, id, updateContactDto, request) // Alteração aqui
   }
-
+/* 
   @ApiResponse({
     status: 204,
     description: 'The request was made successfully.',
@@ -110,5 +110,5 @@ export class ContactsController {
   remove(@Param('id') id: string, @Request() request) {
     const userId = request.user.id
     return this.contactsService.remove(userId, id)
-  }
+  } */
 }

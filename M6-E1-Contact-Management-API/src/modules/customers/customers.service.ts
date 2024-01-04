@@ -65,20 +65,16 @@ export class CustomersService {
       include: {
         contacts: {
           select: {
-            contact: {
-              select: {
-                id: true,
-                name: true,
-                zipCode: true,
-                street: true,
-                complement: true,
-                district: true,
-                locality: true,
-                state: true,
-                telephone: true,
-                email: true,
-              },
-            },
+            id: true,
+            name: true,
+            zipCode: true,
+            street: true,
+            complement: true,
+            district: true,
+            locality: true,
+            state: true,
+            telephone: true,
+            email: true,
           },
         },
       },
