@@ -194,9 +194,7 @@ export const FormContacts: React.FC = () => {
             <ButtonToAccess
               type="submit"
               text="SALVAR"
-              styles={"btnAccess"}
-              width={undefined}
-            />
+              styles={"btnAccess"} width={undefined}            />
           </div>
         </form>
       </div>
