@@ -1,16 +1,20 @@
 {
-    "version": 2,
-    "functions": {
-      "api/**/*.ts": {
-        "runtime": "@vercel/node"
-      }
+  "version": 2,
+  "functions": {
+    "api/**/*.ts": {
+      "runtime": "@vercel/node"
+    }
+  },
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "api/$1",
+      "methods": ["GET", "POST", "PUT", "PATCH", "DELETE"]
     },
-    "routes": [
-      {
-        "src": "/api/(.*)",
-        "dest": "api/$1",
-        "methods": ["GET", "POST", "PUT", "PATCH", "DELETE"]
-      }
-    ]
-  }
-  
+    {
+      "src": "/api/documentation",
+      "dest": "api/main.ts",
+      "methods": ["GET"]
+    }
+  ]
+}
