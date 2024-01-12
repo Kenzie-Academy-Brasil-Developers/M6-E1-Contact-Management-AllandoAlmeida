@@ -49,6 +49,6 @@ async function bootstrap() {
   // Aplicando o middleware
   app.use(redirectToSwagger)
   app.enableCors()
-  await app.listen(3009)
+  await app.listen(process.env.PORT)
 }
 bootstrap()
